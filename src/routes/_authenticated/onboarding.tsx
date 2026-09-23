@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { RouteError } from "@/components/servewise/route-error";
-import { createFileRoute, redirect, useNavigate, useRouter } from "@tanstack/react-router";
+import { createFileRoute, Navigate, useNavigate, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 
 import { Button } from "@/components/ui/button";
@@ -28,16 +28,21 @@ export const Route = createFileRoute("/_authenticated/onboarding")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  beforeLoad: async () => {
-    const workspace = await getMyWorkspace();
-    const active = workspace.memberships[0];
-    if (active) throw redirect({ to: active.organizationType === "ngo" ? "/ngo" : "/dashboard" });
-  },
+  beforeLoad: async () => ({ workspace: await getMyWorkspace() }),
   errorComponent: RouteError,
   component: OnboardingPage,
 });
 
 function OnboardingPage() {
+  const { workspace } = Route.useRouteContext();
+  const active = workspace.memberships[0];
+  if (active) {
+    return <Navigate to={active.organizationType === "ngo" ? "/ngo" : "/dashboard"} replace />;
+  }
+  return <OnboardingForm />;
+}
+
+function OnboardingForm() {
   const navigate = useNavigate();
   const router = useRouter();
   const create = useServerFn(createOrganization);

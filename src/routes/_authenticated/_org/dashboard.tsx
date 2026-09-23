@@ -13,9 +13,10 @@ export const Route = createFileRoute("/_authenticated/_org/dashboard")({
   component: DashboardPage,
 });
 
-// Only the page header comes from static config; every operational number below is read
-// from stored service records.
-const { table: _t, metrics: _m, sections: _s, ...config } = serveWisePages.dashboard;
+// The pre-C3 Today's Kitchen (header, status metrics, demand/service/surplus/impact sections)
+// is preserved as-is. Only the former demo "Recent operational activity" table is replaced by
+// the real service-record summary below.
+const { table: _t, ...config } = serveWisePages.dashboard;
 
 function DashboardPage() {
   return (

@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { RouteError } from "@/components/servewise/route-error";
 import { createFileRoute, redirect, useNavigate, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 
@@ -31,6 +32,7 @@ export const Route = createFileRoute("/_authenticated/onboarding")({
     const workspace = await getMyWorkspace();
     if (workspace.memberships.length > 0) throw redirect({ to: "/dashboard" });
   },
+  errorComponent: RouteError,
   component: OnboardingPage,
 });
 

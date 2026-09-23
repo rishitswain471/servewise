@@ -9,6 +9,8 @@ export const Route = createFileRoute("/_authenticated/_org")({
     const workspace = await getMyWorkspace();
     const active = workspace.memberships[0];
     if (!active) throw redirect({ to: "/onboarding" });
+    // Organization type comes from the verified backend record, never from the URL.
+    if (active.organizationType !== "kitchen") throw redirect({ to: "/ngo" });
     return { workspace, activeMembership: active };
   },
   errorComponent: RouteError,
@@ -22,6 +24,7 @@ function OrgLayout() {
       email={workspace.email}
       organizationName={activeMembership.organizationName}
       role={activeMembership.role}
+      variant="kitchen"
     >
       <Outlet />
     </AppShell>

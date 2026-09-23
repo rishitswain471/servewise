@@ -30,7 +30,8 @@ export const Route = createFileRoute("/_authenticated/onboarding")({
   }),
   beforeLoad: async () => {
     const workspace = await getMyWorkspace();
-    if (workspace.memberships.length > 0) throw redirect({ to: "/dashboard" });
+    const active = workspace.memberships[0];
+    if (active) throw redirect({ to: active.organizationType === "ngo" ? "/ngo" : "/dashboard" });
   },
   errorComponent: RouteError,
   component: OnboardingPage,
@@ -41,7 +42,7 @@ function OnboardingPage() {
   const router = useRouter();
   const create = useServerFn(createOrganization);
   const [name, setName] = useState("");
-  const [type, setType] = useState<"kitchen" | "recipient" | "">("");
+  const [type, setType] = useState<"kitchen" | "ngo" | "">("");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -57,7 +58,7 @@ function OnboardingPage() {
       const result = await create({ data: { name: parsed.data, type: parsedType.data } });
       if (!result.ok) return setError(result.error);
       await router.invalidate();
-      navigate({ to: "/dashboard", replace: true });
+      navigate({ to: result.type === "ngo" ? "/ngo" : "/dashboard", replace: true });
     } catch {
       setError("Network problem. Please check your connection and try again.");
     } finally {
@@ -92,7 +93,7 @@ function OnboardingPage() {
               {(
                 [
                   ["kitchen", "Kitchen / Food Service", "Plans meals and manages surplus."],
-                  ["recipient", "NGO / Recipient Organization", "Receives redistributed food."],
+                  ["ngo", "NGO / Recipient Organization", "Receives redistributed food."],
                 ] as const
               ).map(([value, label, hint]) => (
                 <label

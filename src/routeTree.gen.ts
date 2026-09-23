@@ -10,112 +10,116 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as CopilotRouteImport } from './routes/copilot'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as DemandRouteImport } from './routes/demand'
-import { Route as ImpactRouteImport } from './routes/impact'
-import { Route as MenuRouteImport } from './routes/menu'
-import { Route as RecipientsRouteImport } from './routes/recipients'
-import { Route as SafetyRouteImport } from './routes/safety'
-import { Route as ServiceDayRouteImport } from './routes/service-day'
-import { Route as SettingsRouteImport } from './routes/settings'
-import { Route as SurplusRouteImport } from './routes/surplus'
+import { Route as AuthenticatedOrgCopilotRouteImport } from './routes/_authenticated/_org/copilot'
+import { Route as AuthenticatedOrgDashboardRouteImport } from './routes/_authenticated/_org/dashboard'
+import { Route as AuthenticatedOrgDemandRouteImport } from './routes/_authenticated/_org/demand'
+import { Route as AuthenticatedOrgImpactRouteImport } from './routes/_authenticated/_org/impact'
+import { Route as AuthenticatedOrgMenuRouteImport } from './routes/_authenticated/_org/menu'
+import { Route as AuthenticatedOrgRecipientsRouteImport } from './routes/_authenticated/_org/recipients'
+import { Route as AuthenticatedOrgSafetyRouteImport } from './routes/_authenticated/_org/safety'
+import { Route as AuthenticatedOrgServiceDayRouteImport } from './routes/_authenticated/_org/service-day'
+import { Route as AuthenticatedOrgSettingsRouteImport } from './routes/_authenticated/_org/settings'
+import { Route as AuthenticatedOrgSurplusRouteImport } from './routes/_authenticated/_org/surplus'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CopilotRoute = CopilotRouteImport.update({
-  id: '/copilot',
+const AuthenticatedOrgCopilotRoute = AuthenticatedOrgCopilotRouteImport.update({
+  id: '/_authenticated/_org/copilot',
   path: '/copilot',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DemandRoute = DemandRouteImport.update({
-  id: '/demand',
+const AuthenticatedOrgDashboardRoute =
+  AuthenticatedOrgDashboardRouteImport.update({
+    id: '/_authenticated/_org/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AuthenticatedOrgDemandRoute = AuthenticatedOrgDemandRouteImport.update({
+  id: '/_authenticated/_org/demand',
   path: '/demand',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ImpactRoute = ImpactRouteImport.update({
-  id: '/impact',
+const AuthenticatedOrgImpactRoute = AuthenticatedOrgImpactRouteImport.update({
+  id: '/_authenticated/_org/impact',
   path: '/impact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MenuRoute = MenuRouteImport.update({
-  id: '/menu',
+const AuthenticatedOrgMenuRoute = AuthenticatedOrgMenuRouteImport.update({
+  id: '/_authenticated/_org/menu',
   path: '/menu',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RecipientsRoute = RecipientsRouteImport.update({
-  id: '/recipients',
-  path: '/recipients',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SafetyRoute = SafetyRouteImport.update({
-  id: '/safety',
+const AuthenticatedOrgRecipientsRoute =
+  AuthenticatedOrgRecipientsRouteImport.update({
+    id: '/_authenticated/_org/recipients',
+    path: '/recipients',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AuthenticatedOrgSafetyRoute = AuthenticatedOrgSafetyRouteImport.update({
+  id: '/_authenticated/_org/safety',
   path: '/safety',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ServiceDayRoute = ServiceDayRouteImport.update({
-  id: '/service-day',
-  path: '/service-day',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SurplusRoute = SurplusRouteImport.update({
-  id: '/surplus',
+const AuthenticatedOrgServiceDayRoute =
+  AuthenticatedOrgServiceDayRouteImport.update({
+    id: '/_authenticated/_org/service-day',
+    path: '/service-day',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AuthenticatedOrgSettingsRoute =
+  AuthenticatedOrgSettingsRouteImport.update({
+    id: '/_authenticated/_org/settings',
+    path: '/settings',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AuthenticatedOrgSurplusRoute = AuthenticatedOrgSurplusRouteImport.update({
+  id: '/_authenticated/_org/surplus',
   path: '/surplus',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/copilot': typeof CopilotRoute
-  '/dashboard': typeof DashboardRoute
-  '/demand': typeof DemandRoute
-  '/impact': typeof ImpactRoute
-  '/menu': typeof MenuRoute
-  '/recipients': typeof RecipientsRoute
-  '/safety': typeof SafetyRoute
-  '/service-day': typeof ServiceDayRoute
-  '/settings': typeof SettingsRoute
-  '/surplus': typeof SurplusRoute
+  '/copilot': typeof AuthenticatedOrgCopilotRoute
+  '/dashboard': typeof AuthenticatedOrgDashboardRoute
+  '/demand': typeof AuthenticatedOrgDemandRoute
+  '/impact': typeof AuthenticatedOrgImpactRoute
+  '/menu': typeof AuthenticatedOrgMenuRoute
+  '/recipients': typeof AuthenticatedOrgRecipientsRoute
+  '/safety': typeof AuthenticatedOrgSafetyRoute
+  '/service-day': typeof AuthenticatedOrgServiceDayRoute
+  '/settings': typeof AuthenticatedOrgSettingsRoute
+  '/surplus': typeof AuthenticatedOrgSurplusRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/copilot': typeof CopilotRoute
-  '/dashboard': typeof DashboardRoute
-  '/demand': typeof DemandRoute
-  '/impact': typeof ImpactRoute
-  '/menu': typeof MenuRoute
-  '/recipients': typeof RecipientsRoute
-  '/safety': typeof SafetyRoute
-  '/service-day': typeof ServiceDayRoute
-  '/settings': typeof SettingsRoute
-  '/surplus': typeof SurplusRoute
+  '/copilot': typeof AuthenticatedOrgCopilotRoute
+  '/dashboard': typeof AuthenticatedOrgDashboardRoute
+  '/demand': typeof AuthenticatedOrgDemandRoute
+  '/impact': typeof AuthenticatedOrgImpactRoute
+  '/menu': typeof AuthenticatedOrgMenuRoute
+  '/recipients': typeof AuthenticatedOrgRecipientsRoute
+  '/safety': typeof AuthenticatedOrgSafetyRoute
+  '/service-day': typeof AuthenticatedOrgServiceDayRoute
+  '/settings': typeof AuthenticatedOrgSettingsRoute
+  '/surplus': typeof AuthenticatedOrgSurplusRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/copilot': typeof CopilotRoute
-  '/dashboard': typeof DashboardRoute
-  '/demand': typeof DemandRoute
-  '/impact': typeof ImpactRoute
-  '/menu': typeof MenuRoute
-  '/recipients': typeof RecipientsRoute
-  '/safety': typeof SafetyRoute
-  '/service-day': typeof ServiceDayRoute
-  '/settings': typeof SettingsRoute
-  '/surplus': typeof SurplusRoute
+  '/_authenticated/_org/copilot': typeof AuthenticatedOrgCopilotRoute
+  '/_authenticated/_org/dashboard': typeof AuthenticatedOrgDashboardRoute
+  '/_authenticated/_org/demand': typeof AuthenticatedOrgDemandRoute
+  '/_authenticated/_org/impact': typeof AuthenticatedOrgImpactRoute
+  '/_authenticated/_org/menu': typeof AuthenticatedOrgMenuRoute
+  '/_authenticated/_org/recipients': typeof AuthenticatedOrgRecipientsRoute
+  '/_authenticated/_org/safety': typeof AuthenticatedOrgSafetyRoute
+  '/_authenticated/_org/service-day': typeof AuthenticatedOrgServiceDayRoute
+  '/_authenticated/_org/settings': typeof AuthenticatedOrgSettingsRoute
+  '/_authenticated/_org/surplus': typeof AuthenticatedOrgSurplusRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -147,30 +151,30 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/copilot'
-    | '/dashboard'
-    | '/demand'
-    | '/impact'
-    | '/menu'
-    | '/recipients'
-    | '/safety'
-    | '/service-day'
-    | '/settings'
-    | '/surplus'
+    | '/_authenticated/_org/copilot'
+    | '/_authenticated/_org/dashboard'
+    | '/_authenticated/_org/demand'
+    | '/_authenticated/_org/impact'
+    | '/_authenticated/_org/menu'
+    | '/_authenticated/_org/recipients'
+    | '/_authenticated/_org/safety'
+    | '/_authenticated/_org/service-day'
+    | '/_authenticated/_org/settings'
+    | '/_authenticated/_org/surplus'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CopilotRoute: typeof CopilotRoute
-  DashboardRoute: typeof DashboardRoute
-  DemandRoute: typeof DemandRoute
-  ImpactRoute: typeof ImpactRoute
-  MenuRoute: typeof MenuRoute
-  RecipientsRoute: typeof RecipientsRoute
-  SafetyRoute: typeof SafetyRoute
-  ServiceDayRoute: typeof ServiceDayRoute
-  SettingsRoute: typeof SettingsRoute
-  SurplusRoute: typeof SurplusRoute
+  AuthenticatedOrgCopilotRoute: typeof AuthenticatedOrgCopilotRoute
+  AuthenticatedOrgDashboardRoute: typeof AuthenticatedOrgDashboardRoute
+  AuthenticatedOrgDemandRoute: typeof AuthenticatedOrgDemandRoute
+  AuthenticatedOrgImpactRoute: typeof AuthenticatedOrgImpactRoute
+  AuthenticatedOrgMenuRoute: typeof AuthenticatedOrgMenuRoute
+  AuthenticatedOrgRecipientsRoute: typeof AuthenticatedOrgRecipientsRoute
+  AuthenticatedOrgSafetyRoute: typeof AuthenticatedOrgSafetyRoute
+  AuthenticatedOrgServiceDayRoute: typeof AuthenticatedOrgServiceDayRoute
+  AuthenticatedOrgSettingsRoute: typeof AuthenticatedOrgSettingsRoute
+  AuthenticatedOrgSurplusRoute: typeof AuthenticatedOrgSurplusRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -182,74 +186,74 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/copilot': {
-      id: '/copilot'
+    '/_authenticated/_org/copilot': {
+      id: '/_authenticated/_org/copilot'
       path: '/copilot'
       fullPath: '/copilot'
-      preLoaderRoute: typeof CopilotRouteImport
+      preLoaderRoute: typeof AuthenticatedOrgCopilotRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard': {
-      id: '/dashboard'
+    '/_authenticated/_org/dashboard': {
+      id: '/_authenticated/_org/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
+      preLoaderRoute: typeof AuthenticatedOrgDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demand': {
-      id: '/demand'
+    '/_authenticated/_org/demand': {
+      id: '/_authenticated/_org/demand'
       path: '/demand'
       fullPath: '/demand'
-      preLoaderRoute: typeof DemandRouteImport
+      preLoaderRoute: typeof AuthenticatedOrgDemandRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/impact': {
-      id: '/impact'
+    '/_authenticated/_org/impact': {
+      id: '/_authenticated/_org/impact'
       path: '/impact'
       fullPath: '/impact'
-      preLoaderRoute: typeof ImpactRouteImport
+      preLoaderRoute: typeof AuthenticatedOrgImpactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/menu': {
-      id: '/menu'
+    '/_authenticated/_org/menu': {
+      id: '/_authenticated/_org/menu'
       path: '/menu'
       fullPath: '/menu'
-      preLoaderRoute: typeof MenuRouteImport
+      preLoaderRoute: typeof AuthenticatedOrgMenuRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/recipients': {
-      id: '/recipients'
+    '/_authenticated/_org/recipients': {
+      id: '/_authenticated/_org/recipients'
       path: '/recipients'
       fullPath: '/recipients'
-      preLoaderRoute: typeof RecipientsRouteImport
+      preLoaderRoute: typeof AuthenticatedOrgRecipientsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/safety': {
-      id: '/safety'
+    '/_authenticated/_org/safety': {
+      id: '/_authenticated/_org/safety'
       path: '/safety'
       fullPath: '/safety'
-      preLoaderRoute: typeof SafetyRouteImport
+      preLoaderRoute: typeof AuthenticatedOrgSafetyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/service-day': {
-      id: '/service-day'
+    '/_authenticated/_org/service-day': {
+      id: '/_authenticated/_org/service-day'
       path: '/service-day'
       fullPath: '/service-day'
-      preLoaderRoute: typeof ServiceDayRouteImport
+      preLoaderRoute: typeof AuthenticatedOrgServiceDayRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/settings': {
-      id: '/settings'
+    '/_authenticated/_org/settings': {
+      id: '/_authenticated/_org/settings'
       path: '/settings'
       fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
+      preLoaderRoute: typeof AuthenticatedOrgSettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/surplus': {
-      id: '/surplus'
+    '/_authenticated/_org/surplus': {
+      id: '/_authenticated/_org/surplus'
       path: '/surplus'
       fullPath: '/surplus'
-      preLoaderRoute: typeof SurplusRouteImport
+      preLoaderRoute: typeof AuthenticatedOrgSurplusRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -257,16 +261,16 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CopilotRoute: CopilotRoute,
-  DashboardRoute: DashboardRoute,
-  DemandRoute: DemandRoute,
-  ImpactRoute: ImpactRoute,
-  MenuRoute: MenuRoute,
-  RecipientsRoute: RecipientsRoute,
-  SafetyRoute: SafetyRoute,
-  ServiceDayRoute: ServiceDayRoute,
-  SettingsRoute: SettingsRoute,
-  SurplusRoute: SurplusRoute,
+  AuthenticatedOrgCopilotRoute: AuthenticatedOrgCopilotRoute,
+  AuthenticatedOrgDashboardRoute: AuthenticatedOrgDashboardRoute,
+  AuthenticatedOrgDemandRoute: AuthenticatedOrgDemandRoute,
+  AuthenticatedOrgImpactRoute: AuthenticatedOrgImpactRoute,
+  AuthenticatedOrgMenuRoute: AuthenticatedOrgMenuRoute,
+  AuthenticatedOrgRecipientsRoute: AuthenticatedOrgRecipientsRoute,
+  AuthenticatedOrgSafetyRoute: AuthenticatedOrgSafetyRoute,
+  AuthenticatedOrgServiceDayRoute: AuthenticatedOrgServiceDayRoute,
+  AuthenticatedOrgSettingsRoute: AuthenticatedOrgSettingsRoute,
+  AuthenticatedOrgSurplusRoute: AuthenticatedOrgSurplusRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

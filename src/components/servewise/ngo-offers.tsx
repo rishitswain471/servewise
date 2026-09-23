@@ -90,7 +90,7 @@ function NgoOfferCard({ offer: o }: { offer: Offer }) {
             <Button variant={o.status === "accepted" ? "default" : "outline"} disabled={m.isPending} onClick={() => {
               if (!owner.trim()) return setErr("Pickup owner is required.");
               if (!when) return setErr("Choose a pickup time.");
-              m.mutate({ action: "schedule", when, owner: owner.trim(), notes: notes.trim() || undefined });
+              m.mutate({ action: "schedule", when, owner: owner.trim(), notes: notes.trim() });
             }}>{o.status === "accepted" ? "Schedule pickup" : "Update pickup"}</Button>
             {o.status === "pickup_scheduled" ? <Button disabled={m.isPending} onClick={() => m.mutate({ action: "picked_up" })}>Mark picked up</Button> : null}
           </div>

@@ -49,7 +49,7 @@ function NgoOfferCard({ offer: o }: { offer: Offer }) {
   const [received, setReceived] = useState(String(o.quantity));
   const [err, setErr] = useState<string | null>(null);
   const m = useMutation({
-    mutationFn: async (input: Omit<Parameters<typeof advance>[0]["data"], "offerId">) => {
+    mutationFn: async (input: { action: "accept" | "decline" | "schedule" | "picked_up" | "receive"; when?: string; owner?: string; notes?: string; received?: number }) => {
       const r = await advance({ data: { offerId: o.id, ...input } });
       if (!r.ok) throw new Error(r.error);
     },

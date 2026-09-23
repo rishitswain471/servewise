@@ -46,6 +46,8 @@ function friendlyAuthError(message: string) {
   if (m.includes("invalid login")) return "Incorrect email or password.";
   if (m.includes("email not confirmed")) return "Please confirm your email before signing in.";
   if (m.includes("already registered")) return "An account with this email already exists.";
+  if (m.includes("not allowed") || m.includes("invalid format"))
+    return "This email address can't be used. Please use a real inbox.";
   if (m.includes("rate limit")) return "Too many attempts. Please wait a moment and try again.";
   if (m.includes("pwned") || m.includes("weak")) return "Please choose a stronger password.";
   if (m.includes("fetch") || m.includes("network")) return "Network problem. Please try again.";

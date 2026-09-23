@@ -14,7 +14,10 @@ export const Route = createFileRoute("/_authenticated/onboarding")({
       { title: "Set up your organization — ServeWise" },
       { name: "description", content: "Create the organization your kitchens operate under." },
       { property: "og:title", content: "Set up your organization — ServeWise" },
-      { property: "og:description", content: "Create the organization your kitchens operate under." },
+      {
+        property: "og:description",
+        content: "Create the organization your kitchens operate under.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

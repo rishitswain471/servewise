@@ -59,7 +59,10 @@ export const createOrganization = createServerFn({ method: "POST" })
         return { ok: false as const, error: "Please enter a valid organization name." };
       }
       console.error("createOrganization failed", error);
-      return { ok: false as const, error: "We couldn't create the organization. Please try again." };
+      return {
+        ok: false as const,
+        error: "We couldn't create the organization. Please try again.",
+      };
     }
     return { ok: true as const, id: id as string };
   });

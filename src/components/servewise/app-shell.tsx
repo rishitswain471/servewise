@@ -1,6 +1,6 @@
 import { useEffect, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Bell, Building2, ChevronDown, Search, Sprout } from "lucide-react";
+import { Bell, Building2, Search, Sprout } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -50,10 +50,10 @@ export function AppShell({ children }: AppShellProps) {
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-background">
         <AppSidebar />
-        <SidebarInset className="min-w-0 bg-background">
+        <SidebarInset className="min-w-0 bg-surface">
           <AppHeader />
-          <main className="min-w-0 flex-1 bg-surface px-4 py-5 sm:px-6 lg:px-8">
-            <div className="mx-auto flex w-full max-w-7xl flex-col gap-5">{children}</div>
+          <main className="min-w-0 flex-1 bg-surface px-4 py-6 sm:px-6 lg:px-8">
+            <div className="mx-auto w-full max-w-7xl">{children}</div>
           </main>
         </SidebarInset>
         <Toaster position="top-right" closeButton richColors />
@@ -94,7 +94,7 @@ function AppSidebar() {
           )}
         </Link>
         {!collapsed && (
-          <div className="rounded-md border border-sidebar-border bg-sidebar-accent/55 p-3">
+          <div className="rounded-md border border-sidebar-border bg-sidebar-accent/55 px-3 py-2.5">
             <div className="flex items-center gap-2 text-xs font-medium text-sidebar-foreground/70">
               <Building2 className="h-3.5 w-3.5" />
               Kitchen context
@@ -103,14 +103,14 @@ function AppSidebar() {
               Demo Kitchen Group
             </p>
             <p className="mt-0.5 truncate text-xs text-sidebar-foreground/65">
-              Lunch service foundation
+              Main kitchen · Lunch service
             </p>
           </div>
         )}
       </SidebarHeader>
       <SidebarContent>
         {Object.entries(groupedServeWiseNavItems).map(([group, items]) => (
-          <SidebarGroup key={group}>
+          <SidebarGroup key={group} className="px-3 py-2">
             <SidebarGroupLabel>{group}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
@@ -142,7 +142,7 @@ function AppSidebar() {
       </SidebarContent>
       <SidebarSeparator />
       <SidebarFooter className="p-3">
-        <div className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-center gap-3 rounded-md border border-sidebar-border bg-sidebar-accent/55 p-2">
+        <div className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-center gap-3 rounded-md border border-sidebar-border bg-sidebar-accent/55 px-2 py-2.5">
           <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-sidebar text-sidebar-primary">
             <Sprout className="h-4 w-4" />
           </span>
@@ -152,7 +152,7 @@ function AppSidebar() {
                 Kitchen operator
               </span>
               <span className="block truncate text-xs text-sidebar-foreground/65">
-                Service floor demo
+                Demo Kitchen Group
               </span>
             </span>
           )}
@@ -170,7 +170,7 @@ function AppHeader() {
 
   return (
     <header className="sticky top-0 z-20 border-b bg-surface-raised/95 backdrop-blur supports-[backdrop-filter]:bg-surface-raised/85">
-      <div className="grid min-h-16 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto grid min-h-16 w-full max-w-7xl grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2">
           <Tooltip>
             <TooltipTrigger asChild>
@@ -194,12 +194,7 @@ function AppHeader() {
             <span aria-hidden="true">/</span>
             <span className="truncate text-foreground">{currentLabel}</span>
           </nav>
-          <div className="mt-1 flex min-w-0 items-center gap-2">
-            <p className="truncate text-sm font-medium text-foreground">{currentLabel}</p>
-            <span className="hidden shrink-0 rounded-md border bg-surface-subtle px-2 py-0.5 text-xs text-muted-foreground sm:inline-flex">
-              C1 foundation
-            </span>
-          </div>
+          <p className="mt-1 truncate text-sm font-medium text-foreground">{currentLabel}</p>
         </div>
 
         <div className="flex shrink-0 items-center gap-2">
@@ -209,20 +204,20 @@ function AppHeader() {
               aria-label="Search placeholder"
               disabled
               className="h-auto border-0 bg-transparent p-0 shadow-none focus-visible:ring-0"
-              placeholder="Search kitchen records later"
+              placeholder="Search kitchen records"
             />
           </div>
           <Button
             variant="ghost"
             size="iconTouch"
             aria-label="Show notifications"
-            onClick={() => toast.info("Kitchen alerts are ready for later service events.")}
+            onClick={() => toast.info("No new kitchen alerts.")}
           >
             <Bell className="h-4 w-4" />
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="touch" className="max-w-[11rem] gap-2 px-2 sm:px-3">
+              <Button variant="ghost" size="touch" className="max-w-[11rem] gap-2 px-2 sm:px-3">
                 <span className="grid h-7 w-7 shrink-0 place-items-center rounded-md bg-primary text-primary-foreground">
                   <Sprout className="h-4 w-4" />
                 </span>
@@ -230,30 +225,21 @@ function AppHeader() {
                   <span className="block truncate text-xs font-medium">Kitchen operator</span>
                   <span className="block truncate text-xs text-muted-foreground">Demo profile</span>
                 </span>
-                <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-64">
               <DropdownMenuLabel>
                 <span className="block text-sm">Demo Kitchen Group</span>
                 <span className="block text-xs font-normal text-muted-foreground">
-                  Kitchen profile connects later
+                  Main kitchen · Lunch service
                 </span>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onSelect={() =>
-                  toast.message("Profile settings will connect in a later checkpoint.")
-                }
-              >
-                Operator profile foundation
+              <DropdownMenuItem asChild>
+                <Link to="/settings">Operator profile</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onSelect={() =>
-                  toast.message("Organization settings will connect in a later checkpoint.")
-                }
-              >
-                Kitchen context
+              <DropdownMenuItem asChild>
+                <Link to="/settings">Kitchen settings</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

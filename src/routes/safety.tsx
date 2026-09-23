@@ -1,17 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { FoundationPage } from "@/components/servewise/page";
-import { foundationPages, serveWiseHead } from "@/lib/servewise-pages";
+import { ProductPage } from "@/components/servewise/page";
+import { serveWisePages, serveWiseHead } from "@/lib/servewise-pages";
 
 export const Route = createFileRoute("/safety")({
   head: () =>
     serveWiseHead(
       "Safety Gate",
-      "ServeWise safety gate foundation for future deterministic storage time and temperature verification.",
+      "Review recorded holding time, temperature, and handling conditions for surplus batches.",
     ),
   component: SafetyPage,
 });
 
 function SafetyPage() {
-  return <FoundationPage config={foundationPages.safety} />;
+  return <ProductPage config={serveWisePages.safety} />;
 }

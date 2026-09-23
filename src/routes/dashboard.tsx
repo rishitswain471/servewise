@@ -1,17 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { FoundationPage } from "@/components/servewise/page";
-import { foundationPages, serveWiseHead } from "@/lib/servewise-pages";
+import { ProductPage } from "@/components/servewise/page";
+import { serveWisePages, serveWiseHead } from "@/lib/servewise-pages";
 
 export const Route = createFileRoute("/dashboard")({
   head: () =>
     serveWiseHead(
       "Today’s Kitchen",
-      "ServeWise command-center foundation for kitchen demand, preparation, service status, surplus rescue, safety, redistribution, and impact.",
+      "A calm command center for today’s kitchen planning, preparation, service, surplus rescue, and impact.",
     ),
   component: DashboardPage,
 });
 
 function DashboardPage() {
-  return <FoundationPage config={foundationPages.dashboard} />;
+  return <ProductPage config={serveWisePages.dashboard} />;
 }

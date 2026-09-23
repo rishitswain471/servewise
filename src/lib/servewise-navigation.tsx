@@ -46,7 +46,7 @@ export const serveWiseNavItems: ServeWiseNavItem[] = [
     group: "Today",
   },
   {
-    title: "Demand Lab",
+    title: "Demand Planning",
     href: "/demand",
     icon: Gauge,
     description: "Attendance and preparation planning",
@@ -98,7 +98,7 @@ export const serveWiseNavItems: ServeWiseNavItem[] = [
     title: "ServeWise Copilot",
     href: "/copilot",
     icon: Bot,
-    description: "Verified-result explanations later",
+    description: "Operational result explanations",
     group: "Intelligence",
   },
   {

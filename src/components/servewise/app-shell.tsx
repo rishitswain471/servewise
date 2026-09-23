@@ -164,7 +164,7 @@ function AppHeader() {
             <Button
               variant="ghost"
               size="icon"
-              className="h-10 w-10 shrink-0 md:hidden"
+              className="h-10 w-10 shrink-0 lg:hidden"
               aria-label="Open navigation"
               onClick={() => setOpenMobile(true)}
             >

@@ -116,15 +116,20 @@ export const askCopilot = createServerFn({ method: "POST" })
       { role: "user", parts: [{ text: `Verified ServeWise context (JSON):\n${JSON.stringify(ctx)}\n\nQuestion: ${data.question}` }] },
     ];
     try {
-      const res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent", {
+      let res: Response | null = null;
+      for (const model of ["gemini-flash-latest", "gemini-flash-lite-latest"]) {
+      res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-goog-api-key": key },
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: SYSTEM }] },
           contents,
-          generationConfig: { temperature: 0.2, maxOutputTokens: 1024, thinkingConfig: { thinkingBudget: 0 } },
+          generationConfig: { temperature: 0.2, maxOutputTokens: 2048 },
         }),
       });
+      if (res.ok || (res.status !== 503 && res.status !== 429 && res.status !== 404)) break;
+      }
+      if (!res) return { ok: false as const, error: UNAVAILABLE };
       if (!res.ok) { console.error("copilot: Gemini request failed with status", res.status); return { ok: false as const, error: UNAVAILABLE }; }
       const j: any = await res.json();
       const text = (j?.candidates?.[0]?.content?.parts ?? []).map((p: any) => (typeof p?.text === "string" ? p.text : "")).join("").trim();

@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { computeImpact, type Period } from "@/lib/impact-engine";
 import { getImpactData } from "@/lib/impact.functions";
+import type { Assumptions } from "@/lib/impact-assumptions.functions";
 
 const periods: { id: Period; label: string }[] = [
   { id: "today", label: "Today" },
@@ -67,7 +68,7 @@ export function ImpactWorkspace() {
           <ForecastVsActual r={r} />
         </>
       )}
-      <Estimates received={r.received} hasReceipt={hasReceipt} />
+      <Estimates received={r.received} hasReceipt={hasReceipt} a={q.data!.assumptions} />
     </div>
   );
 }
@@ -229,19 +230,28 @@ function ForecastVsActual({ r }: { r: R }) {
   );
 }
 
-function Estimates({ received, hasReceipt }: { received: number; hasReceipt: boolean }) {
+function Estimates({ received, hasReceipt, a }: { received: number; hasReceipt: boolean; a: Assumptions }) {
+  const fmt = (v: number) => String(Math.round(v * 100) / 100);
+  const items = [
+    { l: "Financial (estimated)", v: `₹${Math.round(received * a.financial).toLocaleString("en-IN")} estimated`, b: `${received} meals × ₹${fmt(a.financial)} / meal` },
+    { l: "Environmental (estimated)", v: `${fmt(received * a.co2e)} kg CO₂e estimated`, b: `${received} meals × ${fmt(a.co2e)} kg CO₂e / meal` },
+    { l: "Social (estimated)", v: `${fmt(received * a.social)} meals served`, b: `${received} meals × ${fmt(a.social)} meal served / meal` },
+  ];
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-base"><Calculator className="h-4 w-4 text-primary" />Estimated impact</CardTitle>
-        <CardDescription>Estimate = redistributed meals × configured per-meal assumption. Estimates are not measured values.</CardDescription>
+        <CardDescription>
+          Estimate = confirmed received meals × configured per-meal assumption. Estimates are not measured values.
+          {a.configured ? " Assumptions set in Settings." : " Using illustrative default assumptions — adjust them in Settings."}
+        </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-3 sm:grid-cols-3">
-        {["Financial (estimated)", "Environmental (estimated)", "Social (estimated)"].map((l) => (
-          <div key={l} className="rounded-md border border-dashed bg-surface p-4">
-            <p className="text-xs font-medium text-muted-foreground">{l}</p>
-            <p className="mt-2 text-sm font-medium text-foreground">Impact estimate not configured</p>
-            <p className="mt-1 text-xs text-muted-foreground">{hasReceipt ? `${received} meals × assumption not set` : "No per-meal assumption set"}</p>
+        {items.map((x) => (
+          <div key={x.l} className="rounded-md border border-dashed bg-surface p-4">
+            <p className="text-xs font-medium text-muted-foreground">{x.l}</p>
+            <p className="mt-2 text-sm font-medium text-foreground">{hasReceipt ? x.v : "No confirmed receipts yet"}</p>
+            <p className="mt-1 text-xs text-muted-foreground">{x.b}</p>
           </div>
         ))}
       </CardContent>

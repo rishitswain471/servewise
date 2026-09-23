@@ -7,7 +7,6 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 export const DEFAULT_ASSUMPTIONS = { financial: 50, co2e: 0.5, social: 1 };
 export type Assumptions = typeof DEFAULT_ASSUMPTIONS & { configured: boolean };
 
-type Sb = Parameters<Parameters<ReturnType<typeof createServerFn>["middleware"]>[0][0] extends never ? never : any>[0];
 
 async function kitchenOrg(sb: any, userId: string): Promise<string> {
   const { data: m } = await sb
@@ -51,4 +50,3 @@ export const saveImpactAssumptions = createServerFn({ method: "POST" })
   });
 
 export { kitchenOrg };
-export type { Sb };

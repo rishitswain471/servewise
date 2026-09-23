@@ -7,7 +7,7 @@ export const Route = createFileRoute("/demand")({
   head: () =>
     serveWiseHead(
       "Demand Lab",
-      "ServeWise Demand Lab foundation for future attendance, calendar, weather, and consumption forecasting workflows.",
+      "Plan meal demand using attendance, menus, calendar context, and historical consumption.",
     ),
   component: DemandPage,
 });

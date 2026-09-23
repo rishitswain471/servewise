@@ -7,7 +7,7 @@ export const Route = createFileRoute("/safety")({
   head: () =>
     serveWiseHead(
       "Safety Gate",
-      "ServeWise safety gate foundation for future deterministic storage time and temperature verification.",
+      "Review recorded holding time, temperature, and handling conditions for surplus batches.",
     ),
   component: SafetyPage,
 });

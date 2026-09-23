@@ -5,10 +5,7 @@ import { serveWisePages, serveWiseHead } from "@/lib/servewise-pages";
 
 export const Route = createFileRoute("/settings")({
   head: () =>
-    serveWiseHead(
-      "Settings",
-      "ServeWise kitchen organization setup foundation for future profile, data, notification, and access configuration.",
-    ),
+    serveWiseHead("Settings", "Manage kitchen, organization, data, and notification preferences."),
   component: SettingsPage,
 });
 

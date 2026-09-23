@@ -7,7 +7,7 @@ export const Route = createFileRoute("/menu")({
   head: () =>
     serveWiseHead(
       "Menu & Consumption",
-      "ServeWise kitchen-records foundation for menus, portions, preparation, and historical consumption.",
+      "Organize menus, consumption records, and historical meal patterns in ServeWise.",
     ),
   component: MenuPage,
 });

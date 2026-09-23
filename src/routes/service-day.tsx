@@ -7,7 +7,7 @@ export const Route = createFileRoute("/service-day")({
   head: () =>
     serveWiseHead(
       "Service Day",
-      "ServeWise service-day foundation for meal preparation, serving, actual consumption, and surplus review.",
+      "Coordinate preparation, serving, actual consumption, and surplus review for today’s service.",
     ),
   component: ServiceDayPage,
 });

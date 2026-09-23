@@ -7,7 +7,7 @@ export const Route = createFileRoute("/impact")({
   head: () =>
     serveWiseHead(
       "Impact",
-      "ServeWise food rescue impact foundation for later deterministic food, cost, carbon, and community calculations.",
+      "Review verified food, financial, environmental, and community outcomes.",
     ),
   component: ImpactPage,
 });

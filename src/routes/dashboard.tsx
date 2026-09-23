@@ -7,7 +7,7 @@ export const Route = createFileRoute("/dashboard")({
   head: () =>
     serveWiseHead(
       "Today’s Kitchen",
-      "ServeWise command-center foundation for kitchen demand, preparation, service status, surplus rescue, safety, redistribution, and impact.",
+      "A calm command center for today’s kitchen planning, preparation, service, surplus rescue, and impact.",
     ),
   component: DashboardPage,
 });

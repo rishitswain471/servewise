@@ -32,6 +32,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
+import { clearCopilotSession } from "@/components/servewise/copilot";
 import {
   getRouteJourney,
   getRouteLabel,
@@ -169,6 +170,7 @@ function AppHeader({ email, organizationName, role, variant }: ShellContext) {
   async function handleSignOut() {
     await queryClient.cancelQueries();
     queryClient.clear();
+    clearCopilotSession();
     await supabase.auth.signOut();
     navigate({ to: "/auth", replace: true });
   }

@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ProductPage } from "@/components/servewise/page";
 import { serveWisePages, serveWiseHead } from "@/lib/servewise-pages";
 
-export const Route = createFileRoute("/safety")({
+export const Route = createFileRoute("/_authenticated/_org/safety")({
   head: () =>
     serveWiseHead(
       "Safety Gate",

@@ -31,7 +31,6 @@ import {
   SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Toaster } from "@/components/ui/sonner";
 import { clearCopilotSession } from "@/components/servewise/copilot";
 import {
   getRouteJourney,

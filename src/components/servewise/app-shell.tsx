@@ -117,10 +117,10 @@ function AppSidebar({ email, organizationName, role, variant }: ShellContext) {
             <SidebarGroupLabel>{group}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {items.map((item) => {
+                {(items ?? []).map((item) => {
                   const Icon = item.icon;
                   const isActive =
-                    pathname === item.href || false;
+                    (pathname.length > 1 ? pathname.replace(/\/$/, "") : pathname) === item.href;
 
                   return (
                     <SidebarMenuItem key={item.href}>

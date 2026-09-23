@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { FoundationPage } from "@/components/servewise/page";
-import { foundationPages, serveWiseHead } from "@/lib/servewise-pages";
+import { ProductPage } from "@/components/servewise/page";
+import { serveWisePages, serveWiseHead } from "@/lib/servewise-pages";
 
 export const Route = createFileRoute("/copilot")({
   head: () =>
@@ -13,5 +13,5 @@ export const Route = createFileRoute("/copilot")({
 });
 
 function CopilotPage() {
-  return <FoundationPage config={foundationPages.copilot} />;
+  return <ProductPage config={serveWisePages.copilot} />;
 }

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { FoundationPage } from "@/components/servewise/page";
-import { foundationPages, serveWiseHead } from "@/lib/servewise-pages";
+import { ProductPage } from "@/components/servewise/page";
+import { serveWisePages, serveWiseHead } from "@/lib/servewise-pages";
 
 export const Route = createFileRoute("/settings")({
   head: () =>
@@ -13,5 +13,5 @@ export const Route = createFileRoute("/settings")({
 });
 
 function SettingsPage() {
-  return <FoundationPage config={foundationPages.settings} />;
+  return <ProductPage config={serveWisePages.settings} />;
 }

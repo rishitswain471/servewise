@@ -36,30 +36,51 @@ export const serveWisePages = {
       "Track today’s planning, preparation, service, surplus rescue, and impact from one operational view.",
     mode: "dashboard",
     metrics: [
-      { label: "Today’s demand", value: "Not planned", caption: "Kitchen data required", tone: "info" },
+      {
+        label: "Today’s demand",
+        value: "Not planned",
+        caption: "Kitchen data required",
+        tone: "info",
+      },
       { label: "Preparation", value: "Not recorded", caption: "Lunch service", tone: "neutral" },
-      { label: "Service status", value: "Not started", caption: "No service updates", tone: "neutral" },
+      {
+        label: "Service status",
+        value: "Not started",
+        caption: "No service updates",
+        tone: "neutral",
+      },
       { label: "Surplus", value: "No batches", caption: "Rescue queue is clear", tone: "success" },
     ],
     sections: [
       {
         title: "Demand & preparation",
-        description: "The next meal plan will appear here when attendance and menu records are available.",
+        description:
+          "The next meal plan will appear here when attendance and menu records are available.",
         icon: BarChart3,
         status: "Awaiting data",
         tone: "info",
-        items: ["Lunch is the active service window", "Attendance has not been connected", "Preparation quantities have not been recorded"],
+        items: [
+          "Lunch is the active service window",
+          "Attendance has not been connected",
+          "Preparation quantities have not been recorded",
+        ],
       },
       {
         title: "Service status",
-        description: "A concise view of preparation, serving, and actual consumption for the active service.",
+        description:
+          "A concise view of preparation, serving, and actual consumption for the active service.",
         icon: Soup,
         status: "Not started",
-        items: ["Preparation has no recorded update", "Serving has no recorded update", "Actual consumption is awaiting entry"],
+        items: [
+          "Preparation has no recorded update",
+          "Serving has no recorded update",
+          "Actual consumption is awaiting entry",
+        ],
       },
       {
         title: "Surplus rescue",
-        description: "Surplus batches requiring verification and recipient coordination will be surfaced here.",
+        description:
+          "Surplus batches requiring verification and recipient coordination will be surfaced here.",
         icon: HeartHandshake,
         status: "Clear",
         tone: "success",
@@ -67,7 +88,8 @@ export const serveWisePages = {
       },
       {
         title: "Impact snapshot",
-        description: "Verified food, cost, environmental, and community impact will be summarized here.",
+        description:
+          "Verified food, cost, environmental, and community impact will be summarized here.",
         icon: Leaf,
         status: "No records",
         items: ["No rescued-food records for this service", "No impact summary is available"],
@@ -95,14 +117,24 @@ export const serveWisePages = {
         description: "The information used to prepare a meal-service plan.",
         icon: CalendarDays,
         status: "Not connected",
-        items: ["Attendance", "Menu and portion context", "Calendar and weather context", "Historical consumption"],
+        items: [
+          "Attendance",
+          "Menu and portion context",
+          "Calendar and weather context",
+          "Historical consumption",
+        ],
       },
       {
         title: "Demand plan",
-        description: "Demand and preparation guidance will be presented together for operational review.",
+        description:
+          "Demand and preparation guidance will be presented together for operational review.",
         icon: BarChart3,
         status: "No result",
-        items: ["Expected meal demand", "Preparation quantity", "Assumptions and contributing factors"],
+        items: [
+          "Expected meal demand",
+          "Preparation quantity",
+          "Assumptions and contributing factors",
+        ],
       },
     ],
   },
@@ -114,14 +146,22 @@ export const serveWisePages = {
     metrics: [
       { label: "Menu records", value: "3 samples", caption: "Lunch and breakfast", tone: "info" },
       { label: "Consumption records", value: "None", caption: "No records connected" },
-      { label: "Historical patterns", value: "Unavailable", caption: "Requires consumption history" },
+      {
+        label: "Historical patterns",
+        value: "Unavailable",
+        caption: "Requires consumption history",
+      },
     ],
     sections: [
       {
         title: "Menu records",
         description: "Maintain meal items, serving windows, and portion context.",
         icon: Utensils,
-        items: ["Meal item and service window", "Portion and preparation context", "Active menu status"],
+        items: [
+          "Meal item and service window",
+          "Portion and preparation context",
+          "Active menu status",
+        ],
       },
       {
         title: "Historical patterns",
@@ -188,7 +228,11 @@ export const serveWisePages = {
         icon: ListChecks,
         status: "Queue clear",
         tone: "success",
-        items: ["Meal item and available quantity", "Holding details and handling notes", "Current rescue status"],
+        items: [
+          "Meal item and available quantity",
+          "Holding details and handling notes",
+          "Current rescue status",
+        ],
       },
       {
         title: "Rescue coordination",
@@ -216,11 +260,16 @@ export const serveWisePages = {
         description: "Review storage time, holding temperature, and handling notes for each batch.",
         icon: Thermometer,
         status: "No batch selected",
-        items: ["Recorded storage time", "Recorded holding temperature", "Handling and storage notes"],
+        items: [
+          "Recorded storage time",
+          "Recorded holding temperature",
+          "Handling and storage notes",
+        ],
       },
       {
         title: "Safety status",
-        description: "A completed check will show a clear eligible or blocked outcome with its basis.",
+        description:
+          "A completed check will show a clear eligible or blocked outcome with its basis.",
         icon: ShieldCheck,
         status: "Not evaluated",
         items: ["Eligibility outcome", "Threshold used", "Review record"],
@@ -241,9 +290,14 @@ export const serveWisePages = {
     sections: [
       {
         title: "Recipient directory",
-        description: "Recipient profiles bring capacity, pickup windows, and distribution preferences together.",
+        description:
+          "Recipient profiles bring capacity, pickup windows, and distribution preferences together.",
         icon: UsersRound,
-        items: ["Organization and service area", "Capacity and accepted food types", "Contact and pickup preferences"],
+        items: [
+          "Organization and service area",
+          "Capacity and accepted food types",
+          "Contact and pickup preferences",
+        ],
       },
       {
         title: "Pickup coordination",
@@ -281,7 +335,12 @@ export const serveWisePages = {
         description: "Verified rescue records will roll up into a concise operational summary.",
         icon: Leaf,
         status: "No records",
-        items: ["Rescued food", "Avoided food cost", "Environmental estimate", "Meals redistributed"],
+        items: [
+          "Rescued food",
+          "Avoided food cost",
+          "Environmental estimate",
+          "Meals redistributed",
+        ],
       },
       {
         title: "Reporting period",

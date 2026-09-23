@@ -1,11 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import {
-  AlertTriangle,
-  CheckCircle2,
-  CircleDashed,
-  Clock3,
-  Send,
-} from "lucide-react";
+import { AlertTriangle, CheckCircle2, CircleDashed, Clock3, Send } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -119,7 +113,9 @@ function MetricsGrid({ metrics }: { metrics: MetricItem[] }) {
       {metrics.map((metric) => (
         <Card key={metric.label} className="shadow-none">
           <CardHeader className="pb-2">
-            <CardDescription className="text-xs font-medium uppercase">{metric.label}</CardDescription>
+            <CardDescription className="text-xs font-medium uppercase">
+              {metric.label}
+            </CardDescription>
             <CardTitle className="text-2xl font-semibold">{metric.value}</CardTitle>
           </CardHeader>
           <CardContent>
@@ -214,7 +210,10 @@ function ServiceWorkflow() {
       </div>
       <ol className="grid gap-2 sm:grid-cols-5">
         {stages.map((stage, index) => (
-          <li key={stage} className="flex items-center gap-2 rounded-md bg-surface-subtle px-3 py-2">
+          <li
+            key={stage}
+            className="flex items-center gap-2 rounded-md bg-surface-subtle px-3 py-2"
+          >
             <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary text-xs text-primary-foreground">
               {index + 1}
             </span>
@@ -233,7 +232,9 @@ function CopilotWorkspace() {
         <div className="grid min-h-64 place-items-center rounded-md border border-dashed bg-surface p-6 text-center">
           <div className="max-w-sm">
             <CircleDashed className="mx-auto h-6 w-6 text-primary" />
-            <h2 className="mt-3 text-sm font-semibold text-foreground">No kitchen context available</h2>
+            <h2 className="mt-3 text-sm font-semibold text-foreground">
+              No kitchen context available
+            </h2>
             <p className="mt-1 text-sm leading-6 text-muted-foreground">
               Copilot can help explain kitchen results after operational data is available.
             </p>
@@ -260,7 +261,9 @@ function SettingsWorkspace() {
     <Tabs defaultValue="Kitchen" className="min-w-0">
       <TabsList className="grid h-auto w-full grid-cols-2 sm:w-fit sm:grid-cols-4">
         {tabs.map((tab) => (
-          <TabsTrigger key={tab} value={tab}>{tab}</TabsTrigger>
+          <TabsTrigger key={tab} value={tab}>
+            {tab}
+          </TabsTrigger>
         ))}
       </TabsList>
       {tabs.map((tab) => (
@@ -298,13 +301,19 @@ function ProductDataTable({ table }: { table: ProductTable }) {
         <Table>
           <TableHeader>
             <TableRow>
-              {table.columns.map((column) => <TableHead key={column}>{column}</TableHead>)}
+              {table.columns.map((column) => (
+                <TableHead key={column}>{column}</TableHead>
+              ))}
             </TableRow>
           </TableHeader>
           <TableBody>
             {table.rows.map((row) => (
               <TableRow key={row.join("-")}>
-                {row.map((cell) => <TableCell key={cell} className="min-w-32">{cell}</TableCell>)}
+                {row.map((cell) => (
+                  <TableCell key={cell} className="min-w-32">
+                    {cell}
+                  </TableCell>
+                ))}
               </TableRow>
             ))}
           </TableBody>

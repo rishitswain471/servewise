@@ -110,7 +110,7 @@ function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         {Object.entries(groupedServeWiseNavItems).map(([group, items]) => (
-            <SidebarGroup key={group} className="px-3 py-2">
+          <SidebarGroup key={group} className="px-3 py-2">
             <SidebarGroupLabel>{group}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
@@ -204,7 +204,7 @@ function AppHeader() {
               aria-label="Search placeholder"
               disabled
               className="h-auto border-0 bg-transparent p-0 shadow-none focus-visible:ring-0"
-               placeholder="Search kitchen records"
+              placeholder="Search kitchen records"
             />
           </div>
           <Button
@@ -231,7 +231,7 @@ function AppHeader() {
               <DropdownMenuLabel>
                 <span className="block text-sm">Demo Kitchen Group</span>
                 <span className="block text-xs font-normal text-muted-foreground">
-                   Main kitchen · Lunch service
+                  Main kitchen · Lunch service
                 </span>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />

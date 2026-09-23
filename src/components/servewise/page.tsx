@@ -29,6 +29,7 @@ import { ServiceDayWorkspace } from "@/components/servewise/service-day";
 import { SurplusRescueWorkspace } from "@/components/servewise/surplus-rescue";
 import { SafetyGateWorkspace } from "@/components/servewise/safety-gate";
 import { RecipientsWorkspace } from "@/components/servewise/recipients";
+import { ImpactWorkspace } from "@/components/servewise/impact";
 
 export type StatusTone = "neutral" | "success" | "warning" | "danger" | "info";
 
@@ -62,7 +63,7 @@ export type ProductPageConfig = {
   metrics?: MetricItem[];
   sections?: ProductSection[];
   table?: ProductTable;
-  mode: "dashboard" | "demand" | "standard" | "service" | "surplus" | "safety" | "recipients" | "copilot" | "settings";
+  mode: "dashboard" | "demand" | "standard" | "service" | "surplus" | "safety" | "recipients" | "impact" | "copilot" | "settings";
 };
 
 const toneClasses: Record<StatusTone, string> = {
@@ -85,6 +86,7 @@ export function ProductPage({ config }: { config: ProductPageConfig }) {
       {config.mode === "surplus" ? <SurplusRescueWorkspace /> : null}
       {config.mode === "safety" ? <SafetyGateWorkspace /> : null}
       {config.mode === "recipients" ? <RecipientsWorkspace /> : null}
+      {config.mode === "impact" ? <ImpactWorkspace /> : null}
       {config.mode === "copilot" ? <CopilotWorkspace /> : null}
       {config.mode === "settings" ? <SettingsWorkspace /> : null}
       {config.sections?.length && config.mode !== "service" ? (

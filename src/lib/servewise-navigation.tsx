@@ -29,7 +29,6 @@ export type ServeWiseRoute =
   | "/ngo"
   | "/ngo/offers"
   | "/ngo/pickups"
-  | "/ngo/impact"
   | "/ngo/settings";
 
 export type ShellVariant = "kitchen" | "ngo";
@@ -150,13 +149,6 @@ export const ngoNavItems: ServeWiseNavItem[] = [
     icon: Truck,
     description: "Scheduled and completed pickups",
     group: "Receive",
-  },
-  {
-    title: "Impact",
-    href: "/ngo/impact",
-    icon: Leaf,
-    description: "Food received and meals served",
-    group: "Impact",
   },
   {
     title: "Settings",

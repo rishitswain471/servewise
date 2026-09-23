@@ -209,35 +209,8 @@ export const serveWisePages = {
   impact: {
     eyebrow: "Impact",
     title: "Food Rescue Impact",
-    subtitle: "Review verified food, financial, environmental, and community outcomes.",
-    mode: "standard",
-    metrics: [
-      { label: "Food rescued", value: "No data", caption: "Awaiting verified records" },
-      { label: "Cost avoided", value: "No data", caption: "Awaiting verified records" },
-      { label: "Environmental", value: "No data", caption: "Awaiting verified records" },
-      { label: "Community reach", value: "No data", caption: "Awaiting verified records" },
-    ],
-    sections: [
-      {
-        title: "Impact overview",
-        description: "Verified rescue records will roll up into a concise operational summary.",
-        icon: Leaf,
-        status: "No records",
-        items: [
-          "Rescued food",
-          "Avoided food cost",
-          "Environmental estimate",
-          "Meals redistributed",
-        ],
-      },
-      {
-        title: "Reporting period",
-        description: "Review impact by service day, month, kitchen, or organization.",
-        icon: CalendarDays,
-        status: "Current month",
-        items: ["Period comparison", "Kitchen breakdown", "Recipient distribution summary"],
-      },
-    ],
+    subtitle: "What this kitchen has achieved, from completed services and confirmed recipient receipts.",
+    mode: "impact",
   },
   copilot: {
     eyebrow: "Intelligence",

@@ -26,7 +26,6 @@ import { Route as AuthenticatedOrgServiceDayRouteImport } from './routes/_authen
 import { Route as AuthenticatedOrgSettingsRouteImport } from './routes/_authenticated/_org/settings'
 import { Route as AuthenticatedOrgSurplusRouteImport } from './routes/_authenticated/_org/surplus'
 import { Route as AuthenticatedNgoNgoIndexRouteImport } from './routes/_authenticated/_ngo/ngo/index'
-import { Route as AuthenticatedNgoNgoImpactRouteImport } from './routes/_authenticated/_ngo/ngo/impact'
 import { Route as AuthenticatedNgoNgoOffersRouteImport } from './routes/_authenticated/_ngo/ngo/offers'
 import { Route as AuthenticatedNgoNgoPickupsRouteImport } from './routes/_authenticated/_ngo/ngo/pickups'
 import { Route as AuthenticatedNgoNgoSettingsRouteImport } from './routes/_authenticated/_ngo/ngo/settings'
@@ -118,12 +117,6 @@ const AuthenticatedNgoNgoIndexRoute =
     path: '/ngo/',
     getParentRoute: () => AuthenticatedNgoRouteRoute,
   } as any)
-const AuthenticatedNgoNgoImpactRoute =
-  AuthenticatedNgoNgoImpactRouteImport.update({
-    id: '/ngo/impact',
-    path: '/ngo/impact',
-    getParentRoute: () => AuthenticatedNgoRouteRoute,
-  } as any)
 const AuthenticatedNgoNgoOffersRoute =
   AuthenticatedNgoNgoOffersRouteImport.update({
     id: '/ngo/offers',
@@ -157,7 +150,6 @@ export interface FileRoutesByFullPath {
   '/service-day': typeof AuthenticatedOrgServiceDayRoute
   '/settings': typeof AuthenticatedOrgSettingsRoute
   '/surplus': typeof AuthenticatedOrgSurplusRoute
-  '/ngo/impact': typeof AuthenticatedNgoNgoImpactRoute
   '/ngo/offers': typeof AuthenticatedNgoNgoOffersRoute
   '/ngo/pickups': typeof AuthenticatedNgoNgoPickupsRoute
   '/ngo/settings': typeof AuthenticatedNgoNgoSettingsRoute
@@ -177,7 +169,6 @@ export interface FileRoutesByTo {
   '/service-day': typeof AuthenticatedOrgServiceDayRoute
   '/settings': typeof AuthenticatedOrgSettingsRoute
   '/surplus': typeof AuthenticatedOrgSurplusRoute
-  '/ngo/impact': typeof AuthenticatedNgoNgoImpactRoute
   '/ngo/offers': typeof AuthenticatedNgoNgoOffersRoute
   '/ngo/pickups': typeof AuthenticatedNgoNgoPickupsRoute
   '/ngo/settings': typeof AuthenticatedNgoNgoSettingsRoute
@@ -201,7 +192,6 @@ export interface FileRoutesById {
   '/_authenticated/_org/service-day': typeof AuthenticatedOrgServiceDayRoute
   '/_authenticated/_org/settings': typeof AuthenticatedOrgSettingsRoute
   '/_authenticated/_org/surplus': typeof AuthenticatedOrgSurplusRoute
-  '/_authenticated/_ngo/ngo/impact': typeof AuthenticatedNgoNgoImpactRoute
   '/_authenticated/_ngo/ngo/offers': typeof AuthenticatedNgoNgoOffersRoute
   '/_authenticated/_ngo/ngo/pickups': typeof AuthenticatedNgoNgoPickupsRoute
   '/_authenticated/_ngo/ngo/settings': typeof AuthenticatedNgoNgoSettingsRoute
@@ -223,7 +213,6 @@ export interface FileRouteTypes {
     | '/service-day'
     | '/settings'
     | '/surplus'
-    | '/ngo/impact'
     | '/ngo/offers'
     | '/ngo/pickups'
     | '/ngo/settings'
@@ -243,7 +232,6 @@ export interface FileRouteTypes {
     | '/service-day'
     | '/settings'
     | '/surplus'
-    | '/ngo/impact'
     | '/ngo/offers'
     | '/ngo/pickups'
     | '/ngo/settings'
@@ -266,7 +254,6 @@ export interface FileRouteTypes {
     | '/_authenticated/_org/service-day'
     | '/_authenticated/_org/settings'
     | '/_authenticated/_org/surplus'
-    | '/_authenticated/_ngo/ngo/impact'
     | '/_authenticated/_ngo/ngo/offers'
     | '/_authenticated/_ngo/ngo/pickups'
     | '/_authenticated/_ngo/ngo/settings'
@@ -400,13 +387,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedNgoNgoIndexRouteImport
       parentRoute: typeof AuthenticatedNgoRouteRoute
     }
-    '/_authenticated/_ngo/ngo/impact': {
-      id: '/_authenticated/_ngo/ngo/impact'
-      path: '/ngo/impact'
-      fullPath: '/ngo/impact'
-      preLoaderRoute: typeof AuthenticatedNgoNgoImpactRouteImport
-      parentRoute: typeof AuthenticatedNgoRouteRoute
-    }
     '/_authenticated/_ngo/ngo/offers': {
       id: '/_authenticated/_ngo/ngo/offers'
       path: '/ngo/offers'
@@ -432,7 +412,6 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedNgoRouteRouteChildren {
-  AuthenticatedNgoNgoImpactRoute: typeof AuthenticatedNgoNgoImpactRoute
   AuthenticatedNgoNgoOffersRoute: typeof AuthenticatedNgoNgoOffersRoute
   AuthenticatedNgoNgoPickupsRoute: typeof AuthenticatedNgoNgoPickupsRoute
   AuthenticatedNgoNgoSettingsRoute: typeof AuthenticatedNgoNgoSettingsRoute
@@ -440,7 +419,6 @@ interface AuthenticatedNgoRouteRouteChildren {
 }
 
 const AuthenticatedNgoRouteRouteChildren: AuthenticatedNgoRouteRouteChildren = {
-  AuthenticatedNgoNgoImpactRoute: AuthenticatedNgoNgoImpactRoute,
   AuthenticatedNgoNgoOffersRoute: AuthenticatedNgoNgoOffersRoute,
   AuthenticatedNgoNgoPickupsRoute: AuthenticatedNgoNgoPickupsRoute,
   AuthenticatedNgoNgoSettingsRoute: AuthenticatedNgoNgoSettingsRoute,

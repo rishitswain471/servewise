@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      import_batches: {
+        Row: {
+          closed_at: string | null
+          created_by: string | null
+          file_name: string
+          id: string
+          imported_at: string
+          organization_id: string
+          record_count: number
+          replaces_batch_id: string | null
+          status: string
+        }
+        Insert: {
+          closed_at?: string | null
+          created_by?: string | null
+          file_name: string
+          id?: string
+          imported_at?: string
+          organization_id: string
+          record_count: number
+          replaces_batch_id?: string | null
+          status?: string
+        }
+        Update: {
+          closed_at?: string | null
+          created_by?: string | null
+          file_name?: string
+          id?: string
+          imported_at?: string
+          organization_id?: string
+          record_count?: number
+          replaces_batch_id?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "import_batches_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "import_batches_replaces_batch_id_fkey"
+            columns: ["replaces_batch_id"]
+            isOneToOne: false
+            referencedRelation: "import_batches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organization_members: {
         Row: {
           created_at: string
@@ -81,6 +132,7 @@ export type Database = {
           created_by: string | null
           expected_attendance: number | null
           id: string
+          import_batch_id: string | null
           meal_period: Database["public"]["Enums"]["meal_period"]
           menu_name: string
           notes: string | null
@@ -96,6 +148,7 @@ export type Database = {
           created_by?: string | null
           expected_attendance?: number | null
           id?: string
+          import_batch_id?: string | null
           meal_period: Database["public"]["Enums"]["meal_period"]
           menu_name: string
           notes?: string | null
@@ -111,6 +164,7 @@ export type Database = {
           created_by?: string | null
           expected_attendance?: number | null
           id?: string
+          import_batch_id?: string | null
           meal_period?: Database["public"]["Enums"]["meal_period"]
           menu_name?: string
           notes?: string | null
@@ -120,6 +174,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "service_records_import_batch_id_fkey"
+            columns: ["import_batch_id"]
+            isOneToOne: false
+            referencedRelation: "import_batches"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "service_records_organization_id_fkey"
             columns: ["organization_id"]
@@ -138,9 +199,22 @@ export type Database = {
         Args: { _name: string; _type: Database["public"]["Enums"]["org_type"] }
         Returns: string
       }
+      import_service_records: {
+        Args: {
+          _file_name: string
+          _org: string
+          _replace?: string
+          _rows: Json
+        }
+        Returns: string
+      }
       is_kitchen_admin: { Args: { _org: string }; Returns: boolean }
       is_org_admin: { Args: { _org: string }; Returns: boolean }
       is_org_member: { Args: { _org: string }; Returns: boolean }
+      remove_import_batch: {
+        Args: { _batch: string; _org: string }
+        Returns: number
+      }
     }
     Enums: {
       meal_period: "breakfast" | "lunch" | "dinner"

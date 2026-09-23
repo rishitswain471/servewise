@@ -323,9 +323,9 @@ function RecordList({
           <li key={r.id} className="rounded-md border bg-card p-4">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <p className="flex items-center gap-2 text-xs text-muted-foreground">
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   {fmtDate(r.serviceDate)} · {mealLabel[r.mealPeriod]} <SourceBadge record={r} />
-                </p>
+                </div>
                 <p className="mt-1 truncate font-medium">{r.menuName}</p>
               </div>
               <RowActions record={r} onEdit={onEdit} onDelete={onDelete} />

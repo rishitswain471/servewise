@@ -173,7 +173,7 @@ export const serveWisePages = {
     ],
     table: {
       caption: "Menu records",
-      description: "Sample menu records for layout preview.",
+      description: "Example records for Demo Kitchen Group.",
       columns: ["Menu item", "Service", "Portion", "Record type"],
       rows: [
         ["Rice meal set", "Lunch", "Standard", "Sample"],
@@ -185,30 +185,8 @@ export const serveWisePages = {
   serviceDay: {
     eyebrow: "Operate",
     title: "Service Day",
-    subtitle: "Coordinate preparation, serving, actual consumption, and end-of-service review.",
+    subtitle: "Today’s meal service",
     mode: "service",
-    metrics: [
-      { label: "Prepared", value: "Not recorded", caption: "Awaiting kitchen entry" },
-      { label: "Served", value: "Not recorded", caption: "Awaiting service update" },
-      { label: "Actual consumption", value: "Not recorded", caption: "Awaiting service close" },
-      { label: "Surplus", value: "Not reviewed", caption: "Review after service", tone: "warning" },
-    ],
-    sections: [
-      {
-        title: "Preparation",
-        description: "Record what the kitchen prepared for the active meal service.",
-        icon: Soup,
-        status: "Awaiting entry",
-        items: ["Prepared quantity", "Preparation completion", "Kitchen notes"],
-      },
-      {
-        title: "Actual consumption",
-        description: "Close the service with served quantities and remaining food.",
-        icon: ClipboardCheck,
-        status: "Awaiting entry",
-        items: ["Served quantity", "Actual consumption", "Remaining quantity and review"],
-      },
-    ],
   },
   surplus: {
     eyebrow: "Rescue",
@@ -309,7 +287,7 @@ export const serveWisePages = {
     ],
     table: {
       caption: "Recipient organizations",
-      description: "Sample organizations for directory layout preview.",
+      description: "Example organizations for Demo Kitchen Group.",
       columns: ["Recipient", "Capacity", "Pickup window", "Record type"],
       rows: [
         ["Community kitchen", "Not set", "Not set", "Sample"],
@@ -360,7 +338,7 @@ export const serveWisePages = {
   settings: {
     eyebrow: "System",
     title: "Settings",
-    subtitle: "Manage kitchen, organization, data, and notification preferences.",
+    subtitle: "Manage kitchen, organization, and data preferences.",
     mode: "settings",
   },
 } satisfies Record<string, ProductPageConfig>;

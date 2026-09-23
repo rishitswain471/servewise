@@ -1,12 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ServeWise">
   <rect width="64" height="64" rx="14" fill="#075B31"/>
   <g fill="none" stroke="#F8F4E9" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M14.5 35.2C16.5 44 24.3 50.5 33.5 50.5c6.2 0 11.9-3 15.4-7.7" stroke-width="4.7"/>
-    <path d="M51.2 29.4C49.4 20.9 41.9 14.5 32.8 14.5c-6.1 0-11.6 3-15 7.7" stroke-width="4.7"/>
-    <path d="M18.7 21.8 17.4 13.3l8.1 2.9" stroke-width="4.2"/>
-    <path d="m46.1 42.2 1.1 8.5-8-3.1" stroke-width="4.2"/>
-    <path d="M22.5 34.4h20" stroke-width="3.8"/>
+    <path d="M11 31.5h42C51.5 43.8 44.1 50 32 50S12.5 43.8 11 31.5Z" stroke-width="4.7"/>
+    <path d="M16.2 24.6A18.3 18.3 0 0 1 37 13.2" stroke-width="4.7"/>
+    <path d="m14.5 17.5 1.7 7.1 6.9-1.7" stroke-width="4"/>
   </g>
-  <path d="M20.5 32.1c2.7-4.3 6.3-6.5 10.9-6.5 4.9 0 8.9 2.5 12.1 7.4-2.9 3.6-6.9 5.4-11.9 5.4-4.6 0-8.3-2.1-11.1-6.3Z" fill="#F8F4E9" opacity=".28"/>
-  <path d="M31.9 23.5c4.4-2.2 8.2-1.8 11.3 1.1-.2 4.2-2.2 7.2-6.2 8.9-3.7-2.1-5.4-5.4-5.1-10Z" fill="#C7E7BC"/>
+  <path d="M36.4 13.2c5.7-4.6 11.1-4.4 16.2.5-.7 6.8-4.3 11.1-10.8 12.9-4.5-3.4-6.3-7.9-5.4-13.4Z" fill="#C7E7BC"/>
+  <path d="M40.6 21.6c2.5-2.7 5.4-4.7 8.8-6" fill="none" stroke="#075B31" stroke-linecap="round" stroke-width="3"/>
 </svg>

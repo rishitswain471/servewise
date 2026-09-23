@@ -1,7 +1,6 @@
 import { useEffect, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Bell, Building2, Search, Sprout } from "lucide-react";
-import { toast } from "sonner";
+import { Building2, Sprout } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +11,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
@@ -48,7 +46,7 @@ type AppShellProps = {
 export function AppShell({ children }: AppShellProps) {
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-background">
+      <div className="flex min-h-screen min-w-0 w-full bg-background">
         <AppSidebar />
         <SidebarInset className="min-w-0 bg-surface">
           <AppHeader />
@@ -64,8 +62,8 @@ export function AppShell({ children }: AppShellProps) {
 
 function AppSidebar() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
-  const { setOpenMobile, state } = useSidebar();
-  const collapsed = state === "collapsed";
+  const { isMobile, setOpenMobile, state } = useSidebar();
+  const collapsed = state === "collapsed" && !isMobile;
 
   useEffect(() => {
     setOpenMobile(false);
@@ -76,11 +74,11 @@ function AppSidebar() {
       <SidebarHeader className="gap-3 border-b border-sidebar-border p-3">
         <Link
           to="/dashboard"
-          className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-center gap-3 rounded-md p-2 transition-colors hover:bg-sidebar-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring"
+          className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-center gap-3 rounded-md p-1 transition-colors hover:bg-sidebar-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring"
           onClick={() => setOpenMobile(false)}
         >
           <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md border border-sidebar-border bg-sidebar-primary text-sidebar-primary-foreground shadow-sm">
-            <ServeWiseMark className="h-6 w-6" />
+            <ServeWiseMark className="h-7 w-7" />
           </span>
           {!collapsed && (
             <span className="min-w-0">
@@ -197,24 +195,7 @@ function AppHeader() {
           <p className="mt-1 truncate text-sm font-medium text-foreground">{currentLabel}</p>
         </div>
 
-        <div className="flex shrink-0 items-center gap-2">
-          <div className="hidden w-64 items-center gap-2 rounded-md border bg-surface-raised px-3 py-2 lg:flex">
-            <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
-            <Input
-              aria-label="Search placeholder"
-              disabled
-              className="h-auto border-0 bg-transparent p-0 shadow-none focus-visible:ring-0"
-              placeholder="Search kitchen records"
-            />
-          </div>
-          <Button
-            variant="ghost"
-            size="iconTouch"
-            aria-label="Show notifications"
-            onClick={() => toast.info("No new kitchen alerts.")}
-          >
-            <Bell className="h-4 w-4" />
-          </Button>
+        <div className="flex shrink-0 items-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="touch" className="max-w-[11rem] gap-2 px-2 sm:px-3">

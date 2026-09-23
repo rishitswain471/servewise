@@ -1,5 +1,12 @@
 import type { LucideIcon } from "lucide-react";
-import { AlertTriangle, CheckCircle2, CircleDashed, Clock3, Send } from "lucide-react";
+import {
+  AlertTriangle,
+  CheckCircle2,
+  CircleDashed,
+  Clock3,
+  Send,
+  Soup,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -73,12 +80,14 @@ export function ProductPage({ config }: { config: ProductPageConfig }) {
   return (
     <div className="flex min-w-0 flex-col gap-6">
       <PageHeader config={config} />
-      {config.metrics?.length ? <MetricsGrid metrics={config.metrics} /> : null}
+      {config.metrics?.length && config.mode !== "service" ? (
+        <MetricsGrid metrics={config.metrics} />
+      ) : null}
       {config.mode === "demand" ? <DemandWorkspace /> : null}
       {config.mode === "service" ? <ServiceWorkflow /> : null}
       {config.mode === "copilot" ? <CopilotWorkspace /> : null}
       {config.mode === "settings" ? <SettingsWorkspace /> : null}
-      {config.sections?.length ? (
+      {config.sections?.length && config.mode !== "service" ? (
         <section
           className="grid min-w-0 gap-4 lg:grid-cols-2"
           aria-label={`${config.title} overview`}
@@ -202,26 +211,86 @@ function DemandWorkspace() {
 
 function ServiceWorkflow() {
   const stages = ["Preparation", "Prepared", "Service", "Actuals", "Surplus review"];
+  const summary = [
+    ["Service", "Lunch"],
+    ["Preparation", "Awaiting entry"],
+    ["Prepared", "Not recorded"],
+    ["Actual consumption", "Not recorded"],
+    ["Surplus", "Not reviewed"],
+  ];
+
   return (
-    <section className="border-y border-border py-4" aria-label="Today's service workflow">
-      <div className="mb-3 flex items-center justify-between gap-3">
-        <h2 className="text-sm font-semibold text-foreground">Today’s service</h2>
-        <Badge variant="outline">Lunch service</Badge>
-      </div>
-      <ol className="grid gap-2 sm:grid-cols-5">
-        {stages.map((stage, index) => (
-          <li
-            key={stage}
-            className="flex items-center gap-2 rounded-md bg-surface-subtle px-3 py-2"
-          >
-            <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary text-xs text-primary-foreground">
-              {index + 1}
-            </span>
-            <span className="text-xs font-medium text-foreground">{stage}</span>
-          </li>
+    <div className="grid gap-6">
+      <section className="border-y border-border py-4" aria-label="Today's service workflow">
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <h2 className="text-sm font-semibold text-foreground">Today’s service</h2>
+          <Badge variant="outline">Lunch</Badge>
+        </div>
+        <ol className="grid grid-cols-1 gap-1 sm:grid-cols-5">
+          {stages.map((stage, index) => {
+            const active = index === 0;
+            return (
+              <li
+                key={stage}
+                aria-current={active ? "step" : undefined}
+                className={cn(
+                  "flex min-h-10 items-center gap-2 border-l-2 px-3 py-2 sm:border-l-0 sm:border-t-2",
+                  active
+                    ? "border-primary bg-primary/8 text-foreground"
+                    : "border-border text-muted-foreground",
+                )}
+              >
+                <span
+                  className={cn(
+                    "grid h-5 w-5 shrink-0 place-items-center rounded-full border text-xs font-medium",
+                    active
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-border bg-surface-raised",
+                  )}
+                >
+                  {index + 1}
+                </span>
+                <span className="text-xs font-medium">{stage}</span>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+
+      <section className="grid overflow-hidden rounded-md border bg-surface-raised sm:grid-cols-5" aria-label="Service summary">
+        {summary.map(([label, value]) => (
+          <div key={label} className="min-w-0 border-b border-border px-4 py-3 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
+            <p className="text-xs font-medium text-muted-foreground">{label}</p>
+            <p className="mt-1 truncate text-sm font-semibold text-foreground">{value}</p>
+          </div>
         ))}
-      </ol>
-    </section>
+      </section>
+
+      <section className="grid gap-5 border-t border-border pt-6 lg:grid-cols-[minmax(0,1fr)_18rem]" aria-labelledby="current-stage-title">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
+            <Soup className="h-4 w-4 text-primary" />
+            <p className="text-xs font-semibold uppercase text-primary">Current stage</p>
+          </div>
+          <h2 id="current-stage-title" className="mt-2 text-xl font-semibold text-foreground">
+            Preparation
+          </h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Record what the kitchen prepared for today’s service.
+          </p>
+        </div>
+        <div className="grid gap-4 rounded-md border bg-surface-raised p-4">
+          <div className="grid gap-2">
+            <Label htmlFor="prepared-quantity">Prepared quantity</Label>
+            <Input id="prepared-quantity" disabled inputMode="numeric" placeholder="Enter quantity" />
+          </div>
+          <div className="flex items-center justify-between gap-3 border-t border-border pt-3">
+            <span className="text-sm text-muted-foreground">Preparation status</span>
+            <StatusIndicator label="Awaiting entry" compact />
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
 
@@ -256,10 +325,10 @@ function CopilotWorkspace() {
 }
 
 function SettingsWorkspace() {
-  const tabs = ["Kitchen", "Organization", "Data", "Notifications"];
+  const tabs = ["Kitchen", "Organization", "Data"];
   return (
     <Tabs defaultValue="Kitchen" className="min-w-0">
-      <TabsList className="grid h-auto w-full grid-cols-2 sm:w-fit sm:grid-cols-4">
+      <TabsList className="grid h-auto w-full grid-cols-3 sm:w-fit">
         {tabs.map((tab) => (
           <TabsTrigger key={tab} value={tab}>
             {tab}

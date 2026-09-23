@@ -1,6 +1,6 @@
 import { useEffect, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Building2, Sprout } from "lucide-react";
+import { Building2, Menu, Sprout } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -25,13 +25,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-  SidebarRail,
   SidebarSeparator,
-  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import {
   getRouteJourney,
   getRouteLabel,
@@ -62,15 +59,14 @@ export function AppShell({ children }: AppShellProps) {
 
 function AppSidebar() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
-  const { isMobile, setOpenMobile, state } = useSidebar();
-  const collapsed = state === "collapsed" && !isMobile;
+  const { setOpenMobile } = useSidebar();
 
   useEffect(() => {
     setOpenMobile(false);
   }, [pathname, setOpenMobile]);
 
   return (
-    <Sidebar collapsible="icon" className="border-sidebar-border">
+    <Sidebar collapsible="none" className="border-r border-sidebar-border">
       <SidebarHeader className="gap-3 border-b border-sidebar-border p-3">
         <Link
           to="/dashboard"
@@ -80,31 +76,27 @@ function AppSidebar() {
           <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md border border-sidebar-border bg-sidebar-primary text-sidebar-primary-foreground shadow-sm">
             <ServeWiseMark className="h-7 w-7" />
           </span>
-          {!collapsed && (
-            <span className="min-w-0">
-              <span className="block truncate text-sm font-semibold text-sidebar-foreground">
-                ServeWise
-              </span>
-              <span className="block truncate text-xs text-sidebar-foreground/65">
-                Meal operations
-              </span>
+          <span className="min-w-0">
+            <span className="block truncate text-sm font-semibold text-sidebar-foreground">
+              ServeWise
             </span>
-          )}
+            <span className="block truncate text-xs text-sidebar-foreground/65">
+              Meal operations
+            </span>
+          </span>
         </Link>
-        {!collapsed && (
-          <div className="rounded-md border border-sidebar-border bg-sidebar-accent/55 px-3 py-2.5">
-            <div className="flex items-center gap-2 text-xs font-medium text-sidebar-foreground/70">
-              <Building2 className="h-3.5 w-3.5" />
-              Kitchen context
-            </div>
-            <p className="mt-1 truncate text-sm font-semibold text-sidebar-foreground">
-              Demo Kitchen Group
-            </p>
-            <p className="mt-0.5 truncate text-xs text-sidebar-foreground/65">
-              Main kitchen · Lunch service
-            </p>
+        <div className="rounded-md border border-sidebar-border bg-sidebar-accent/55 px-3 py-2.5">
+          <div className="flex items-center gap-2 text-xs font-medium text-sidebar-foreground/70">
+            <Building2 className="h-3.5 w-3.5" />
+            Kitchen context
           </div>
-        )}
+          <p className="mt-1 truncate text-sm font-semibold text-sidebar-foreground">
+            Demo Kitchen Group
+          </p>
+          <p className="mt-0.5 truncate text-xs text-sidebar-foreground/65">
+            Main kitchen · Lunch service
+          </p>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         {Object.entries(groupedServeWiseNavItems).map(([group, items]) => (
@@ -144,42 +136,45 @@ function AppSidebar() {
           <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-sidebar text-sidebar-primary">
             <Sprout className="h-4 w-4" />
           </span>
-          {!collapsed && (
-            <span className="min-w-0">
-              <span className="block truncate text-sm font-medium text-sidebar-foreground">
-                Kitchen operator
-              </span>
-              <span className="block truncate text-xs text-sidebar-foreground/65">
-                Demo Kitchen Group
-              </span>
+          <span className="min-w-0">
+            <span className="block truncate text-sm font-medium text-sidebar-foreground">
+              Kitchen operator
             </span>
-          )}
+            <span className="block truncate text-xs text-sidebar-foreground/65">
+              Demo Kitchen Group
+            </span>
+          </span>
         </div>
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
   );
 }
 
 function AppHeader() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const { isMobile, setOpenMobile } = useSidebar();
   const currentLabel = getRouteLabel(pathname);
   const currentJourney = getRouteJourney(pathname);
 
   return (
     <header className="sticky top-0 z-20 border-b bg-surface-raised/95 backdrop-blur supports-[backdrop-filter]:bg-surface-raised/85">
-      <div className="mx-auto grid min-h-16 w-full max-w-7xl grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-2">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <SidebarTrigger className="h-10 w-10" />
-            </TooltipTrigger>
-            <TooltipContent>Toggle navigation</TooltipContent>
-          </Tooltip>
-          <Separator orientation="vertical" className="hidden h-6 sm:block" />
-        </div>
+      <div className="mx-auto flex min-h-16 w-full max-w-7xl items-center gap-3 px-4 sm:px-6 lg:px-8">
+        {isMobile && (
+          <>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-10 w-10 shrink-0 md:hidden"
+              aria-label="Open navigation"
+              onClick={() => setOpenMobile(true)}
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+            <Separator orientation="vertical" className="h-6" />
+          </>
+        )}
 
-        <div className="min-w-0">
+        <div className="min-w-0 flex-1">
           <nav
             className="flex min-w-0 items-center gap-1 text-xs text-muted-foreground"
             aria-label="Breadcrumb"

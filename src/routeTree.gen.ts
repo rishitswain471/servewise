@@ -10,33 +10,167 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CopilotRouteImport } from './routes/copilot'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as DemandRouteImport } from './routes/demand'
+import { Route as ImpactRouteImport } from './routes/impact'
+import { Route as MenuRouteImport } from './routes/menu'
+import { Route as RecipientsRouteImport } from './routes/recipients'
+import { Route as SafetyRouteImport } from './routes/safety'
+import { Route as ServiceDayRouteImport } from './routes/service-day'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SurplusRouteImport } from './routes/surplus'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CopilotRoute = CopilotRouteImport.update({
+  id: '/copilot',
+  path: '/copilot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemandRoute = DemandRouteImport.update({
+  id: '/demand',
+  path: '/demand',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ImpactRoute = ImpactRouteImport.update({
+  id: '/impact',
+  path: '/impact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MenuRoute = MenuRouteImport.update({
+  id: '/menu',
+  path: '/menu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecipientsRoute = RecipientsRouteImport.update({
+  id: '/recipients',
+  path: '/recipients',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SafetyRoute = SafetyRouteImport.update({
+  id: '/safety',
+  path: '/safety',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServiceDayRoute = ServiceDayRouteImport.update({
+  id: '/service-day',
+  path: '/service-day',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SurplusRoute = SurplusRouteImport.update({
+  id: '/surplus',
+  path: '/surplus',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/copilot': typeof CopilotRoute
+  '/dashboard': typeof DashboardRoute
+  '/demand': typeof DemandRoute
+  '/impact': typeof ImpactRoute
+  '/menu': typeof MenuRoute
+  '/recipients': typeof RecipientsRoute
+  '/safety': typeof SafetyRoute
+  '/service-day': typeof ServiceDayRoute
+  '/settings': typeof SettingsRoute
+  '/surplus': typeof SurplusRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/copilot': typeof CopilotRoute
+  '/dashboard': typeof DashboardRoute
+  '/demand': typeof DemandRoute
+  '/impact': typeof ImpactRoute
+  '/menu': typeof MenuRoute
+  '/recipients': typeof RecipientsRoute
+  '/safety': typeof SafetyRoute
+  '/service-day': typeof ServiceDayRoute
+  '/settings': typeof SettingsRoute
+  '/surplus': typeof SurplusRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/copilot': typeof CopilotRoute
+  '/dashboard': typeof DashboardRoute
+  '/demand': typeof DemandRoute
+  '/impact': typeof ImpactRoute
+  '/menu': typeof MenuRoute
+  '/recipients': typeof RecipientsRoute
+  '/safety': typeof SafetyRoute
+  '/service-day': typeof ServiceDayRoute
+  '/settings': typeof SettingsRoute
+  '/surplus': typeof SurplusRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/copilot'
+    | '/dashboard'
+    | '/demand'
+    | '/impact'
+    | '/menu'
+    | '/recipients'
+    | '/safety'
+    | '/service-day'
+    | '/settings'
+    | '/surplus'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/copilot'
+    | '/dashboard'
+    | '/demand'
+    | '/impact'
+    | '/menu'
+    | '/recipients'
+    | '/safety'
+    | '/service-day'
+    | '/settings'
+    | '/surplus'
+  id:
+    | '__root__'
+    | '/'
+    | '/copilot'
+    | '/dashboard'
+    | '/demand'
+    | '/impact'
+    | '/menu'
+    | '/recipients'
+    | '/safety'
+    | '/service-day'
+    | '/settings'
+    | '/surplus'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CopilotRoute: typeof CopilotRoute
+  DashboardRoute: typeof DashboardRoute
+  DemandRoute: typeof DemandRoute
+  ImpactRoute: typeof ImpactRoute
+  MenuRoute: typeof MenuRoute
+  RecipientsRoute: typeof RecipientsRoute
+  SafetyRoute: typeof SafetyRoute
+  ServiceDayRoute: typeof ServiceDayRoute
+  SettingsRoute: typeof SettingsRoute
+  SurplusRoute: typeof SurplusRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +182,91 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/copilot': {
+      id: '/copilot'
+      path: '/copilot'
+      fullPath: '/copilot'
+      preLoaderRoute: typeof CopilotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demand': {
+      id: '/demand'
+      path: '/demand'
+      fullPath: '/demand'
+      preLoaderRoute: typeof DemandRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/impact': {
+      id: '/impact'
+      path: '/impact'
+      fullPath: '/impact'
+      preLoaderRoute: typeof ImpactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/menu': {
+      id: '/menu'
+      path: '/menu'
+      fullPath: '/menu'
+      preLoaderRoute: typeof MenuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recipients': {
+      id: '/recipients'
+      path: '/recipients'
+      fullPath: '/recipients'
+      preLoaderRoute: typeof RecipientsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/safety': {
+      id: '/safety'
+      path: '/safety'
+      fullPath: '/safety'
+      preLoaderRoute: typeof SafetyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/service-day': {
+      id: '/service-day'
+      path: '/service-day'
+      fullPath: '/service-day'
+      preLoaderRoute: typeof ServiceDayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/surplus': {
+      id: '/surplus'
+      path: '/surplus'
+      fullPath: '/surplus'
+      preLoaderRoute: typeof SurplusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CopilotRoute: CopilotRoute,
+  DashboardRoute: DashboardRoute,
+  DemandRoute: DemandRoute,
+  ImpactRoute: ImpactRoute,
+  MenuRoute: MenuRoute,
+  RecipientsRoute: RecipientsRoute,
+  SafetyRoute: SafetyRoute,
+  ServiceDayRoute: ServiceDayRoute,
+  SettingsRoute: SettingsRoute,
+  SurplusRoute: SurplusRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

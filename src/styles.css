@@ -114,7 +114,9 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 12%);
   --sidebar-ring: oklch(0.66 0.112 190.2);
-  --shadow-card: 0 1px 2px color-mix(in oklab, var(--foreground) 8%, transparent), 0 12px 28px color-mix(in oklab, var(--foreground) 5%, transparent);
+  --shadow-card:
+    0 1px 2px color-mix(in oklab, var(--foreground) 8%, transparent),
+    0 12px 28px color-mix(in oklab, var(--foreground) 5%, transparent);
   --shadow-elevated: 0 18px 48px color-mix(in oklab, var(--foreground) 12%, transparent);
 }
 
@@ -161,7 +163,9 @@
   --sidebar-accent-foreground: oklch(0.965 0.006 247.896);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.69 0.106 198.2);
-  --shadow-card: 0 1px 2px color-mix(in oklab, var(--overlay) 16%, transparent), 0 12px 28px color-mix(in oklab, var(--overlay) 18%, transparent);
+  --shadow-card:
+    0 1px 2px color-mix(in oklab, var(--overlay) 16%, transparent),
+    0 12px 28px color-mix(in oklab, var(--overlay) 18%, transparent);
   --shadow-elevated: 0 18px 48px color-mix(in oklab, var(--overlay) 28%, transparent);
 }
 

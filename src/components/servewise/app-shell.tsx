@@ -75,8 +75,12 @@ function AppSidebar() {
           </span>
           {!collapsed && (
             <span className="min-w-0">
-              <span className="block truncate text-sm font-semibold text-sidebar-foreground">ServeWise</span>
-              <span className="block truncate text-xs text-sidebar-foreground/65">Cafeteria operations</span>
+              <span className="block truncate text-sm font-semibold text-sidebar-foreground">
+                ServeWise
+              </span>
+              <span className="block truncate text-xs text-sidebar-foreground/65">
+                Cafeteria operations
+              </span>
             </span>
           )}
         </Link>
@@ -86,8 +90,12 @@ function AppSidebar() {
               <Building2 className="h-3.5 w-3.5" />
               Organization
             </div>
-            <p className="mt-1 truncate text-sm font-semibold text-sidebar-foreground">Demo Kitchen Group</p>
-            <p className="mt-0.5 truncate text-xs text-sidebar-foreground/65">C1 frontend foundation</p>
+            <p className="mt-1 truncate text-sm font-semibold text-sidebar-foreground">
+              Demo Kitchen Group
+            </p>
+            <p className="mt-0.5 truncate text-xs text-sidebar-foreground/65">
+              C1 frontend foundation
+            </p>
           </div>
         )}
       </SidebarHeader>
@@ -99,7 +107,8 @@ function AppSidebar() {
               <SidebarMenu>
                 {items.map((item) => {
                   const Icon = item.icon;
-                  const isActive = pathname === item.href || (pathname === "/" && item.href === "/dashboard");
+                  const isActive =
+                    pathname === item.href || (pathname === "/" && item.href === "/dashboard");
 
                   return (
                     <SidebarMenuItem key={item.href}>
@@ -130,8 +139,12 @@ function AppSidebar() {
           </span>
           {!collapsed && (
             <span className="min-w-0">
-              <span className="block truncate text-sm font-medium text-sidebar-foreground">Operator profile</span>
-              <span className="block truncate text-xs text-sidebar-foreground/65">Local demo session</span>
+              <span className="block truncate text-sm font-medium text-sidebar-foreground">
+                Operator profile
+              </span>
+              <span className="block truncate text-xs text-sidebar-foreground/65">
+                Local demo session
+              </span>
             </span>
           )}
         </div>
@@ -159,7 +172,10 @@ function AppHeader() {
         </div>
 
         <div className="min-w-0">
-          <nav className="flex min-w-0 items-center gap-1 text-xs text-muted-foreground" aria-label="Breadcrumb">
+          <nav
+            className="flex min-w-0 items-center gap-1 text-xs text-muted-foreground"
+            aria-label="Breadcrumb"
+          >
             <Link to="/dashboard" className="truncate hover:text-foreground">
               ServeWise
             </Link>
@@ -208,13 +224,23 @@ function AppHeader() {
             <DropdownMenuContent align="end" className="w-64">
               <DropdownMenuLabel>
                 <span className="block text-sm">Demo Kitchen Group</span>
-                <span className="block text-xs font-normal text-muted-foreground">Profile and auth connect later</span>
+                <span className="block text-xs font-normal text-muted-foreground">
+                  Profile and auth connect later
+                </span>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onSelect={() => toast.message("Profile settings will connect in a later checkpoint.")}>
+              <DropdownMenuItem
+                onSelect={() =>
+                  toast.message("Profile settings will connect in a later checkpoint.")
+                }
+              >
                 Profile foundation
               </DropdownMenuItem>
-              <DropdownMenuItem onSelect={() => toast.message("Organization settings will connect in a later checkpoint.")}>
+              <DropdownMenuItem
+                onSelect={() =>
+                  toast.message("Organization settings will connect in a later checkpoint.")
+                }
+              >
                 Organization context
               </DropdownMenuItem>
             </DropdownMenuContent>

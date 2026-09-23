@@ -1,5 +1,13 @@
 import type { LucideIcon } from "lucide-react";
-import { AlertTriangle, CheckCircle2, CircleDashed, Clock3, Loader2, Lock, MinusCircle } from "lucide-react";
+import {
+  AlertTriangle,
+  CheckCircle2,
+  CircleDashed,
+  Clock3,
+  Loader2,
+  Lock,
+  MinusCircle,
+} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -7,9 +15,22 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
@@ -67,7 +88,10 @@ export function FoundationPage({ config }: { config: FoundationPageConfig }) {
       {config.mode === "copilot" ? <CopilotFoundation /> : null}
       {config.mode === "settings" ? <SettingsFoundation /> : null}
       {config.mode === "workspace" ? <WorkspaceControls /> : null}
-      <section className="grid min-w-0 gap-4 lg:grid-cols-2" aria-label={`${config.title} workspace sections`}>
+      <section
+        className="grid min-w-0 gap-4 lg:grid-cols-2"
+        aria-label={`${config.title} workspace sections`}
+      >
         {config.sections.map((section) => (
           <FeaturePanel key={section.title} section={section} />
         ))}
@@ -86,8 +110,12 @@ function PageHeader({ config }: { config: FoundationPageConfig }) {
           <Badge variant="info">{config.eyebrow}</Badge>
           <Badge variant="outline">{config.badge}</Badge>
         </div>
-        <h1 className="text-2xl font-semibold leading-tight text-foreground sm:text-3xl">{config.title}</h1>
-        <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground sm:text-base">{config.subtitle}</p>
+        <h1 className="text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
+          {config.title}
+        </h1>
+        <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground sm:text-base">
+          {config.subtitle}
+        </p>
       </div>
       <div className="flex flex-wrap gap-2 lg:justify-end">
         <Button variant="outline" size="touch" disabled>
@@ -111,11 +139,17 @@ function StateFoundation() {
   ];
 
   return (
-    <section className="grid min-w-0 gap-3 sm:grid-cols-2 xl:grid-cols-5" aria-label="Page state foundations">
+    <section
+      className="grid min-w-0 gap-3 sm:grid-cols-2 xl:grid-cols-5"
+      aria-label="Page state foundations"
+    >
       {states.map((state) => {
         const Icon = state.icon;
         return (
-          <div key={state.label} className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] gap-3 rounded-lg border bg-card p-3">
+          <div
+            key={state.label}
+            className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] gap-3 rounded-lg border bg-card p-3"
+          >
             <Icon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
             <div className="min-w-0">
               <p className="truncate text-sm font-medium text-foreground">{state.label}</p>
@@ -130,7 +164,10 @@ function StateFoundation() {
 
 function MetricsGrid({ metrics }: { metrics: MetricItem[] }) {
   return (
-    <section className="grid min-w-0 gap-4 sm:grid-cols-2 xl:grid-cols-4" aria-label="Demo metric foundation">
+    <section
+      className="grid min-w-0 gap-4 sm:grid-cols-2 xl:grid-cols-4"
+      aria-label="Demo metric foundation"
+    >
       {metrics.map((metric) => (
         <Card key={metric.label}>
           <CardHeader className="pb-2">
@@ -166,7 +203,10 @@ function FeaturePanel({ section }: { section: FoundationSection }) {
       <CardContent>
         <ul className="grid gap-2" aria-label={`${section.title} foundations`}>
           {section.items.map((item) => (
-            <li key={item} className="grid grid-cols-[auto_minmax(0,1fr)] gap-2 text-sm leading-6 text-muted-foreground">
+            <li
+              key={item}
+              className="grid grid-cols-[auto_minmax(0,1fr)] gap-2 text-sm leading-6 text-muted-foreground"
+            >
               <MinusCircle className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
               <span>{item}</span>
             </li>
@@ -182,7 +222,9 @@ function WorkspaceControls() {
     <Card>
       <CardHeader>
         <CardTitle className="text-base">Workspace controls</CardTitle>
-        <CardDescription>Reusable form, tabs, disabled, and loading foundations for later checkpoints.</CardDescription>
+        <CardDescription>
+          Reusable form, tabs, disabled, and loading foundations for later checkpoints.
+        </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <div className="grid gap-4 rounded-lg border bg-surface p-4">
@@ -209,7 +251,10 @@ function WorkspaceControls() {
             <TabsTrigger value="error">Error</TabsTrigger>
           </TabsList>
           <TabsContent value="empty">
-            <EmptyState title="No live workspace data" description="This panel is ready for database-backed records in later checkpoints." />
+            <EmptyState
+              title="No live workspace data"
+              description="This panel is ready for database-backed records in later checkpoints."
+            />
           </TabsContent>
           <TabsContent value="loading" className="grid gap-2 pt-2">
             <Skeleton className="h-4 w-3/4" />
@@ -217,7 +262,11 @@ function WorkspaceControls() {
             <Skeleton className="h-20 w-full" />
           </TabsContent>
           <TabsContent value="error">
-            <EmptyState tone="danger" title="Recoverable error state" description="Later data calls can render retry actions here without breaking layout." />
+            <EmptyState
+              tone="danger"
+              title="Recoverable error state"
+              description="Later data calls can render retry actions here without breaking layout."
+            />
           </TabsContent>
         </Tabs>
       </CardContent>
@@ -230,15 +279,24 @@ function CopilotFoundation() {
     <Card>
       <CardHeader>
         <CardTitle className="text-base">Copilot chat foundation</CardTitle>
-        <CardDescription>No AI provider is connected in C1, and no fake responses are generated.</CardDescription>
+        <CardDescription>
+          No AI provider is connected in C1, and no fake responses are generated.
+        </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="rounded-lg border bg-surface p-4">
-          <EmptyState title="Copilot is not connected yet" description="The assistant interface is present, but Gemini or any other AI integration belongs to a later checkpoint." />
+          <EmptyState
+            title="Copilot is not connected yet"
+            description="The assistant interface is present, but Gemini or any other AI integration belongs to a later checkpoint."
+          />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="copilot-message">Message</Label>
-          <Textarea id="copilot-message" disabled placeholder="Ask ServeWise Copilot after the AI layer is connected." />
+          <Textarea
+            id="copilot-message"
+            disabled
+            placeholder="Ask ServeWise Copilot after the AI layer is connected."
+          />
           <div className="flex justify-end">
             <Button disabled>Send disabled</Button>
           </div>
@@ -255,7 +313,9 @@ function SettingsFoundation() {
     <Card>
       <CardHeader>
         <CardTitle className="text-base">Settings navigation foundation</CardTitle>
-        <CardDescription>Account, organization, and data setup areas are scaffolded without real authorization.</CardDescription>
+        <CardDescription>
+          Account, organization, and data setup areas are scaffolded without real authorization.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="Profile" className="min-w-0">
@@ -285,7 +345,9 @@ function DemoDataTable({ table }: { table: DemoTable }) {
     <Card className="min-w-0">
       <CardHeader>
         <CardTitle className="text-base">{table.caption}</CardTitle>
-        <CardDescription>Local demo rows prove spacing, wrapping, and table behavior only.</CardDescription>
+        <CardDescription>
+          Local demo rows prove spacing, wrapping, and table behavior only.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
@@ -333,7 +395,15 @@ function FutureBoundary({ note }: { note: string }) {
   );
 }
 
-function EmptyState({ title, description, tone = "neutral" }: { title: string; description: string; tone?: StatusTone }) {
+function EmptyState({
+  title,
+  description,
+  tone = "neutral",
+}: {
+  title: string;
+  description: string;
+  tone?: StatusTone;
+}) {
   return (
     <div className={cn("rounded-lg border p-4", toneClasses[tone])}>
       <p className="text-sm font-medium">{title}</p>
@@ -342,7 +412,15 @@ function EmptyState({ title, description, tone = "neutral" }: { title: string; d
   );
 }
 
-export function StatusIndicator({ label, tone = "neutral", compact = false }: { label: string; tone?: StatusTone; compact?: boolean }) {
+export function StatusIndicator({
+  label,
+  tone = "neutral",
+  compact = false,
+}: {
+  label: string;
+  tone?: StatusTone;
+  compact?: boolean;
+}) {
   return (
     <span
       className={cn(

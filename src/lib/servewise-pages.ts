@@ -52,7 +52,8 @@ export const foundationPages = {
     sections: [
       {
         title: "Operational overview",
-        description: "Page structure for leaders to scan today’s demand, preparation, and service risks.",
+        description:
+          "Page structure for leaders to scan today’s demand, preparation, and service risks.",
         icon: BarChart3,
         status: "Layout ready",
         tone: "success",
@@ -60,7 +61,8 @@ export const foundationPages = {
       },
       {
         title: "Kitchen activity",
-        description: "Future event stream area for service updates, surplus changes, and recipient decisions.",
+        description:
+          "Future event stream area for service updates, surplus changes, and recipient decisions.",
         icon: ListChecks,
         status: "Demo only",
         items: ["Empty state support", "Error and loading slots", "No backend events represented"],
@@ -86,23 +88,39 @@ export const foundationPages = {
     futureNote:
       "Demand calculations and preparation recommendations are deliberately not implemented in this checkpoint.",
     metrics: [
-      { label: "Input controls", value: "Ready", caption: "Disabled until logic exists", tone: "info" },
+      {
+        label: "Input controls",
+        value: "Ready",
+        caption: "Disabled until logic exists",
+        tone: "info",
+      },
       { label: "Forecast result", value: "Empty", caption: "No fake forecast", tone: "neutral" },
       { label: "Explanation panel", value: "Shell", caption: "AI layer deferred", tone: "warning" },
-      { label: "Scenario changes", value: "Future", caption: "Simulation arrives later", tone: "neutral" },
+      {
+        label: "Scenario changes",
+        value: "Future",
+        caption: "Simulation arrives later",
+        tone: "neutral",
+      },
     ],
     sections: [
       {
         title: "Input/control area",
-        description: "Prepared for attendance, menu, calendar, and weather assumptions in later checkpoints.",
+        description:
+          "Prepared for attendance, menu, calendar, and weather assumptions in later checkpoints.",
         icon: SlidersHorizontal,
         status: "Disabled",
         tone: "warning",
-        items: ["Form labels and disabled states", "Touch-friendly control sizing", "No live calculations"],
+        items: [
+          "Form labels and disabled states",
+          "Touch-friendly control sizing",
+          "No live calculations",
+        ],
       },
       {
         title: "Forecast results",
-        description: "Space for deterministic demand and preparation outputs once the engine exists.",
+        description:
+          "Space for deterministic demand and preparation outputs once the engine exists.",
         icon: BarChart3,
         status: "Placeholder",
         items: ["Result-card foundation", "Explanation area foundation", "No invented meal counts"],
@@ -127,7 +145,8 @@ export const foundationPages = {
     sections: [
       {
         title: "Consumption analysis",
-        description: "Prepared for future comparison of planned, prepared, served, and remaining quantities.",
+        description:
+          "Prepared for future comparison of planned, prepared, served, and remaining quantities.",
         icon: TableProperties,
         status: "Ready",
         tone: "success",
@@ -176,7 +195,8 @@ export const foundationPages = {
       },
       {
         title: "Actual consumption",
-        description: "A foundation for service-day actuals and review without pretending records exist.",
+        description:
+          "A foundation for service-day actuals and review without pretending records exist.",
         icon: ClipboardCheck,
         status: "Not connected",
         tone: "warning",
@@ -202,14 +222,16 @@ export const foundationPages = {
     sections: [
       {
         title: "Batch capture",
-        description: "Space for surplus item, quantity, storage time, and temperature fields in later checkpoints.",
+        description:
+          "Space for surplus item, quantity, storage time, and temperature fields in later checkpoints.",
         icon: Database,
         status: "Form shell",
         items: ["Filter/status bar foundation", "Batch list empty state", "No surplus detection"],
       },
       {
         title: "Rescue workflow",
-        description: "Foundation for offer creation and pickup tracking after safety eligibility exists.",
+        description:
+          "Foundation for offer creation and pickup tracking after safety eligibility exists.",
         icon: HeartHandshake,
         status: "Pending logic",
         tone: "warning",
@@ -247,7 +269,11 @@ export const foundationPages = {
         icon: ShieldCheck,
         status: "Not calculated",
         tone: "warning",
-        items: ["Eligible/blocked visual slots", "Audit-friendly messaging", "No automated decision yet"],
+        items: [
+          "Eligible/blocked visual slots",
+          "Audit-friendly messaging",
+          "No automated decision yet",
+        ],
       },
     ],
   },
@@ -269,7 +295,8 @@ export const foundationPages = {
     sections: [
       {
         title: "Recipient directory",
-        description: "Foundation for recipient profiles, capacity, address, and contact preferences.",
+        description:
+          "Foundation for recipient profiles, capacity, address, and contact preferences.",
         icon: UsersRound,
         status: "Scaffolded",
         tone: "success",
@@ -277,7 +304,8 @@ export const foundationPages = {
       },
       {
         title: "Matching queue",
-        description: "Prepared for future deterministic matching once safety and surplus batches exist.",
+        description:
+          "Prepared for future deterministic matching once safety and surplus batches exist.",
         icon: HeartHandshake,
         status: "No matching",
         tone: "warning",
@@ -319,7 +347,8 @@ export const foundationPages = {
       },
       {
         title: "Reporting readiness",
-        description: "Space for period filters, exports, and stakeholder summaries after real data exists.",
+        description:
+          "Space for period filters, exports, and stakeholder summaries after real data exists.",
         icon: CalendarDays,
         status: "Disabled",
         tone: "warning",
@@ -353,7 +382,8 @@ export const foundationPages = {
       },
       {
         title: "Verified result context",
-        description: "Future area for deterministic calculation outputs that the assistant may explain.",
+        description:
+          "Future area for deterministic calculation outputs that the assistant may explain.",
         icon: AlertTriangle,
         status: "Future",
         items: ["Context panel shell", "Traceability placeholder", "No calculation source"],
@@ -367,7 +397,8 @@ export const foundationPages = {
       "A settings shell for profile, organization, data, and notification areas without authentication or authorization implementation.",
     badge: "No auth yet",
     mode: "settings",
-    futureNote: "Authentication, roles, organization access, and database-backed settings are not part of C1.",
+    futureNote:
+      "Authentication, roles, organization access, and database-backed settings are not part of C1.",
     metrics: [
       { label: "Profile", value: "Shell", caption: "No account data", tone: "info" },
       { label: "Organization", value: "Shell", caption: "Local context", tone: "neutral" },

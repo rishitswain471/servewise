@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import type { Json } from "@/integrations/supabase/types";
-import { MAX_IMPORT_ROWS, importFields, validateRows } from "@/lib/import-rules";
+import { MAX_IMPORT_ROWS, importFields, validateRows, type Cell } from "@/lib/import-rules";
 
 export const mealPeriods = ["breakfast", "lunch", "dinner"] as const;
 export type MealPeriod = (typeof mealPeriods)[number];
@@ -246,7 +246,7 @@ const importPayload = z.object({
     .array(
       z.object({
         row: z.number().int().min(2).max(1_048_576),
-        cells: z.partialRecord(z.enum(importFields), cellSchema),
+        cells: z.object(Object.fromEntries(importFields.map((f) => [f, cellSchema.optional().transform((v) => v ?? null)])) as Record<(typeof importFields)[number], z.ZodType<Cell, z.ZodTypeDef, Cell | undefined>>).strict(),
       }),
     )
     .min(1)

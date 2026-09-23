@@ -58,7 +58,7 @@ export function ServiceDayWorkspace() {
           <Select value={meal} onValueChange={(v) => setMeal(v as MealPeriod)}>
             <SelectTrigger id="sd-meal"><SelectValue /></SelectTrigger>
             <SelectContent>
-              {mealPeriods.map((m) => <SelectItem key={m} value={m}>{mealLabel(m)}</SelectItem>)}
+              {mealPeriods.map((m) => <SelectItem key={m} value={m}>{mealLabel[m]}</SelectItem>)}
             </SelectContent>
           </Select>
         </div>
@@ -125,7 +125,7 @@ function ServiceFlow({ serviceDate, meal, data }: { serviceDate: string; meal: M
   const done = (i: number) => completed || (i === 0 || i === 1 ? p !== null : i === 2 ? record?.actual_attendance != null : i === 3 ? c !== null : !!batchActive || surplus === 0);
 
   const summary: [string, string][] = [
-    ["Service", `${mealLabel(meal)} · ${fmtDate(serviceDate)}`],
+    ["Service", `${mealLabel[meal]} · ${fmtDate(serviceDate)}`],
     ["Preparation", p !== null ? "Recorded" : "Awaiting entry"],
     ["Actual attendance", record?.actual_attendance != null ? String(record.actual_attendance) : "Not recorded"],
     ["Actual consumption", c !== null ? `${c} meals` : "Not recorded"],
@@ -137,7 +137,7 @@ function ServiceFlow({ serviceDate, meal, data }: { serviceDate: string; meal: M
       <section className="border-y border-border py-4" aria-label="Service workflow">
         <div className="mb-3 flex items-center justify-between gap-3">
           <h2 className="text-sm font-semibold text-foreground">{fmtDate(serviceDate)} service</h2>
-          <Badge variant="outline">{completed ? "Completed" : mealLabel(meal)}</Badge>
+          <Badge variant="outline">{completed ? "Completed" : mealLabel[meal]}</Badge>
         </div>
         <ol className="grid grid-cols-1 gap-1 sm:grid-cols-5">
           {STAGES.map((s, i) => {

@@ -9,6 +9,10 @@ export const orgNameSchema = z
   .min(2, "Organization name must be at least 2 characters.")
   .max(120, "Organization name must be 120 characters or fewer.");
 
+export const orgTypeSchema = z.enum(["kitchen", "recipient"], {
+  message: "Choose an organization type.",
+});
+
 const roleSchema = z.enum(["admin", "member"]);
 
 export type Workspace = {
@@ -46,10 +50,13 @@ export const getMyWorkspace = createServerFn({ method: "GET" })
 
 export const createOrganization = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) => z.object({ name: orgNameSchema }).parse(input))
+  .inputValidator((input: unknown) =>
+    z.object({ name: orgNameSchema, type: orgTypeSchema }).parse(input),
+  )
   .handler(async ({ data, context }) => {
     const { data: id, error } = await context.supabase.rpc("create_organization", {
       _name: data.name,
+      _type: data.type,
     });
     if (error) {
       if (error.code === "23505") {

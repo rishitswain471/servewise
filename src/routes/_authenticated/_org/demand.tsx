@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ProductPage } from "@/components/servewise/page";
 import { serveWisePages, serveWiseHead } from "@/lib/servewise-pages";
 
-export const Route = createFileRoute("/demand")({
+export const Route = createFileRoute("/_authenticated/_org/demand")({
   head: () =>
     serveWiseHead(
       "Demand Lab",

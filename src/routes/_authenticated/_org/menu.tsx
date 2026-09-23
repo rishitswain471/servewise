@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ProductPage } from "@/components/servewise/page";
 import { serveWisePages, serveWiseHead } from "@/lib/servewise-pages";
 
-export const Route = createFileRoute("/menu")({
+export const Route = createFileRoute("/_authenticated/_org/menu")({
   head: () =>
     serveWiseHead(
       "Menu & Consumption",

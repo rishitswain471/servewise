@@ -107,3 +107,29 @@ export const getOrganization = createServerFn({ method: "GET" })
     if (!org) return { ok: false as const, error: "Organization not found or access denied." };
     return { ok: true as const, organization: org };
   });
+
+// Admin-only rename / type change. The organization comes from the session, and the
+// database function re-checks admin rights and blocks type changes once data exists.
+export const updateOrganizationSettings = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .validator((input: unknown) =>
+    z.object({ organizationId: z.string().uuid(), name: orgNameSchema, type: orgTypeSchema }).parse(input),
+  )
+  .handler(async ({ data, context }) => {
+    const { data: m } = await context.supabase
+      .from("organization_members").select("organization_id")
+      .eq("user_id", context.userId).eq("organization_id", data.organizationId).eq("role", "admin")
+      .maybeSingle();
+    if (!m) return { ok: false as const, error: "Only organization admins can change these settings." };
+    const { error } = await context.supabase.rpc("update_organization_settings", {
+      _org: data.organizationId, _name: data.name, _type: data.type,
+    });
+    if (!error) return { ok: true as const };
+    const msg = error.message ?? "";
+    if (error.code === "23505") return { ok: false as const, error: "An organization with this name already exists." };
+    if (msg.includes("invalid_name")) return { ok: false as const, error: "Please enter a valid organization name." };
+    if (msg.includes("type_locked")) return { ok: false as const, error: "Organization type can't be changed after records, forecasts, surplus, offers or a recipient profile exist." };
+    if (msg.includes("not_authorized")) return { ok: false as const, error: "Only organization admins can change these settings." };
+    console.error("updateOrganizationSettings failed", error);
+    return { ok: false as const, error: "We couldn't save the organization settings. Please try again." };
+  });

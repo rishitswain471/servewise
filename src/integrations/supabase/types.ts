@@ -677,6 +677,14 @@ export type Database = {
         Returns: number
       }
       send_to_surplus_rescue: { Args: { _record: string }; Returns: string }
+      update_organization_settings: {
+        Args: {
+          _name: string
+          _org: string
+          _type: Database["public"]["Enums"]["org_type"]
+        }
+        Returns: undefined
+      }
       upsert_recipient_profile: {
         Args: {
           _accepting: boolean

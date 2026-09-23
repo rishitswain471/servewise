@@ -31,7 +31,6 @@ import {
   SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Toaster } from "@/components/ui/sonner";
 import { clearCopilotSession } from "@/components/servewise/copilot";
 import {
   getRouteJourney,
@@ -61,11 +60,10 @@ export function AppShell({ children, ...ctx }: AppShellProps) {
         <AppSidebar {...ctx} />
         <SidebarInset className="h-full min-h-0 min-w-0 overflow-x-hidden overflow-y-auto overscroll-y-contain bg-surface">
           <AppHeader {...ctx} />
-          <main className="min-w-0 flex-1 bg-surface px-4 py-6 sm:px-6 lg:px-8">
+          <div id="main-content" className="min-w-0 flex-1 bg-surface px-4 py-6 sm:px-6 lg:px-8">
             <div className="mx-auto w-full max-w-7xl">{children}</div>
-          </main>
+          </div>
         </SidebarInset>
-        <Toaster position="top-right" closeButton richColors />
       </div>
     </SidebarProvider>
   );

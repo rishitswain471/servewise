@@ -30,6 +30,7 @@ import { SurplusRescueWorkspace } from "@/components/servewise/surplus-rescue";
 import { SafetyGateWorkspace } from "@/components/servewise/safety-gate";
 import { RecipientsWorkspace } from "@/components/servewise/recipients";
 import { ImpactWorkspace } from "@/components/servewise/impact";
+import { ImpactAssumptionsForm } from "@/components/servewise/impact-assumptions-form";
 
 export type StatusTone = "neutral" | "success" | "warning" | "danger" | "info";
 
@@ -244,6 +245,7 @@ function CopilotWorkspace() {
 function SettingsWorkspace() {
   const tabs = ["Kitchen", "Organization", "Data"];
   return (
+    <div className="flex min-w-0 flex-col gap-6">
     <Tabs defaultValue="Kitchen" className="min-w-0">
       <TabsList className="grid h-auto w-full grid-cols-3 sm:w-fit">
         {tabs.map((tab) => (
@@ -273,6 +275,8 @@ function SettingsWorkspace() {
         </TabsContent>
       ))}
     </Tabs>
+    <ImpactAssumptionsForm />
+    </div>
   );
 }
 

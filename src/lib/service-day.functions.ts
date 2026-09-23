@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { TablesUpdate } from "@/integrations/supabase/types";
 import { mealPeriods } from "@/lib/records.functions";
 
 type Sb = typeof import("@/integrations/supabase/client").supabase;
@@ -87,7 +88,7 @@ export const saveServiceActuals = createServerFn({ method: "POST" })
       .eq("meal_period", data.meal).maybeSingle();
     if (existing.data?.service_completed_at)
       return { ok: false, error: "This service is completed and can no longer be edited here." };
-    const patch: Record<string, unknown> = { menu_name: data.menuName };
+    const patch: TablesUpdate<"service_records"> = { menu_name: data.menuName };
     if (data.preparedQuantity !== undefined) patch.prepared_quantity = data.preparedQuantity;
     if (data.actualAttendance !== undefined) patch.actual_attendance = data.actualAttendance;
     if (data.consumedQuantity !== undefined) patch.consumed_quantity = data.consumedQuantity;

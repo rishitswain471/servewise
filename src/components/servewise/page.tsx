@@ -4,7 +4,6 @@ import {
   CheckCircle2,
   CircleDashed,
   Clock3,
-  Search,
   Send,
 } from "lucide-react";
 

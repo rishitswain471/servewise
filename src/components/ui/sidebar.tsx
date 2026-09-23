@@ -135,7 +135,7 @@ const SidebarProvider = React.forwardRef<
               } as React.CSSProperties
             }
             className={cn(
-              "group/sidebar-wrapper flex h-svh min-h-0 w-full overflow-hidden has-[[data-variant=inset]]:bg-sidebar",
+              "group/sidebar-wrapper flex h-dvh max-h-dvh min-h-0 w-full overflow-hidden has-[[data-variant=inset]]:bg-sidebar",
               className,
             )}
             ref={ref}
@@ -177,7 +177,7 @@ const Sidebar = React.forwardRef<
           <SheetContent
             data-sidebar="sidebar"
             data-mobile="true"
-            className="w-[var(--sidebar-width)] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
+            className="h-dvh max-h-dvh w-[var(--sidebar-width)] overflow-hidden bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
             style={
               {
                 "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
@@ -189,7 +189,7 @@ const Sidebar = React.forwardRef<
               <SheetTitle>Sidebar</SheetTitle>
               <SheetDescription>Displays the mobile sidebar.</SheetDescription>
             </SheetHeader>
-            <div className="flex h-full w-full flex-col">{children}</div>
+            <div className="flex h-full min-h-0 w-full flex-col">{children}</div>
           </SheetContent>
         </Sheet>
       );
@@ -199,7 +199,7 @@ const Sidebar = React.forwardRef<
       return (
         <aside
           className={cn(
-            "hidden h-full min-h-0 w-[var(--sidebar-width)] shrink-0 flex-col bg-sidebar text-sidebar-foreground md:flex",
+            "hidden h-full max-h-full min-h-0 w-[var(--sidebar-width)] shrink-0 overflow-hidden flex-col bg-sidebar text-sidebar-foreground md:flex",
             className,
           )}
           ref={ref}

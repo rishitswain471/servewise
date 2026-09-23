@@ -27,6 +27,7 @@ const credentialsSchema = z.object({
 });
 
 export const Route = createFileRoute("/auth")({
+  ssr: false,
   validateSearch: searchSchema,
   head: () => ({
     meta: [
@@ -90,7 +91,7 @@ function AuthPage() {
         });
         if (error) return setError(friendlyAuthError(error.message));
         if (data.session) navigate({ to: target, replace: true });
-        else setNotice("Check your email to confirm your account, then sign in.");
+        else setNotice("Account created. Please sign in.");
       }
     } catch {
       setError("Network problem. Please try again.");

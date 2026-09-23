@@ -1,6 +1,9 @@
 import { useEffect, type ReactNode } from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
-import { Building2, Menu, Sprout } from "lucide-react";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { Building2, LogOut, Menu, Sprout } from "lucide-react";
+
+import { supabase } from "@/integrations/supabase/client";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -36,17 +39,25 @@ import {
   ServeWiseMark,
 } from "@/lib/servewise-navigation";
 
-type AppShellProps = {
+type ShellContext = {
+  email: string | null;
+  organizationName: string;
+  role: "admin" | "member";
+};
+
+type AppShellProps = ShellContext & {
   children: ReactNode;
 };
 
-export function AppShell({ children }: AppShellProps) {
+const roleLabel = { admin: "Admin", member: "Member" } as const;
+
+export function AppShell({ children, ...ctx }: AppShellProps) {
   return (
     <SidebarProvider>
       <div className="flex h-dvh max-h-dvh min-h-0 min-w-0 w-full overflow-hidden bg-background">
-        <AppSidebar />
+        <AppSidebar {...ctx} />
         <SidebarInset className="h-full min-h-0 min-w-0 overflow-x-hidden overflow-y-auto overscroll-y-contain bg-surface">
-          <AppHeader />
+          <AppHeader {...ctx} />
           <main className="min-w-0 flex-1 bg-surface px-4 py-6 sm:px-6 lg:px-8">
             <div className="mx-auto w-full max-w-7xl">{children}</div>
           </main>
@@ -57,7 +68,7 @@ export function AppShell({ children }: AppShellProps) {
   );
 }
 
-function AppSidebar() {
+function AppSidebar({ email, organizationName, role }: ShellContext) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const { setOpenMobile } = useSidebar();
 
@@ -91,10 +102,10 @@ function AppSidebar() {
             Kitchen context
           </div>
           <p className="mt-1 truncate text-sm font-semibold text-sidebar-foreground">
-            Demo Kitchen Group
+            {organizationName}
           </p>
           <p className="mt-0.5 truncate text-xs text-sidebar-foreground/65">
-            Main kitchen · Lunch service
+            {roleLabel[role]} access
           </p>
         </div>
       </SidebarHeader>
@@ -138,10 +149,10 @@ function AppSidebar() {
           </span>
           <span className="min-w-0">
             <span className="block truncate text-sm font-medium text-sidebar-foreground">
-              Kitchen operator
+              {email ?? "Signed in"}
             </span>
             <span className="block truncate text-xs text-sidebar-foreground/65">
-              Demo Kitchen Group
+              {roleLabel[role]} · {organizationName}
             </span>
           </span>
         </div>
@@ -150,7 +161,15 @@ function AppSidebar() {
   );
 }
 
-function AppHeader() {
+function AppHeader({ email, organizationName, role }: ShellContext) {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  async function handleSignOut() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    navigate({ to: "/auth", replace: true });
+  }
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const { isMobile, setOpenMobile } = useSidebar();
   const currentLabel = getRouteLabel(pathname);
@@ -198,16 +217,18 @@ function AppHeader() {
                   <Sprout className="h-4 w-4" />
                 </span>
                 <span className="hidden min-w-0 text-left sm:block">
-                  <span className="block truncate text-xs font-medium">Kitchen operator</span>
-                  <span className="block truncate text-xs text-muted-foreground">Demo profile</span>
+                  <span className="block truncate text-xs font-medium">{email ?? "Signed in"}</span>
+                  <span className="block truncate text-xs text-muted-foreground">
+                    {roleLabel[role]}
+                  </span>
                 </span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-64">
               <DropdownMenuLabel>
-                <span className="block text-sm">Demo Kitchen Group</span>
-                <span className="block text-xs font-normal text-muted-foreground">
-                  Main kitchen · Lunch service
+                <span className="block text-sm">{organizationName}</span>
+                <span className="block truncate text-xs font-normal text-muted-foreground">
+                  {email}
                 </span>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
@@ -216,6 +237,11 @@ function AppHeader() {
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link to="/settings">Kitchen settings</Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onSelect={handleSignOut}>
+                <LogOut className="h-4 w-4" />
+                Sign out
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

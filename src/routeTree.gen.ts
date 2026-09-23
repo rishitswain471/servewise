@@ -10,6 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedOrgRouteRouteImport } from './routes/_authenticated/_org/route'
+import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedOrgCopilotRouteImport } from './routes/_authenticated/_org/copilot'
 import { Route as AuthenticatedOrgDashboardRouteImport } from './routes/_authenticated/_org/dashboard'
 import { Route as AuthenticatedOrgDemandRouteImport } from './routes/_authenticated/_org/demand'
@@ -26,63 +30,83 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedOrgCopilotRoute = AuthenticatedOrgCopilotRouteImport.update({
-  id: '/_authenticated/_org/copilot',
-  path: '/copilot',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedOrgRouteRoute = AuthenticatedOrgRouteRouteImport.update({
+  id: '/_org',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedOrgCopilotRoute = AuthenticatedOrgCopilotRouteImport.update({
+  id: '/copilot',
+  path: '/copilot',
+  getParentRoute: () => AuthenticatedOrgRouteRoute,
 } as any)
 const AuthenticatedOrgDashboardRoute =
   AuthenticatedOrgDashboardRouteImport.update({
-    id: '/_authenticated/_org/dashboard',
+    id: '/dashboard',
     path: '/dashboard',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => AuthenticatedOrgRouteRoute,
   } as any)
 const AuthenticatedOrgDemandRoute = AuthenticatedOrgDemandRouteImport.update({
-  id: '/_authenticated/_org/demand',
+  id: '/demand',
   path: '/demand',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedOrgRouteRoute,
 } as any)
 const AuthenticatedOrgImpactRoute = AuthenticatedOrgImpactRouteImport.update({
-  id: '/_authenticated/_org/impact',
+  id: '/impact',
   path: '/impact',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedOrgRouteRoute,
 } as any)
 const AuthenticatedOrgMenuRoute = AuthenticatedOrgMenuRouteImport.update({
-  id: '/_authenticated/_org/menu',
+  id: '/menu',
   path: '/menu',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedOrgRouteRoute,
 } as any)
 const AuthenticatedOrgRecipientsRoute =
   AuthenticatedOrgRecipientsRouteImport.update({
-    id: '/_authenticated/_org/recipients',
+    id: '/recipients',
     path: '/recipients',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => AuthenticatedOrgRouteRoute,
   } as any)
 const AuthenticatedOrgSafetyRoute = AuthenticatedOrgSafetyRouteImport.update({
-  id: '/_authenticated/_org/safety',
+  id: '/safety',
   path: '/safety',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedOrgRouteRoute,
 } as any)
 const AuthenticatedOrgServiceDayRoute =
   AuthenticatedOrgServiceDayRouteImport.update({
-    id: '/_authenticated/_org/service-day',
+    id: '/service-day',
     path: '/service-day',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => AuthenticatedOrgRouteRoute,
   } as any)
 const AuthenticatedOrgSettingsRoute =
   AuthenticatedOrgSettingsRouteImport.update({
-    id: '/_authenticated/_org/settings',
+    id: '/settings',
     path: '/settings',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => AuthenticatedOrgRouteRoute,
   } as any)
 const AuthenticatedOrgSurplusRoute = AuthenticatedOrgSurplusRouteImport.update({
-  id: '/_authenticated/_org/surplus',
+  id: '/surplus',
   path: '/surplus',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedOrgRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/onboarding': typeof AuthenticatedOnboardingRoute
   '/copilot': typeof AuthenticatedOrgCopilotRoute
   '/dashboard': typeof AuthenticatedOrgDashboardRoute
   '/demand': typeof AuthenticatedOrgDemandRoute
@@ -96,6 +120,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/onboarding': typeof AuthenticatedOnboardingRoute
   '/copilot': typeof AuthenticatedOrgCopilotRoute
   '/dashboard': typeof AuthenticatedOrgDashboardRoute
   '/demand': typeof AuthenticatedOrgDemandRoute
@@ -110,6 +136,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/_org': typeof AuthenticatedOrgRouteRouteWithChildren
+  '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/_org/copilot': typeof AuthenticatedOrgCopilotRoute
   '/_authenticated/_org/dashboard': typeof AuthenticatedOrgDashboardRoute
   '/_authenticated/_org/demand': typeof AuthenticatedOrgDemandRoute
@@ -125,6 +155,8 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
+    | '/onboarding'
     | '/copilot'
     | '/dashboard'
     | '/demand'
@@ -138,6 +170,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
+    | '/onboarding'
     | '/copilot'
     | '/dashboard'
     | '/demand'
@@ -151,6 +185,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/_org'
+    | '/_authenticated/onboarding'
     | '/_authenticated/_org/copilot'
     | '/_authenticated/_org/dashboard'
     | '/_authenticated/_org/demand'
@@ -165,6 +203,121 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
+}
+
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/_org': {
+      id: '/_authenticated/_org'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedOrgRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/onboarding': {
+      id: '/_authenticated/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/_org/copilot': {
+      id: '/_authenticated/_org/copilot'
+      path: '/copilot'
+      fullPath: '/copilot'
+      preLoaderRoute: typeof AuthenticatedOrgCopilotRouteImport
+      parentRoute: typeof AuthenticatedOrgRouteRoute
+    }
+    '/_authenticated/_org/dashboard': {
+      id: '/_authenticated/_org/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedOrgDashboardRouteImport
+      parentRoute: typeof AuthenticatedOrgRouteRoute
+    }
+    '/_authenticated/_org/demand': {
+      id: '/_authenticated/_org/demand'
+      path: '/demand'
+      fullPath: '/demand'
+      preLoaderRoute: typeof AuthenticatedOrgDemandRouteImport
+      parentRoute: typeof AuthenticatedOrgRouteRoute
+    }
+    '/_authenticated/_org/impact': {
+      id: '/_authenticated/_org/impact'
+      path: '/impact'
+      fullPath: '/impact'
+      preLoaderRoute: typeof AuthenticatedOrgImpactRouteImport
+      parentRoute: typeof AuthenticatedOrgRouteRoute
+    }
+    '/_authenticated/_org/menu': {
+      id: '/_authenticated/_org/menu'
+      path: '/menu'
+      fullPath: '/menu'
+      preLoaderRoute: typeof AuthenticatedOrgMenuRouteImport
+      parentRoute: typeof AuthenticatedOrgRouteRoute
+    }
+    '/_authenticated/_org/recipients': {
+      id: '/_authenticated/_org/recipients'
+      path: '/recipients'
+      fullPath: '/recipients'
+      preLoaderRoute: typeof AuthenticatedOrgRecipientsRouteImport
+      parentRoute: typeof AuthenticatedOrgRouteRoute
+    }
+    '/_authenticated/_org/safety': {
+      id: '/_authenticated/_org/safety'
+      path: '/safety'
+      fullPath: '/safety'
+      preLoaderRoute: typeof AuthenticatedOrgSafetyRouteImport
+      parentRoute: typeof AuthenticatedOrgRouteRoute
+    }
+    '/_authenticated/_org/service-day': {
+      id: '/_authenticated/_org/service-day'
+      path: '/service-day'
+      fullPath: '/service-day'
+      preLoaderRoute: typeof AuthenticatedOrgServiceDayRouteImport
+      parentRoute: typeof AuthenticatedOrgRouteRoute
+    }
+    '/_authenticated/_org/settings': {
+      id: '/_authenticated/_org/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedOrgSettingsRouteImport
+      parentRoute: typeof AuthenticatedOrgRouteRoute
+    }
+    '/_authenticated/_org/surplus': {
+      id: '/_authenticated/_org/surplus'
+      path: '/surplus'
+      fullPath: '/surplus'
+      preLoaderRoute: typeof AuthenticatedOrgSurplusRouteImport
+      parentRoute: typeof AuthenticatedOrgRouteRoute
+    }
+  }
+}
+
+interface AuthenticatedOrgRouteRouteChildren {
   AuthenticatedOrgCopilotRoute: typeof AuthenticatedOrgCopilotRoute
   AuthenticatedOrgDashboardRoute: typeof AuthenticatedOrgDashboardRoute
   AuthenticatedOrgDemandRoute: typeof AuthenticatedOrgDemandRoute
@@ -177,90 +330,7 @@ export interface RootRouteChildren {
   AuthenticatedOrgSurplusRoute: typeof AuthenticatedOrgSurplusRoute
 }
 
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/_org/copilot': {
-      id: '/_authenticated/_org/copilot'
-      path: '/copilot'
-      fullPath: '/copilot'
-      preLoaderRoute: typeof AuthenticatedOrgCopilotRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/_org/dashboard': {
-      id: '/_authenticated/_org/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthenticatedOrgDashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/_org/demand': {
-      id: '/_authenticated/_org/demand'
-      path: '/demand'
-      fullPath: '/demand'
-      preLoaderRoute: typeof AuthenticatedOrgDemandRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/_org/impact': {
-      id: '/_authenticated/_org/impact'
-      path: '/impact'
-      fullPath: '/impact'
-      preLoaderRoute: typeof AuthenticatedOrgImpactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/_org/menu': {
-      id: '/_authenticated/_org/menu'
-      path: '/menu'
-      fullPath: '/menu'
-      preLoaderRoute: typeof AuthenticatedOrgMenuRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/_org/recipients': {
-      id: '/_authenticated/_org/recipients'
-      path: '/recipients'
-      fullPath: '/recipients'
-      preLoaderRoute: typeof AuthenticatedOrgRecipientsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/_org/safety': {
-      id: '/_authenticated/_org/safety'
-      path: '/safety'
-      fullPath: '/safety'
-      preLoaderRoute: typeof AuthenticatedOrgSafetyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/_org/service-day': {
-      id: '/_authenticated/_org/service-day'
-      path: '/service-day'
-      fullPath: '/service-day'
-      preLoaderRoute: typeof AuthenticatedOrgServiceDayRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/_org/settings': {
-      id: '/_authenticated/_org/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof AuthenticatedOrgSettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/_org/surplus': {
-      id: '/_authenticated/_org/surplus'
-      path: '/surplus'
-      fullPath: '/surplus'
-      preLoaderRoute: typeof AuthenticatedOrgSurplusRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-  }
-}
-
-const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+const AuthenticatedOrgRouteRouteChildren: AuthenticatedOrgRouteRouteChildren = {
   AuthenticatedOrgCopilotRoute: AuthenticatedOrgCopilotRoute,
   AuthenticatedOrgDashboardRoute: AuthenticatedOrgDashboardRoute,
   AuthenticatedOrgDemandRoute: AuthenticatedOrgDemandRoute,
@@ -271,6 +341,30 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedOrgServiceDayRoute: AuthenticatedOrgServiceDayRoute,
   AuthenticatedOrgSettingsRoute: AuthenticatedOrgSettingsRoute,
   AuthenticatedOrgSurplusRoute: AuthenticatedOrgSurplusRoute,
+}
+
+const AuthenticatedOrgRouteRouteWithChildren =
+  AuthenticatedOrgRouteRoute._addFileChildren(
+    AuthenticatedOrgRouteRouteChildren,
+  )
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedOrgRouteRoute: typeof AuthenticatedOrgRouteRouteWithChildren
+  AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedOrgRouteRoute: AuthenticatedOrgRouteRouteWithChildren,
+  AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

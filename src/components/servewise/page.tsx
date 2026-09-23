@@ -30,6 +30,7 @@ import { SurplusRescueWorkspace } from "@/components/servewise/surplus-rescue";
 import { SafetyGateWorkspace } from "@/components/servewise/safety-gate";
 import { RecipientsWorkspace } from "@/components/servewise/recipients";
 import { ImpactWorkspace } from "@/components/servewise/impact";
+import { CopilotWorkspace } from "@/components/servewise/copilot";
 import { ImpactAssumptionsForm } from "@/components/servewise/impact-assumptions-form";
 
 export type StatusTone = "neutral" | "success" | "warning" | "danger" | "info";
@@ -207,36 +208,6 @@ function DemandWorkspace() {
           title="No planning result"
           description="Connect kitchen data to create the first demand plan."
         />
-      </CardContent>
-    </Card>
-  );
-}
-
-function CopilotWorkspace() {
-  return (
-    <Card className="shadow-none">
-      <CardContent className="grid gap-6 p-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
-        <div className="grid min-h-64 place-items-center rounded-md border border-dashed bg-surface p-6 text-center">
-          <div className="max-w-sm">
-            <CircleDashed className="mx-auto h-6 w-6 text-primary" />
-            <h2 className="mt-3 text-sm font-semibold text-foreground">
-              No kitchen context available
-            </h2>
-            <p className="mt-1 text-sm leading-6 text-muted-foreground">
-              Copilot can help explain kitchen results after operational data is available.
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-col justify-end gap-3">
-          <div className="grid gap-2">
-            <Label htmlFor="copilot-message">Ask about kitchen operations</Label>
-            <Textarea id="copilot-message" disabled placeholder="Select a result to discuss" />
-          </div>
-          <Button disabled className="gap-2">
-            <Send className="h-4 w-4" />
-            Send
-          </Button>
-        </div>
       </CardContent>
     </Card>
   );

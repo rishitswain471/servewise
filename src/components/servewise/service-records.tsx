@@ -320,9 +320,9 @@ function RecordList({
 
       <ul className="grid gap-3 md:hidden">
         {data.records.map((r) => (
-          <li key={r.id} className="rounded-md border bg-card p-4">
+          <li key={r.id} className="min-w-0 rounded-md border bg-card p-4">
             <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   {fmtDate(r.serviceDate)} · {mealLabel[r.mealPeriod]} <SourceBadge record={r} />
                 </div>
@@ -330,7 +330,7 @@ function RecordList({
               </div>
               <RowActions record={r} onEdit={onEdit} onDelete={onDelete} />
             </div>
-            <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+            <dl className="mt-3 grid grid-cols-[repeat(2,minmax(0,1fr))] gap-x-4 gap-y-2 text-sm">
               {[
                 ["Expected", r.expectedAttendance],
                 ["Actual", r.actualAttendance],

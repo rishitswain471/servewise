@@ -19,7 +19,7 @@ export function OperationalDataSummary() {
     queryFn: () => list({ data: { from: today, to: today } }),
   });
   return (
-    <Card>
+    <Card className="min-w-0">
       <CardHeader className="flex flex-row items-start justify-between gap-3 space-y-0">
         <div>
           <CardTitle className="text-base">Operational data</CardTitle>
@@ -46,8 +46,8 @@ export function OperationalDataSummary() {
             description="Add meal services in Menu & Consumption."
           />
         ) : (
-          <div className="grid gap-4">
-            <dl className="grid grid-cols-2 gap-4 text-sm sm:grid-cols-3">
+          <div className="grid min-w-0 grid-cols-1 gap-4">
+            <dl className="grid grid-cols-[repeat(2,minmax(0,1fr))] gap-4 text-sm sm:grid-cols-3">
               <div>
                 <dt className="text-muted-foreground">Today</dt>
                 <dd className="mt-1 font-medium">

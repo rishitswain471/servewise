@@ -83,7 +83,7 @@ export function TodaysKitchen() {
               </div>
             </div>
           ) : (
-            <ul className="grid gap-3">
+            <ul className="grid min-w-0 grid-cols-1 gap-3">
               {active.map((r) => <ServiceRow key={r.meal} row={r} offers={rescue.data!.offers} />)}
             </ul>
           )}
@@ -146,14 +146,14 @@ function ServiceRow({ row, offers }: { row: Row; offers: Offers }) {
     next = { label: "Send to Surplus Rescue", to: "/service-day" };
   }
   return (
-    <li className="rounded-md border p-3">
+    <li className="min-w-0 rounded-md border p-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="min-w-0 truncate text-sm font-medium">
           {mealLabel[row.meal]} <span className="text-muted-foreground">· {record?.menu_name ?? forecast?.menu_name}</span>
         </p>
         <StatusIndicator label={status.label} tone={status.tone} compact />
       </div>
-      <dl className="mt-3 grid grid-cols-2 gap-3 text-sm sm:grid-cols-3 lg:grid-cols-6">
+      <dl className="mt-3 grid grid-cols-[repeat(2,minmax(0,1fr))] gap-3 text-sm sm:grid-cols-3 lg:grid-cols-6">
         {[
           ["Expected", record?.expected_attendance ?? forecast?.expected_attendance],
           ["Forecast", forecast?.forecast_demand],

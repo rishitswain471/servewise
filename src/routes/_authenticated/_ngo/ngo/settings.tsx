@@ -9,7 +9,8 @@ export const Route = createFileRoute("/_authenticated/_ngo/ngo/settings")({
 });
 
 function NgoSettingsPage() {
-  const { workspace, activeMembership } = Route.useRouteContext();
+  const { workspace } = Route.useRouteContext();
+  const activeMembership = workspace.memberships[0]!;
   const rows: [string, string][] = [
     ["Organization", activeMembership.organizationName],
     ["Organization type", "NGO / Recipient Organization"],

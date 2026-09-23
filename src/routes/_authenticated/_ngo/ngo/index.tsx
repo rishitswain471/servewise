@@ -14,7 +14,7 @@ export const Route = createFileRoute("/_authenticated/_ngo/ngo/")({
 });
 
 function NgoDashboard() {
-  const { activeMembership } = Route.useRouteContext();
+  const activeMembership = Route.useRouteContext().workspace.memberships[0]!;
   return (
     <NgoPage
       eyebrow="Today"

@@ -99,6 +99,7 @@ function ServiceFlow({ serviceDate, meal, data }: { serviceDate: string; meal: M
   const refresh = () => {
     qc.invalidateQueries({ queryKey: ["service-day"] });
     qc.invalidateQueries({ queryKey: ["surplus-batches"] });
+    qc.invalidateQueries({ queryKey: ["rescue-overview"] });
     qc.invalidateQueries({ queryKey: ["service-records"] });
   };
   const run = useMutation({

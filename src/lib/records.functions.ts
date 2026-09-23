@@ -13,6 +13,13 @@ const count = z
   .max(1_000_000, "Value is too large.")
   .nullable();
 
+// Same rules as the Excel import (see import-rules.ts): these three are required.
+const required = z
+  .number({ message: "This field is required." })
+  .int("Enter a whole number.")
+  .min(0, "Cannot be negative.")
+  .max(1_000_000, "Value is too large.");
+
 export const recordInputSchema = z.object({
   serviceDate: z
     .string()
@@ -20,18 +27,26 @@ export const recordInputSchema = z.object({
     .refine((v) => !Number.isNaN(Date.parse(v)), "Choose a valid date."),
   mealPeriod: z.enum(mealPeriods, { message: "Choose a meal period." }),
   menuName: z.string().trim().min(1, "Menu is required.").max(200, "Keep the menu under 200 characters."),
-  expectedAttendance: count,
+  expectedAttendance: required,
   actualAttendance: count,
-  preparedQuantity: count,
-  consumedQuantity: count,
+  preparedQuantity: required,
+  consumedQuantity: required,
   notes: z.string().trim().max(1000, "Keep notes under 1000 characters.").nullable(),
 });
 export type RecordInput = z.infer<typeof recordInputSchema>;
 
-export type ServiceRecord = RecordInput & { id: string; createdAt: string; updatedAt: string };
+export type ServiceRecord = Omit<RecordInput, "expectedAttendance" | "preparedQuantity" | "consumedQuantity"> & {
+  expectedAttendance: number | null;
+  preparedQuantity: number | null;
+  consumedQuantity: number | null;
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  importBatchId: string | null;
+};
 
 const COLUMNS =
-  "id, service_date, meal_period, menu_name, expected_attendance, actual_attendance, prepared_quantity, consumed_quantity, notes, created_at, updated_at";
+  "id, service_date, meal_period, menu_name, expected_attendance, actual_attendance, prepared_quantity, consumed_quantity, notes, created_at, updated_at, import_batch_id";
 
 type Row = {
   id: string;
@@ -45,6 +60,7 @@ type Row = {
   notes: string | null;
   created_at: string;
   updated_at: string;
+  import_batch_id: string | null;
 };
 
 const toRecord = (r: Row): ServiceRecord => ({
@@ -59,6 +75,7 @@ const toRecord = (r: Row): ServiceRecord => ({
   notes: r.notes,
   createdAt: r.created_at,
   updatedAt: r.updated_at,
+  importBatchId: r.import_batch_id,
 });
 
 const toRow = (d: RecordInput) => ({

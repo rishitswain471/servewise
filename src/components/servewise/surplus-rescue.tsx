@@ -25,7 +25,6 @@ export function SurplusRescueWorkspace() {
   const scheduled = offers.filter((o) => o.status === "pickup_scheduled").length;
   const pickedUp = offers.filter((o) => o.status === "picked_up" || o.status === "completed").length;
   const completed = offers.filter((o) => o.status === "completed").length;
-  const coordination = offers.filter((o) => o.status !== "declined" || true);
   return (
     <>
       <MetricsGrid metrics={[
@@ -79,16 +78,16 @@ export function SurplusRescueWorkspace() {
           <CardHeader>
             <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
               <div className="min-w-0">
-                <CardTitle className="flex items-center gap-2 text-base"><HeartHandshake className="h-4 w-4 text-primary" />Rescue coordination</CardTitle>
+                <CardTitle className="flex items-center gap-2 text-base"><HeartHandshake className="h-4 w-4 text-primary" />Rescue offers</CardTitle>
                 <CardDescription className="mt-2 leading-6">Coordinate verified batches with recipient availability and pickup windows.</CardDescription>
               </div>
               <StatusIndicator tone={activeOffers ? "info" : "neutral"} label={activeOffers ? `${activeOffers} active` : "No active pickups"} compact />
             </div>
           </CardHeader>
           <CardContent>
-            {coordination.length === 0 ? (
+            {offers.length === 0 ? (
               <EmptyState title="No offers yet" description="Offers to recipients, their responses, pickups and receipts will appear here." />
-            ) : <OfferList offers={coordination} perspective="kitchen" />}
+            ) : <OfferList offers={offers} perspective="kitchen" />}
           </CardContent>
         </Card>
       </section>

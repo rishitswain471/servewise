@@ -14,7 +14,7 @@ export const Route = createFileRoute("/_authenticated/_org/dashboard")({
 });
 
 // The demo activity table is replaced by real recorded services.
-const config = { ...serveWisePages.dashboard, table: undefined };
+const { table: _demoTable, ...config } = serveWisePages.dashboard;
 
 function DashboardPage() {
   return (

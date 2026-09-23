@@ -15,7 +15,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -319,7 +318,10 @@ function RecordForm({ existing, onClose }: { existing: ServiceRecord | null; onC
     mutationFn: async (values: ReturnType<typeof recordInputSchema.parse>) =>
       existing ? update({ data: { id: existing.id, values } }) : create({ data: values }),
     onSuccess: async (res) => {
-      if (!res.ok) return setFormError(res.error);
+      if (!res.ok) {
+        setFormError(res.error);
+        return;
+      }
       await qc.invalidateQueries({ queryKey: ["service-records"] });
       await qc.invalidateQueries({ queryKey: ["service-summary"] });
       toast.success("Record saved.");
@@ -450,7 +452,10 @@ function DeleteDialog({ record, onClose }: { record: ServiceRecord | null; onClo
   const mutation = useMutation({
     mutationFn: (id: string) => remove({ data: { id } }),
     onSuccess: async (res) => {
-      if (!res.ok) return toast.error(res.error);
+      if (!res.ok) {
+        toast.error(res.error);
+        return;
+      }
       await qc.invalidateQueries({ queryKey: ["service-records"] });
       await qc.invalidateQueries({ queryKey: ["service-summary"] });
       toast.success("Record deleted.");
@@ -485,4 +490,4 @@ function DeleteDialog({ record, onClose }: { record: ServiceRecord | null; onClo
   );
 }
 
-export { Badge };
+

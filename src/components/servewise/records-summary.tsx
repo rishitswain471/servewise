@@ -47,7 +47,7 @@ export function OperationalDataSummary() {
           />
         ) : (
           <div className="grid gap-4">
-            <dl className="grid grid-cols-2 gap-4 text-sm sm:grid-cols-3">
+            <dl className="grid grid-cols-[repeat(2,minmax(0,1fr))] gap-4 text-sm sm:grid-cols-3">
               <div>
                 <dt className="text-muted-foreground">Today</dt>
                 <dd className="mt-1 font-medium">

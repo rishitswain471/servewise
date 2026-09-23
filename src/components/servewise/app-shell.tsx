@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Bell, Building2, ChevronDown, Search } from "lucide-react";
 import { toast } from "sonner";
@@ -61,6 +61,10 @@ function AppSidebar() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const { setOpenMobile, state } = useSidebar();
   const collapsed = state === "collapsed";
+
+  useEffect(() => {
+    setOpenMobile(false);
+  }, [pathname, setOpenMobile]);
 
   return (
     <Sidebar collapsible="icon" className="border-sidebar-border">

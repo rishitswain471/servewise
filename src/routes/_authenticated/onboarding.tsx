@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { RouteError } from "@/components/servewise/route-error";
-import { createFileRoute, Navigate, useNavigate, useRouter } from "@tanstack/react-router";
+import { createFileRoute, Navigate, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 
 import { Button } from "@/components/ui/button";
@@ -44,7 +44,6 @@ function OnboardingPage() {
 
 function OnboardingForm() {
   const navigate = useNavigate();
-  const router = useRouter();
   const create = useServerFn(createOrganization);
   const [name, setName] = useState("");
   const [type, setType] = useState<"kitchen" | "ngo" | "">("");
@@ -62,7 +61,6 @@ function OnboardingForm() {
     try {
       const result = await create({ data: { name: parsed.data, type: parsedType.data } });
       if (!result.ok) return setError(result.error);
-      await router.invalidate();
       navigate({ to: result.type === "ngo" ? "/ngo" : "/dashboard", replace: true });
     } catch {
       setError("Network problem. Please check your connection and try again.");

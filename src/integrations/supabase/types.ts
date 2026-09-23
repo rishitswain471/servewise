@@ -76,15 +76,8 @@ export type Database = {
     }
     Functions: {
       create_organization: { Args: { _name: string }; Returns: string }
-      has_org_role: {
-        Args: {
-          _org: string
-          _role: Database["public"]["Enums"]["org_role"]
-          _user: string
-        }
-        Returns: boolean
-      }
-      is_org_member: { Args: { _org: string; _user: string }; Returns: boolean }
+      is_org_admin: { Args: { _org: string }; Returns: boolean }
+      is_org_member: { Args: { _org: string }; Returns: boolean }
     }
     Enums: {
       org_role: "admin" | "member"

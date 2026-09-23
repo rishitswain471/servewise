@@ -309,8 +309,8 @@ function ProductDataTable({ table }: { table: ProductTable }) {
           <TableBody>
             {table.rows.map((row) => (
               <TableRow key={row.join("-")}>
-                {row.map((cell) => (
-                  <TableCell key={cell} className="min-w-32">
+                {row.map((cell, cellIndex) => (
+                  <TableCell key={`${cellIndex}-${cell}`} className="min-w-32">
                     {cell}
                   </TableCell>
                 ))}

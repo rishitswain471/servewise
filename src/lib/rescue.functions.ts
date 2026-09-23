@@ -149,8 +149,9 @@ export const advanceOffer = createServerFn({ method: "POST" })
   }).parse(i))
   .handler(async ({ data, context }): Promise<Result> => {
     const { error } = await context.supabase.rpc("advance_recipient_offer", {
-      _offer: data.offerId, _action: data.action, _when: data.when, _owner: data.owner,
-      _notes: data.notes, _received: data.received,
+      _offer: data.offerId, _action: data.action,
+      ...(data.when ? { _when: data.when } : {}), ...(data.owner ? { _owner: data.owner } : {}),
+      ...(data.notes ? { _notes: data.notes } : {}), ...(data.received !== undefined ? { _received: data.received } : {}),
     });
     return error ? fail(error, "Unable to update the offer.") : { ok: true };
   });

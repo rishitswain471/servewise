@@ -203,6 +203,7 @@ export type Database = {
           notes: string | null
           organization_id: string
           prepared_quantity: number | null
+          service_completed_at: string | null
           service_date: string
           updated_at: string
         }
@@ -219,6 +220,7 @@ export type Database = {
           notes?: string | null
           organization_id: string
           prepared_quantity?: number | null
+          service_completed_at?: string | null
           service_date: string
           updated_at?: string
         }
@@ -235,6 +237,7 @@ export type Database = {
           notes?: string | null
           organization_id?: string
           prepared_quantity?: number | null
+          service_completed_at?: string | null
           service_date?: string
           updated_at?: string
         }
@@ -251,6 +254,69 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      surplus_batches: {
+        Row: {
+          consumed_quantity: number
+          created_at: string
+          created_by: string | null
+          id: string
+          meal_period: Database["public"]["Enums"]["meal_period"]
+          menu_name: string
+          organization_id: string
+          potential_surplus: number
+          prepared_quantity: number
+          service_date: string
+          service_record_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          consumed_quantity: number
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          meal_period: Database["public"]["Enums"]["meal_period"]
+          menu_name: string
+          organization_id: string
+          potential_surplus: number
+          prepared_quantity: number
+          service_date: string
+          service_record_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          consumed_quantity?: number
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          meal_period?: Database["public"]["Enums"]["meal_period"]
+          menu_name?: string
+          organization_id?: string
+          potential_surplus?: number
+          prepared_quantity?: number
+          service_date?: string
+          service_record_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "surplus_batches_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "surplus_batches_service_record_id_fkey"
+            columns: ["service_record_id"]
+            isOneToOne: true
+            referencedRelation: "service_records"
             referencedColumns: ["id"]
           },
         ]
@@ -280,6 +346,7 @@ export type Database = {
         Args: { _batch: string; _org: string }
         Returns: number
       }
+      send_to_surplus_rescue: { Args: { _record: string }; Returns: string }
     }
     Enums: {
       meal_period: "breakfast" | "lunch" | "dinner"

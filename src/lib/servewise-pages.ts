@@ -191,34 +191,7 @@ export const serveWisePages = {
     eyebrow: "Rescue",
     title: "Surplus Rescue",
     subtitle: "Record usable surplus and coordinate the path from verification to pickup.",
-    mode: "standard",
-    metrics: [
-      { label: "Open batches", value: "0", caption: "No batches listed", tone: "success" },
-      { label: "Awaiting safety", value: "0", caption: "Verification queue" },
-      { label: "Recipient offers", value: "0", caption: "No offers active" },
-      { label: "Pickups", value: "0", caption: "No pickups scheduled" },
-    ],
-    sections: [
-      {
-        title: "Surplus batches",
-        description: "Usable surplus from completed services will appear in this queue.",
-        icon: ListChecks,
-        status: "Queue clear",
-        tone: "success",
-        items: [
-          "Meal item and available quantity",
-          "Holding details and handling notes",
-          "Current rescue status",
-        ],
-      },
-      {
-        title: "Rescue coordination",
-        description: "Coordinate verified batches with recipient availability and pickup windows.",
-        icon: HeartHandshake,
-        status: "No active pickups",
-        items: ["Recipient response", "Pickup window", "Receipt confirmation"],
-      },
-    ],
+    mode: "surplus",
   },
   safety: {
     eyebrow: "Rescue",

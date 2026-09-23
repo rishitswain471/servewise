@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { ErrorState, LoadingState, StatusIndicator } from "@/components/servewise/page";
+import { batchStatus } from "@/components/servewise/rescue-shared";
 import { fmtDate, mealLabel } from "@/components/servewise/service-records";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -98,6 +99,7 @@ function ServiceFlow({ serviceDate, meal, data }: { serviceDate: string; meal: M
   const refresh = () => {
     qc.invalidateQueries({ queryKey: ["service-day"] });
     qc.invalidateQueries({ queryKey: ["surplus-batches"] });
+    qc.invalidateQueries({ queryKey: ["rescue-overview"] });
     qc.invalidateQueries({ queryKey: ["service-records"] });
   };
   const run = useMutation({
@@ -129,7 +131,7 @@ function ServiceFlow({ serviceDate, meal, data }: { serviceDate: string; meal: M
     ["Preparation", p !== null ? "Recorded" : "Awaiting entry"],
     ["Actual attendance", record?.actual_attendance != null ? String(record.actual_attendance) : "Not recorded"],
     ["Actual consumption", c !== null ? `${c} meals` : "Not recorded"],
-    ["Surplus", completed ? "Service completed" : batchActive ? "Sent to rescue" : surplus === null ? "Not reviewed" : `${surplus} potential`],
+    ["Surplus", batchActive ? `${batch.potential_surplus} meals · ${batchStatus[batch.status]?.label ?? "Sent to rescue"}` : completed ? "Service completed" : surplus === null ? "Not reviewed" : `${surplus} potential`],
   ];
 
   return (
@@ -256,7 +258,7 @@ function ServiceFlow({ serviceDate, meal, data }: { serviceDate: string; meal: M
               ) : <p className="text-sm text-muted-foreground">No potential surplus from this service.</p>}
               {surplus > 0 && batchActive ? (
                 <div className="flex items-center justify-between gap-3 border-t border-border pt-3">
-                  <StatusIndicator tone="warning" label="Pending safety verification" compact />
+                  <StatusIndicator tone={batchStatus[batch.status]?.tone ?? "warning"} label={batchStatus[batch.status]?.label ?? "Pending safety verification"} compact />
                   <Link to="/surplus" className="text-sm font-medium text-primary">View</Link>
                 </div>
               ) : null}

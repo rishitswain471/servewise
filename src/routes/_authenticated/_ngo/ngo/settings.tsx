@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { NgoPage } from "@/components/servewise/ngo-page";
+import { RecipientProfileForm } from "@/components/servewise/recipient-profile-form";
 import { serveWiseHead } from "@/lib/servewise-pages";
 
 export const Route = createFileRoute("/_authenticated/_ngo/ngo/settings")({
@@ -29,6 +30,7 @@ function NgoSettingsPage() {
           ))}
         </dl>
       </section>
+      {activeMembership.role === "admin" ? <RecipientProfileForm /> : null}
     </NgoPage>
   );
 }

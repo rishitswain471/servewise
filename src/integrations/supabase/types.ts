@@ -189,6 +189,266 @@ export type Database = {
         }
         Relationships: []
       }
+      recipient_offers: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          handling_info: string
+          id: string
+          kitchen_name: string
+          kitchen_org_id: string
+          meal_period: Database["public"]["Enums"]["meal_period"]
+          menu_name: string
+          picked_up_at: string | null
+          pickup_date: string
+          pickup_from: string
+          pickup_notes: string | null
+          pickup_owner: string | null
+          pickup_scheduled_at: string | null
+          pickup_until: string
+          quantity: number
+          received_at: string | null
+          received_quantity: number | null
+          recipient_name: string
+          recipient_org_id: string
+          responded_at: string | null
+          service_date: string
+          status: string
+          surplus_batch_id: string
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          handling_info: string
+          id?: string
+          kitchen_name: string
+          kitchen_org_id: string
+          meal_period: Database["public"]["Enums"]["meal_period"]
+          menu_name: string
+          picked_up_at?: string | null
+          pickup_date: string
+          pickup_from: string
+          pickup_notes?: string | null
+          pickup_owner?: string | null
+          pickup_scheduled_at?: string | null
+          pickup_until: string
+          quantity: number
+          received_at?: string | null
+          received_quantity?: number | null
+          recipient_name: string
+          recipient_org_id: string
+          responded_at?: string | null
+          service_date: string
+          status?: string
+          surplus_batch_id: string
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          handling_info?: string
+          id?: string
+          kitchen_name?: string
+          kitchen_org_id?: string
+          meal_period?: Database["public"]["Enums"]["meal_period"]
+          menu_name?: string
+          picked_up_at?: string | null
+          pickup_date?: string
+          pickup_from?: string
+          pickup_notes?: string | null
+          pickup_owner?: string | null
+          pickup_scheduled_at?: string | null
+          pickup_until?: string
+          quantity?: number
+          received_at?: string | null
+          received_quantity?: number | null
+          recipient_name?: string
+          recipient_org_id?: string
+          responded_at?: string | null
+          service_date?: string
+          status?: string
+          surplus_batch_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recipient_offers_kitchen_org_id_fkey"
+            columns: ["kitchen_org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recipient_offers_recipient_org_id_fkey"
+            columns: ["recipient_org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recipient_offers_surplus_batch_id_fkey"
+            columns: ["surplus_batch_id"]
+            isOneToOne: false
+            referencedRelation: "surplus_batches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      recipient_profiles: {
+        Row: {
+          accepted_food_types: string[]
+          accepting_offers: boolean
+          capacity_meals: number
+          created_at: string
+          display_name: string
+          organization_id: string
+          pickup_contact: string
+          pickup_from: string
+          pickup_notes: string | null
+          pickup_until: string
+          service_area: string
+          updated_at: string
+        }
+        Insert: {
+          accepted_food_types?: string[]
+          accepting_offers?: boolean
+          capacity_meals: number
+          created_at?: string
+          display_name: string
+          organization_id: string
+          pickup_contact: string
+          pickup_from: string
+          pickup_notes?: string | null
+          pickup_until: string
+          service_area: string
+          updated_at?: string
+        }
+        Update: {
+          accepted_food_types?: string[]
+          accepting_offers?: boolean
+          capacity_meals?: number
+          created_at?: string
+          display_name?: string
+          organization_id?: string
+          pickup_contact?: string
+          pickup_from?: string
+          pickup_notes?: string | null
+          pickup_until?: string
+          service_area?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recipient_profiles_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: true
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      safety_policies: {
+        Row: {
+          max_cold_holding_c: number
+          max_holding_minutes: number
+          min_hot_holding_c: number
+          organization_id: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          max_cold_holding_c?: number
+          max_holding_minutes?: number
+          min_hot_holding_c?: number
+          organization_id: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          max_cold_holding_c?: number
+          max_holding_minutes?: number
+          min_hot_holding_c?: number
+          organization_id?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "safety_policies_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: true
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      safety_verifications: {
+        Row: {
+          basis: Json
+          handling_notes: string
+          holding_minutes: number
+          id: string
+          organization_id: string
+          outcome: string
+          policy_snapshot: Json
+          reviewed_at: string
+          reviewed_by: string
+          reviewer_email: string | null
+          storage_mode: string
+          surplus_batch_id: string
+          temperature_c: number
+        }
+        Insert: {
+          basis: Json
+          handling_notes: string
+          holding_minutes: number
+          id?: string
+          organization_id: string
+          outcome: string
+          policy_snapshot: Json
+          reviewed_at?: string
+          reviewed_by: string
+          reviewer_email?: string | null
+          storage_mode: string
+          surplus_batch_id: string
+          temperature_c: number
+        }
+        Update: {
+          basis?: Json
+          handling_notes?: string
+          holding_minutes?: number
+          id?: string
+          organization_id?: string
+          outcome?: string
+          policy_snapshot?: Json
+          reviewed_at?: string
+          reviewed_by?: string
+          reviewer_email?: string | null
+          storage_mode?: string
+          surplus_batch_id?: string
+          temperature_c?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "safety_verifications_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "safety_verifications_surplus_batch_id_fkey"
+            columns: ["surplus_batch_id"]
+            isOneToOne: true
+            referencedRelation: "surplus_batches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       service_records: {
         Row: {
           actual_attendance: number | null
@@ -326,8 +586,30 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      advance_recipient_offer: {
+        Args: {
+          _action: string
+          _notes?: string
+          _offer: string
+          _owner?: string
+          _received?: number
+          _when?: string
+        }
+        Returns: string
+      }
       create_organization: {
         Args: { _name: string; _type: Database["public"]["Enums"]["org_type"] }
+        Returns: string
+      }
+      create_recipient_offer: {
+        Args: {
+          _batch: string
+          _from: string
+          _pickup_date: string
+          _quantity: number
+          _recipient: string
+          _until: string
+        }
         Returns: string
       }
       import_service_records: {
@@ -339,14 +621,41 @@ export type Database = {
         }
         Returns: string
       }
+      is_any_kitchen_admin: { Args: never; Returns: boolean }
       is_kitchen_admin: { Args: { _org: string }; Returns: boolean }
+      is_ngo_admin: { Args: { _org: string }; Returns: boolean }
       is_org_admin: { Args: { _org: string }; Returns: boolean }
       is_org_member: { Args: { _org: string }; Returns: boolean }
+      record_safety_check: {
+        Args: {
+          _batch: string
+          _holding_minutes: number
+          _notes: string
+          _storage_mode: string
+          _temperature: number
+        }
+        Returns: string
+      }
+      refresh_batch_status: { Args: { _batch: string }; Returns: undefined }
       remove_import_batch: {
         Args: { _batch: string; _org: string }
         Returns: number
       }
       send_to_surplus_rescue: { Args: { _record: string }; Returns: string }
+      upsert_recipient_profile: {
+        Args: {
+          _accepting: boolean
+          _area: string
+          _capacity: number
+          _contact: string
+          _food_types: string[]
+          _from: string
+          _notes: string
+          _org: string
+          _until: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       meal_period: "breakfast" | "lunch" | "dinner"

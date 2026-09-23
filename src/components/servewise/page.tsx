@@ -1,12 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import {
-  AlertTriangle,
-  CheckCircle2,
-  CircleDashed,
-  Clock3,
-  Send,
-  Soup,
-} from "lucide-react";
+import { AlertTriangle, CheckCircle2, CircleDashed, Clock3, Send, Soup } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -257,16 +250,25 @@ function ServiceWorkflow() {
         </ol>
       </section>
 
-      <section className="grid overflow-hidden rounded-md border bg-surface-raised sm:grid-cols-5" aria-label="Service summary">
+      <section
+        className="grid overflow-hidden rounded-md border bg-surface-raised sm:grid-cols-5"
+        aria-label="Service summary"
+      >
         {summary.map(([label, value]) => (
-          <div key={label} className="min-w-0 border-b border-border px-4 py-3 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
+          <div
+            key={label}
+            className="min-w-0 border-b border-border px-4 py-3 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0"
+          >
             <p className="text-xs font-medium text-muted-foreground">{label}</p>
             <p className="mt-1 truncate text-sm font-semibold text-foreground">{value}</p>
           </div>
         ))}
       </section>
 
-      <section className="grid gap-5 border-t border-border pt-6 lg:grid-cols-[minmax(0,1fr)_18rem]" aria-labelledby="current-stage-title">
+      <section
+        className="grid gap-5 border-t border-border pt-6 lg:grid-cols-[minmax(0,1fr)_18rem]"
+        aria-labelledby="current-stage-title"
+      >
         <div className="min-w-0">
           <div className="flex items-center gap-2">
             <Soup className="h-4 w-4 text-primary" />
@@ -282,7 +284,12 @@ function ServiceWorkflow() {
         <div className="grid gap-4 rounded-md border bg-surface-raised p-4">
           <div className="grid gap-2">
             <Label htmlFor="prepared-quantity">Prepared quantity</Label>
-            <Input id="prepared-quantity" disabled inputMode="numeric" placeholder="Enter quantity" />
+            <Input
+              id="prepared-quantity"
+              disabled
+              inputMode="numeric"
+              placeholder="Enter quantity"
+            />
           </div>
           <div className="flex items-center justify-between gap-3 border-t border-border pt-3">
             <span className="text-sm text-muted-foreground">Preparation status</span>

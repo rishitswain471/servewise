@@ -50,7 +50,7 @@ export const getMyWorkspace = createServerFn({ method: "GET" })
 
 export const createOrganization = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) =>
+  .validator((input: unknown) =>
     z.object({ name: orgNameSchema, type: orgTypeSchema }).parse(input),
   )
   .handler(async ({ data, context }) => {
@@ -78,7 +78,7 @@ export const createOrganization = createServerFn({ method: "POST" })
 // organization's ID returns "not found" rather than its data.
 export const getOrganization = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) => z.object({ id: z.string().uuid() }).parse(input))
+  .validator((input: unknown) => z.object({ id: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
     const { data: org, error } = await context.supabase
       .from("organizations")

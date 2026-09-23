@@ -1,3 +1,4 @@
+import { RouteError } from "@/components/servewise/route-error";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 import { AppShell } from "@/components/servewise/app-shell";
@@ -10,6 +11,7 @@ export const Route = createFileRoute("/_authenticated/_org")({
     if (!active) throw redirect({ to: "/onboarding" });
     return { workspace, activeMembership: active };
   },
+  errorComponent: RouteError,
   component: OrgLayout,
 });
 

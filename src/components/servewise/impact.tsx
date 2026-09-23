@@ -44,9 +44,9 @@ export function ImpactWorkspace() {
 
       <MetricsGrid metrics={[
         { label: "Food redistributed", value: hasReceipt ? `${r.received} meals` : "None yet", caption: hasReceipt ? `${r.completedReceipts} confirmed receipt${r.completedReceipts === 1 ? "" : "s"}` : noRedistribution, tone: hasReceipt ? "success" : "neutral" },
-        { label: "Services completed", value: String(r.servicesCompleted), caption: "Completed in Service Day", tone: r.servicesCompleted ? "info" : "neutral" },
-        { label: "Surplus identified", value: `${r.potential} meals`, caption: "Prepared − consumed, sent to rescue", tone: r.potential ? "warning" : "neutral" },
-        { label: "Redistribution rate", value: hasReceipt ? pct(r.rate) : "—", caption: hasReceipt ? `Received ÷ surplus identified (${r.received} ÷ ${r.potential})` : noRedistribution, tone: hasReceipt ? "success" : "neutral" },
+        { label: "Services completed", value: String(r.servicesCompleted), caption: "From Service Day", tone: r.servicesCompleted ? "info" : "neutral" },
+        { label: "Surplus identified", value: `${r.potential} meals`, caption: "Prepared − consumed", tone: r.potential ? "warning" : "neutral" },
+        { label: "Redistribution rate", value: hasReceipt ? pct(r.rate) : "—", caption: hasReceipt ? `${r.received} received ÷ ${r.potential} identified` : noRedistribution, tone: hasReceipt ? "success" : "neutral" },
       ]} />
 
       {r.servicesCompleted === 0 ? (
@@ -123,7 +123,7 @@ function Funnel({ r }: { r: R }) {
         <p className="pt-1 text-xs leading-5 text-muted-foreground">
           {r.blockedMeals ? `${r.blockedMeals} meals blocked at the Safety Gate. ` : ""}
           {r.declinedOffers ? `${r.declinedOffers} declined offer${r.declinedOffers === 1 ? "" : "s"} excluded. ` : ""}
-          Offered counts active and completed offers; received uses confirmed quantities.
+          Offered counts active and completed offers; received uses confirmed quantities. Redistribution rate = meals received ÷ surplus identified.
         </p>
       </CardContent>
     </Card>

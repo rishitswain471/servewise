@@ -28,7 +28,11 @@ export const recordInputSchema = z.object({
     .regex(/^\d{4}-\d{2}-\d{2}$/, "Choose a valid date.")
     .refine((v) => !Number.isNaN(Date.parse(v)), "Choose a valid date."),
   mealPeriod: z.enum(mealPeriods, { message: "Choose a meal period." }),
-  menuName: z.string().trim().min(1, "Menu is required.").max(200, "Keep the menu under 200 characters."),
+  menuName: z
+    .string()
+    .trim()
+    .min(1, "Menu is required.")
+    .max(200, "Keep the menu under 200 characters."),
   expectedAttendance: required,
   actualAttendance: count,
   preparedQuantity: required,
@@ -37,7 +41,10 @@ export const recordInputSchema = z.object({
 });
 export type RecordInput = z.infer<typeof recordInputSchema>;
 
-export type ServiceRecord = Omit<RecordInput, "expectedAttendance" | "preparedQuantity" | "consumedQuantity"> & {
+export type ServiceRecord = Omit<
+  RecordInput,
+  "expectedAttendance" | "preparedQuantity" | "consumedQuantity"
+> & {
   expectedAttendance: number | null;
   preparedQuantity: number | null;
   consumedQuantity: number | null;
@@ -98,7 +105,8 @@ function mapDbError(error: { code?: string; message?: string }, fallback: string
   if (error.code === "23505") return fail("A record for this date and meal already exists.");
   if (error.message?.includes("service_date_in_future"))
     return fail("Service date can't be in the future.");
-  if (error.code === "23514" || error.code === "22P02") return fail("Please check the values entered.");
+  if (error.code === "23514" || error.code === "22P02")
+    return fail("Please check the values entered.");
   if (error.code === "42501") return fail("Unable to access this record.");
   console.error(fallback, error);
   return fail(fallback);
@@ -123,8 +131,14 @@ async function resolveKitchen(
 }
 
 const filterSchema = z.object({
-  from: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
-  to: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  from: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/)
+    .optional(),
+  to: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/)
+    .optional(),
   meal: z.enum(mealPeriods).optional(),
   menu: z.string().trim().max(100).optional(),
   page: z.number().int().min(0).max(10_000).default(0),
@@ -167,9 +181,16 @@ export const getRecordSummary = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const orgId = await resolveKitchen(context.supabase, context.userId);
     if (!orgId) throw new Error("Unable to load operational data.");
-    const base = () => context.supabase.from("service_records").select(COLUMNS, { count: "exact" }).eq("organization_id", orgId);
+    const base = () =>
+      context.supabase
+        .from("service_records")
+        .select(COLUMNS, { count: "exact" })
+        .eq("organization_id", orgId);
     const [recent, oldest] = await Promise.all([
-      base().order("service_date", { ascending: false }).order("updated_at", { ascending: false }).limit(5),
+      base()
+        .order("service_date", { ascending: false })
+        .order("updated_at", { ascending: false })
+        .limit(5),
       base().order("service_date", { ascending: true }).limit(1),
     ]);
     if (recent.error || oldest.error) {
@@ -246,7 +267,16 @@ const importPayload = z.object({
     .array(
       z.object({
         row: z.number().int().min(2).max(1_048_576),
-        cells: z.object(Object.fromEntries(importFields.map((f) => [f, cellSchema.optional().transform((v) => v ?? null)])) as unknown as Record<(typeof importFields)[number], z.ZodType<Cell, z.ZodTypeDef, Cell | undefined>>).strict(),
+        cells: z
+          .object(
+            Object.fromEntries(
+              importFields.map((f) => [f, cellSchema.optional().transform((v) => v ?? null)]),
+            ) as unknown as Record<
+              (typeof importFields)[number],
+              z.ZodType<Cell, z.ZodTypeDef, Cell | undefined>
+            >,
+          )
+          .strict(),
       }),
     )
     .min(1)
@@ -282,7 +312,9 @@ async function existingKeys(
       .order("id")
       .range(from, from + 999);
     if (error) throw error;
-    for (const r of data) if (!replaceBatchId || r.import_batch_id !== replaceBatchId) keys.add(`${r.service_date}|${r.meal_period}`);
+    for (const r of data)
+      if (!replaceBatchId || r.import_batch_id !== replaceBatchId)
+        keys.add(`${r.service_date}|${r.meal_period}`);
     if (data.length < 1000) return keys;
   }
 }
@@ -332,16 +364,15 @@ export const validateImport = createServerFn({ method: "POST" })
 
 export const commitImport = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .validator((input: unknown) =>
-    importPayload.extend({ acceptWarnings: z.boolean() }).parse(input),
-  )
+  .validator((input: unknown) => importPayload.extend({ acceptWarnings: z.boolean() }).parse(input))
   .handler(async ({ data, context }) => {
     try {
       const res = await runValidation(context.supabase, context.userId, data);
       if (!res) return fail("Unable to access this kitchen's records.");
       if (res.missingBatch) return fail("The import you're replacing no longer exists.");
       if (res.summary.errors) return fail("Fix all errors before importing.");
-      if (res.summary.warnings && !data.acceptWarnings) return fail("Confirm the warnings before importing.");
+      if (res.summary.warnings && !data.acceptWarnings)
+        return fail("Confirm the warnings before importing.");
       const { data: batchId, error } = await context.supabase.rpc("import_service_records", {
         _org: res.orgId,
         _file_name: data.fileName,
@@ -350,7 +381,9 @@ export const commitImport = createServerFn({ method: "POST" })
       });
       if (error) {
         if (error.code === "23505")
-          return fail("Another record for one of these dates and meals was saved meanwhile. Nothing was imported — check again.");
+          return fail(
+            "Another record for one of these dates and meals was saved meanwhile. Nothing was imported — check again.",
+          );
         return mapDbError(error, "The import failed. Nothing was saved.");
       }
       return { ok: true as const, batchId: batchId as string, count: res.rows.length };
@@ -360,7 +393,13 @@ export const commitImport = createServerFn({ method: "POST" })
     }
   });
 
-export type ImportBatch = { id: string; fileName: string; importedAt: string; importedCount: number; currentCount: number };
+export type ImportBatch = {
+  id: string;
+  fileName: string;
+  importedAt: string;
+  importedCount: number;
+  currentCount: number;
+};
 
 export const listImports = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -384,7 +423,13 @@ export const listImports = createServerFn({ method: "GET" })
           .from("service_records")
           .select("id", { count: "exact", head: true })
           .eq("import_batch_id", b.id);
-        return { id: b.id, fileName: b.file_name, importedAt: b.imported_at, importedCount: b.record_count, currentCount: count ?? 0 };
+        return {
+          id: b.id,
+          fileName: b.file_name,
+          importedAt: b.imported_at,
+          importedCount: b.record_count,
+          currentCount: count ?? 0,
+        };
       }),
     );
   });
@@ -395,7 +440,10 @@ export const removeImport = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const orgId = await resolveKitchen(context.supabase, context.userId);
     if (!orgId) return fail("Unable to access this import.");
-    const { data: n, error } = await context.supabase.rpc("remove_import_batch", { _org: orgId, _batch: data.batchId });
+    const { data: n, error } = await context.supabase.rpc("remove_import_batch", {
+      _org: orgId,
+      _batch: data.batchId,
+    });
     if (error) {
       if (error.code === "P0002") return fail("This import no longer exists.");
       return mapDbError(error, "Unable to remove this import.");

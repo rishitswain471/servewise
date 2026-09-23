@@ -1,10 +1,23 @@
 import { useMutation, useQuery, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { AlertTriangle, ClipboardList, Download, FileUp, Loader2, Pencil, Plus, Trash2 } from "lucide-react";
+import {
+  AlertTriangle,
+  ClipboardList,
+  Download,
+  FileUp,
+  Loader2,
+  Pencil,
+  Plus,
+  Trash2,
+} from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { ImportDialog, ImportsPanel, invalidateOperationalData } from "@/components/servewise/import-workflow";
+import {
+  ImportDialog,
+  ImportsPanel,
+  invalidateOperationalData,
+} from "@/components/servewise/import-workflow";
 import { EmptyState, LoadingState } from "@/components/servewise/page";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -99,7 +112,8 @@ export function ServiceRecordsWorkspace() {
     placeholderData: keepPreviousData,
   });
   const hasFilters = Boolean(filters.from || filters.to || filters.meal || filters.menu);
-  const setFilter = (patch: Partial<RecordFilters>) => setFilters((f) => ({ ...f, ...patch, page: 0 }));
+  const setFilter = (patch: Partial<RecordFilters>) =>
+    setFilters((f) => ({ ...f, ...patch, page: 0 }));
 
   return (
     <div className="flex min-w-0 flex-col gap-6">
@@ -116,7 +130,12 @@ export function ServiceRecordsWorkspace() {
         </div>
         <div className="flex flex-wrap gap-2">
           <Button variant="outline" onClick={onDownload} disabled={downloading}>
-            {downloading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />} Download template
+            {downloading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Download className="h-4 w-4" />
+            )}{" "}
+            Download template
           </Button>
           <Button variant="outline" onClick={() => setImporting({ replacing: null })}>
             <FileUp className="h-4 w-4" /> Import Excel
@@ -132,27 +151,50 @@ export function ServiceRecordsWorkspace() {
       <section aria-label="Filters" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="grid gap-1.5">
           <Label htmlFor="f-from">From</Label>
-          <Input id="f-from" type="date" value={filters.from ?? ""} onChange={(e) => setFilter({ from: e.target.value || undefined })} />
+          <Input
+            id="f-from"
+            type="date"
+            value={filters.from ?? ""}
+            onChange={(e) => setFilter({ from: e.target.value || undefined })}
+          />
         </div>
         <div className="grid gap-1.5">
           <Label htmlFor="f-to">To</Label>
-          <Input id="f-to" type="date" value={filters.to ?? ""} onChange={(e) => setFilter({ to: e.target.value || undefined })} />
+          <Input
+            id="f-to"
+            type="date"
+            value={filters.to ?? ""}
+            onChange={(e) => setFilter({ to: e.target.value || undefined })}
+          />
         </div>
         <div className="grid gap-1.5">
           <Label htmlFor="f-meal">Meal</Label>
-          <Select value={filters.meal ?? "all"} onValueChange={(v) => setFilter({ meal: v === "all" ? undefined : (v as MealPeriod) })}>
-            <SelectTrigger id="f-meal"><SelectValue /></SelectTrigger>
+          <Select
+            value={filters.meal ?? "all"}
+            onValueChange={(v) => setFilter({ meal: v === "all" ? undefined : (v as MealPeriod) })}
+          >
+            <SelectTrigger id="f-meal">
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All meals</SelectItem>
               {mealPeriods.map((m) => (
-                <SelectItem key={m} value={m}>{mealLabel[m]}</SelectItem>
+                <SelectItem key={m} value={m}>
+                  {mealLabel[m]}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
         <div className="grid gap-1.5">
           <Label htmlFor="f-menu">Menu</Label>
-          <Input id="f-menu" placeholder="Filter by menu" value={filters.menu ?? ""} maxLength={100} onChange={(e) => setFilter({ menu: e.target.value || undefined })} />
+          <Input
+            id="f-menu"
+            placeholder="Filter by menu"
+            value={filters.menu ?? ""}
+            maxLength={100}
+            onChange={(e) => setFilter({ menu: e.target.value || undefined })}
+          />
         </div>
       </section>
 
@@ -164,14 +206,24 @@ export function ServiceRecordsWorkspace() {
       ) : query.isError ? (
         <div className="flex flex-col items-start gap-3 rounded-md border border-destructive/30 bg-destructive/10 p-4 text-destructive">
           <p className="text-sm font-medium">Unable to load operational data.</p>
-          <Button variant="outline" size="sm" onClick={() => query.refetch()}>Retry</Button>
+          <Button variant="outline" size="sm" onClick={() => query.refetch()}>
+            Retry
+          </Button>
         </div>
       ) : query.data.records.length === 0 ? (
         hasFilters ? (
-          <EmptyState icon={ClipboardList} title="No matching records" description="Try a different date range, meal or menu." />
+          <EmptyState
+            icon={ClipboardList}
+            title="No matching records"
+            description="Try a different date range, meal or menu."
+          />
         ) : (
           <div className="grid gap-3">
-            <EmptyState icon={ClipboardList} title="No operational data yet." description="Add a meal service, or import your history from the ServeWise Excel template." />
+            <EmptyState
+              icon={ClipboardList}
+              title="No operational data yet."
+              description="Add a meal service, or import your history from the ServeWise Excel template."
+            />
             <div className="flex flex-wrap justify-center gap-2">
               <Button variant="outline" onClick={() => setImporting({ replacing: null })}>
                 <FileUp className="h-4 w-4" /> Import Excel
@@ -193,7 +245,11 @@ export function ServiceRecordsWorkspace() {
 
       <RecordDialog record={editing} onClose={() => setEditing(null)} />
       <DeleteDialog record={deleting} onClose={() => setDeleting(null)} />
-      <ImportDialog open={importing !== null} replacing={importing?.replacing ?? null} onClose={() => setImporting(null)} />
+      <ImportDialog
+        open={importing !== null}
+        replacing={importing?.replacing ?? null}
+        onClose={() => setImporting(null)}
+      />
     </div>
   );
 }
@@ -225,7 +281,9 @@ function RecordList({
               <TableHead className="text-right">Prepared</TableHead>
               <TableHead className="text-right">Consumed</TableHead>
               <TableHead className="text-right">Difference</TableHead>
-              <TableHead className="w-24"><span className="sr-only">Actions</span></TableHead>
+              <TableHead className="w-24">
+                <span className="sr-only">Actions</span>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -235,14 +293,22 @@ function RecordList({
                 <TableCell>{mealLabel[r.mealPeriod]}</TableCell>
                 <TableCell className="max-w-56">
                   <p className="truncate font-medium">{r.menuName}</p>
-                  {r.notes ? <p className="truncate text-xs text-muted-foreground">{r.notes}</p> : null}
+                  {r.notes ? (
+                    <p className="truncate text-xs text-muted-foreground">{r.notes}</p>
+                  ) : null}
                 </TableCell>
-                <TableCell><SourceBadge record={r} /></TableCell>
-                <TableCell className="text-right tabular-nums">{fmt(r.expectedAttendance)}</TableCell>
+                <TableCell>
+                  <SourceBadge record={r} />
+                </TableCell>
+                <TableCell className="text-right tabular-nums">
+                  {fmt(r.expectedAttendance)}
+                </TableCell>
                 <TableCell className="text-right tabular-nums">{fmt(r.actualAttendance)}</TableCell>
                 <TableCell className="text-right tabular-nums">{fmt(r.preparedQuantity)}</TableCell>
                 <TableCell className="text-right tabular-nums">{fmt(r.consumedQuantity)}</TableCell>
-                <TableCell className="text-right tabular-nums text-muted-foreground">{fmt(diff(r))}</TableCell>
+                <TableCell className="text-right tabular-nums text-muted-foreground">
+                  {fmt(diff(r))}
+                </TableCell>
                 <TableCell>
                   <RowActions record={r} onEdit={onEdit} onDelete={onDelete} />
                 </TableCell>
@@ -283,12 +349,30 @@ function RecordList({
       </ul>
 
       <div className="flex items-center justify-between text-sm text-muted-foreground">
-        <span>{data.total.toLocaleString()} {data.total === 1 ? "record" : "records"}</span>
+        <span>
+          {data.total.toLocaleString()} {data.total === 1 ? "record" : "records"}
+        </span>
         {pages > 1 ? (
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" disabled={data.page === 0} onClick={() => onPage(data.page - 1)}>Previous</Button>
-            <span>Page {data.page + 1} of {pages}</span>
-            <Button variant="outline" size="sm" disabled={data.page + 1 >= pages} onClick={() => onPage(data.page + 1)}>Next</Button>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={data.page === 0}
+              onClick={() => onPage(data.page - 1)}
+            >
+              Previous
+            </Button>
+            <span>
+              Page {data.page + 1} of {pages}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={data.page + 1 >= pages}
+              onClick={() => onPage(data.page + 1)}
+            >
+              Next
+            </Button>
           </div>
         ) : null}
       </div>
@@ -304,14 +388,32 @@ function SourceBadge({ record }: { record: ServiceRecord }) {
   );
 }
 
-function RowActions({ record, onEdit, onDelete }: { record: ServiceRecord; onEdit: (r: ServiceRecord) => void; onDelete: (r: ServiceRecord) => void }) {
+function RowActions({
+  record,
+  onEdit,
+  onDelete,
+}: {
+  record: ServiceRecord;
+  onEdit: (r: ServiceRecord) => void;
+  onDelete: (r: ServiceRecord) => void;
+}) {
   const label = `${mealLabel[record.mealPeriod]} ${fmtDate(record.serviceDate)}`;
   return (
     <div className="flex justify-end gap-1">
-      <Button variant="ghost" size="icon" aria-label={`Edit ${label}`} onClick={() => onEdit(record)}>
+      <Button
+        variant="ghost"
+        size="icon"
+        aria-label={`Edit ${label}`}
+        onClick={() => onEdit(record)}
+      >
         <Pencil className="h-4 w-4" />
       </Button>
-      <Button variant="ghost" size="icon" aria-label={`Delete ${label}`} onClick={() => onDelete(record)}>
+      <Button
+        variant="ghost"
+        size="icon"
+        aria-label={`Delete ${label}`}
+        onClick={() => onDelete(record)}
+      >
         <Trash2 className="h-4 w-4" />
       </Button>
     </div>
@@ -319,7 +421,14 @@ function RowActions({ record, onEdit, onDelete }: { record: ServiceRecord; onEdi
 }
 
 type FormState = Record<
-  "serviceDate" | "mealPeriod" | "menuName" | "expectedAttendance" | "actualAttendance" | "preparedQuantity" | "consumedQuantity" | "notes",
+  | "serviceDate"
+  | "mealPeriod"
+  | "menuName"
+  | "expectedAttendance"
+  | "actualAttendance"
+  | "preparedQuantity"
+  | "consumedQuantity"
+  | "notes",
   string
 >;
 
@@ -336,19 +445,33 @@ const toForm = (r: ServiceRecord | null): FormState => ({
 });
 const num = (v: string) => (v.trim() === "" ? null : Number(v));
 
-function RecordDialog({ record, onClose }: { record: ServiceRecord | "new" | null; onClose: () => void }) {
+function RecordDialog({
+  record,
+  onClose,
+}: {
+  record: ServiceRecord | "new" | null;
+  onClose: () => void;
+}) {
   const open = record !== null;
   const existing = record && record !== "new" ? record : null;
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-xl">
-        {open ? <RecordForm key={existing?.id ?? "new"} existing={existing} onClose={onClose} /> : null}
+        {open ? (
+          <RecordForm key={existing?.id ?? "new"} existing={existing} onClose={onClose} />
+        ) : null}
       </DialogContent>
     </Dialog>
   );
 }
 
-function RecordForm({ existing, onClose }: { existing: ServiceRecord | null; onClose: () => void }) {
+function RecordForm({
+  existing,
+  onClose,
+}: {
+  existing: ServiceRecord | null;
+  onClose: () => void;
+}) {
   const [form, setForm] = useState<FormState>(() => toForm(existing));
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [formError, setFormError] = useState<string | null>(null);
@@ -397,7 +520,8 @@ function RecordForm({ existing, onClose }: { existing: ServiceRecord | null; onC
       }
       return setErrors(next);
     }
-    if (parsed.data.serviceDate > today()) return setErrors({ serviceDate: "Service date can't be in the future." });
+    if (parsed.data.serviceDate > today())
+      return setErrors({ serviceDate: "Service date can't be in the future." });
     setErrors({});
     mutation.mutate(parsed.data);
   };
@@ -405,7 +529,16 @@ function RecordForm({ existing, onClose }: { existing: ServiceRecord | null; onC
   const numField = (k: keyof FormState, label: string) => (
     <div className="grid gap-1.5">
       <Label htmlFor={k}>{label}</Label>
-      <Input id={k} type="number" inputMode="numeric" min={0} step={1} value={form[k]} onChange={(e) => set(k)(e.target.value)} aria-invalid={!!errors[k]} />
+      <Input
+        id={k}
+        type="number"
+        inputMode="numeric"
+        min={0}
+        step={1}
+        value={form[k]}
+        onChange={(e) => set(k)(e.target.value)}
+        aria-invalid={!!errors[k]}
+      />
       {errors[k] ? <p className="text-xs text-destructive">{errors[k]}</p> : null}
     </div>
   );
@@ -426,25 +559,47 @@ function RecordForm({ existing, onClose }: { existing: ServiceRecord | null; onC
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="grid gap-1.5">
             <Label htmlFor="serviceDate">Date</Label>
-            <Input id="serviceDate" type="date" max={today()} value={form.serviceDate} onChange={(e) => set("serviceDate")(e.target.value)} aria-invalid={!!errors.serviceDate} />
-            {errors.serviceDate ? <p className="text-xs text-destructive">{errors.serviceDate}</p> : null}
+            <Input
+              id="serviceDate"
+              type="date"
+              max={today()}
+              value={form.serviceDate}
+              onChange={(e) => set("serviceDate")(e.target.value)}
+              aria-invalid={!!errors.serviceDate}
+            />
+            {errors.serviceDate ? (
+              <p className="text-xs text-destructive">{errors.serviceDate}</p>
+            ) : null}
           </div>
           <div className="grid gap-1.5">
             <Label htmlFor="mealPeriod">Meal</Label>
             <Select value={form.mealPeriod} onValueChange={set("mealPeriod")}>
-              <SelectTrigger id="mealPeriod" aria-invalid={!!errors.mealPeriod}><SelectValue placeholder="Choose meal" /></SelectTrigger>
+              <SelectTrigger id="mealPeriod" aria-invalid={!!errors.mealPeriod}>
+                <SelectValue placeholder="Choose meal" />
+              </SelectTrigger>
               <SelectContent>
                 {mealPeriods.map((m) => (
-                  <SelectItem key={m} value={m}>{mealLabel[m]}</SelectItem>
+                  <SelectItem key={m} value={m}>
+                    {mealLabel[m]}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            {errors.mealPeriod ? <p className="text-xs text-destructive">{errors.mealPeriod}</p> : null}
+            {errors.mealPeriod ? (
+              <p className="text-xs text-destructive">{errors.mealPeriod}</p>
+            ) : null}
           </div>
         </div>
         <div className="grid gap-1.5">
           <Label htmlFor="menuName">Menu</Label>
-          <Input id="menuName" maxLength={200} placeholder="e.g. Rice, dal, mixed vegetables" value={form.menuName} onChange={(e) => set("menuName")(e.target.value)} aria-invalid={!!errors.menuName} />
+          <Input
+            id="menuName"
+            maxLength={200}
+            placeholder="e.g. Rice, dal, mixed vegetables"
+            value={form.menuName}
+            onChange={(e) => set("menuName")(e.target.value)}
+            aria-invalid={!!errors.menuName}
+          />
           {errors.menuName ? <p className="text-xs text-destructive">{errors.menuName}</p> : null}
         </div>
       </fieldset>
@@ -473,15 +628,30 @@ function RecordForm({ existing, onClose }: { existing: ServiceRecord | null; onC
 
       <div className="grid gap-1.5">
         <Label htmlFor="notes">Notes</Label>
-        <Textarea id="notes" maxLength={1000} rows={3} placeholder="e.g. Holiday, college event, special menu" value={form.notes} onChange={(e) => set("notes")(e.target.value)} />
+        <Textarea
+          id="notes"
+          maxLength={1000}
+          rows={3}
+          placeholder="e.g. Holiday, college event, special menu"
+          value={form.notes}
+          onChange={(e) => set("notes")(e.target.value)}
+        />
         {errors.notes ? <p className="text-xs text-destructive">{errors.notes}</p> : null}
       </div>
 
-      {formError ? <p role="alert" className="text-sm text-destructive">{formError}</p> : null}
+      {formError ? (
+        <p role="alert" className="text-sm text-destructive">
+          {formError}
+        </p>
+      ) : null}
 
       <DialogFooter className="gap-2">
-        <Button type="button" variant="outline" onClick={onClose}>Cancel</Button>
-        <Button type="submit" disabled={mutation.isPending}>{mutation.isPending ? "Saving..." : "Save record"}</Button>
+        <Button type="button" variant="outline" onClick={onClose}>
+          Cancel
+        </Button>
+        <Button type="submit" disabled={mutation.isPending}>
+          {mutation.isPending ? "Saving..." : "Save record"}
+        </Button>
       </DialogFooter>
     </form>
   );
@@ -509,8 +679,11 @@ function DeleteDialog({ record, onClose }: { record: ServiceRecord | null; onClo
         <AlertDialogHeader>
           <AlertDialogTitle>Delete this record?</AlertDialogTitle>
           <AlertDialogDescription>
-            {record ? `${mealLabel[record.mealPeriod]} on ${fmtDate(record.serviceDate)} — ${record.menuName}. ` : ""}
-            This permanently removes it from your kitchen's history{record?.importBatchId ? ", including from its import" : ""}.
+            {record
+              ? `${mealLabel[record.mealPeriod]} on ${fmtDate(record.serviceDate)} — ${record.menuName}. `
+              : ""}
+            This permanently removes it from your kitchen's history
+            {record?.importBatchId ? ", including from its import" : ""}.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -529,5 +702,3 @@ function DeleteDialog({ record, onClose }: { record: ServiceRecord | null; onClo
     </AlertDialog>
   );
 }
-
-

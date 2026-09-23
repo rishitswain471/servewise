@@ -1,6 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { AlertTriangle, CheckCircle2, FileSpreadsheet, Loader2, RefreshCw, Trash2, Upload, XCircle } from "lucide-react";
+import {
+  AlertTriangle,
+  CheckCircle2,
+  FileSpreadsheet,
+  Loader2,
+  RefreshCw,
+  Trash2,
+  Upload,
+  XCircle,
+} from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -17,11 +26,30 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import type { RawRow, ValidatedRow } from "@/lib/import-rules";
-import { commitImport, listImports, removeImport, validateImport, type ImportBatch } from "@/lib/records.functions";
+import {
+  commitImport,
+  listImports,
+  removeImport,
+  validateImport,
+  type ImportBatch,
+} from "@/lib/records.functions";
 import { parseWorkbook } from "@/lib/workbook";
 
 export const invalidateOperationalData = (qc: ReturnType<typeof useQueryClient>) =>
@@ -64,7 +92,13 @@ export function ImportDialog({
   );
 }
 
-function ImportFlow({ replacing, onClose }: { replacing: ImportBatch | null; onClose: () => void }) {
+function ImportFlow({
+  replacing,
+  onClose,
+}: {
+  replacing: ImportBatch | null;
+  onClose: () => void;
+}) {
   const [stage, setStage] = useState<Stage>({ kind: "select" });
   const [issuesOnly, setIssuesOnly] = useState(false);
   const [acceptWarnings, setAcceptWarnings] = useState(false);
@@ -85,12 +119,23 @@ function ImportFlow({ replacing, onClose }: { replacing: ImportBatch | null; onC
       if (!parsed.ok) return setStage({ kind: "select", errors: parsed.errors });
       setStage({ kind: "busy", label: `Checking ${parsed.rows.length.toLocaleString()} rows...` });
       const res = await validate({
-        data: { fileName: file.name, today: localToday(), replaceBatchId: replacing?.id ?? null, rows: parsed.rows },
+        data: {
+          fileName: file.name,
+          today: localToday(),
+          replaceBatchId: replacing?.id ?? null,
+          rows: parsed.rows,
+        },
       });
       if (!res.ok) return setStage({ kind: "select", errors: [res.error] });
-      setStage({ kind: "review", review: { fileName: file.name, raw: parsed.rows, rows: res.rows, summary: res.summary } });
+      setStage({
+        kind: "review",
+        review: { fileName: file.name, raw: parsed.rows, rows: res.rows, summary: res.summary },
+      });
     } catch {
-      setStage({ kind: "select", errors: ["Unable to check this workbook. Check your connection and try again."] });
+      setStage({
+        kind: "select",
+        errors: ["Unable to check this workbook. Check your connection and try again."],
+      });
     } finally {
       if (inputRef.current) inputRef.current.value = "";
     }
@@ -142,7 +187,10 @@ function ImportFlow({ replacing, onClose }: { replacing: ImportBatch | null; onC
         </DialogHeader>
         {picker}
         {stage.kind === "busy" ? (
-          <div className="flex items-center gap-3 rounded-md border bg-muted/40 p-6 text-sm" aria-live="polite">
+          <div
+            className="flex items-center gap-3 rounded-md border bg-muted/40 p-6 text-sm"
+            aria-live="polite"
+          >
             <Loader2 className="h-4 w-4 animate-spin text-primary" /> {stage.label}
           </div>
         ) : (
@@ -159,17 +207,24 @@ function ImportFlow({ replacing, onClose }: { replacing: ImportBatch | null; onC
             >
               <FileSpreadsheet className="h-8 w-8 text-primary" />
               <span className="font-medium">Choose an Excel workbook</span>
-              <span className="text-xs text-muted-foreground">.xlsx up to 5 MB · or drop it here</span>
+              <span className="text-xs text-muted-foreground">
+                .xlsx up to 5 MB · or drop it here
+              </span>
             </button>
             {stage.errors?.length ? (
-              <div role="alert" className="rounded-md border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive">
+              <div
+                role="alert"
+                className="rounded-md border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive"
+              >
                 <p className="font-medium">This workbook can't be imported.</p>
                 <ul className="mt-1 list-disc pl-5">
                   {stage.errors.slice(0, 8).map((e) => (
                     <li key={e}>{e}</li>
                   ))}
                 </ul>
-                {replacing ? <p className="mt-2">Your current imported records are unchanged.</p> : null}
+                {replacing ? (
+                  <p className="mt-2">Your current imported records are unchanged.</p>
+                ) : null}
               </div>
             ) : null}
           </div>
@@ -200,10 +255,20 @@ function ImportFlow({ replacing, onClose }: { replacing: ImportBatch | null; onC
       </dl>
 
       <div className="flex flex-wrap items-center gap-2">
-        <Button size="sm" variant={issuesOnly ? "default" : "outline"} onClick={() => setIssuesOnly(true)} aria-pressed={issuesOnly}>
+        <Button
+          size="sm"
+          variant={issuesOnly ? "default" : "outline"}
+          onClick={() => setIssuesOnly(true)}
+          aria-pressed={issuesOnly}
+        >
           Show only issues
         </Button>
-        <Button size="sm" variant={!issuesOnly ? "default" : "outline"} onClick={() => setIssuesOnly(false)} aria-pressed={!issuesOnly}>
+        <Button
+          size="sm"
+          variant={!issuesOnly ? "default" : "outline"}
+          onClick={() => setIssuesOnly(false)}
+          aria-pressed={!issuesOnly}
+        >
           Show all
         </Button>
         <span className="text-xs text-muted-foreground">
@@ -235,15 +300,29 @@ function ImportFlow({ replacing, onClose }: { replacing: ImportBatch | null; onC
                 {visible.map((r) => (
                   <TableRow key={r.row} className={cn(r.status === "error" && "bg-destructive/5")}>
                     <TableCell className="tabular-nums text-muted-foreground">{r.row}</TableCell>
-                    <TableCell><StatusBadge status={r.status} /></TableCell>
-                    <TableCell className="whitespace-nowrap">{r.display.service_date || "—"}</TableCell>
+                    <TableCell>
+                      <StatusBadge status={r.status} />
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap">
+                      {r.display.service_date || "—"}
+                    </TableCell>
                     <TableCell>{r.display.meal || "—"}</TableCell>
                     <TableCell className="max-w-44 truncate">{r.display.menu || "—"}</TableCell>
-                    <TableCell className="text-right tabular-nums">{r.display.expected_attendance || "—"}</TableCell>
-                    <TableCell className="text-right tabular-nums">{r.display.actual_attendance || "—"}</TableCell>
-                    <TableCell className="text-right tabular-nums">{r.display.prepared_quantity || "—"}</TableCell>
-                    <TableCell className="text-right tabular-nums">{r.display.consumed_quantity || "—"}</TableCell>
-                    <TableCell className="min-w-56 text-xs"><Issues row={r} /></TableCell>
+                    <TableCell className="text-right tabular-nums">
+                      {r.display.expected_attendance || "—"}
+                    </TableCell>
+                    <TableCell className="text-right tabular-nums">
+                      {r.display.actual_attendance || "—"}
+                    </TableCell>
+                    <TableCell className="text-right tabular-nums">
+                      {r.display.prepared_quantity || "—"}
+                    </TableCell>
+                    <TableCell className="text-right tabular-nums">
+                      {r.display.consumed_quantity || "—"}
+                    </TableCell>
+                    <TableCell className="min-w-56 text-xs">
+                      <Issues row={r} />
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -256,13 +335,18 @@ function ImportFlow({ replacing, onClose }: { replacing: ImportBatch | null; onC
                     <StatusBadge status={r.status} />
                   </div>
                   <p className="truncate font-medium">
-                    {r.display.service_date || "No date"} · {r.display.meal || "No meal"} · {r.display.menu || "No menu"}
+                    {r.display.service_date || "No date"} · {r.display.meal || "No meal"} ·{" "}
+                    {r.display.menu || "No menu"}
                   </p>
                   <p className="text-xs text-muted-foreground tabular-nums">
-                    Expected {r.display.expected_attendance || "—"} · Actual {r.display.actual_attendance || "—"} · Prepared{" "}
-                    {r.display.prepared_quantity || "—"} · Consumed {r.display.consumed_quantity || "—"}
+                    Expected {r.display.expected_attendance || "—"} · Actual{" "}
+                    {r.display.actual_attendance || "—"} · Prepared{" "}
+                    {r.display.prepared_quantity || "—"} · Consumed{" "}
+                    {r.display.consumed_quantity || "—"}
                   </p>
-                  <div className="text-xs"><Issues row={r} /></div>
+                  <div className="text-xs">
+                    <Issues row={r} />
+                  </div>
                 </li>
               ))}
             </ul>
@@ -280,34 +364,56 @@ function ImportFlow({ replacing, onClose }: { replacing: ImportBatch | null; onC
         ) : (
           <div className="grid gap-2 text-sm">
             <p className="flex items-center gap-2 font-medium">
-              <CheckCircle2 className="h-4 w-4 text-primary" /> Ready to import · no blocking errors found.
+              <CheckCircle2 className="h-4 w-4 text-primary" /> Ready to import · no blocking errors
+              found.
             </p>
             {replacing ? (
               <p className="text-muted-foreground">
-                Confirming removes the {replacing.currentCount.toLocaleString()} records from {replacing.fileName} and adds{" "}
-                {summary.total.toLocaleString()} new records. Manually added records are not affected.
+                Confirming removes the {replacing.currentCount.toLocaleString()} records from{" "}
+                {replacing.fileName} and adds {summary.total.toLocaleString()} new records. Manually
+                added records are not affected.
               </p>
             ) : null}
             {summary.warnings ? (
               <label className="flex items-start gap-2">
-                <Checkbox checked={acceptWarnings} onCheckedChange={(v) => setAcceptWarnings(v === true)} className="mt-0.5" />
+                <Checkbox
+                  checked={acceptWarnings}
+                  onCheckedChange={(v) => setAcceptWarnings(v === true)}
+                  className="mt-0.5"
+                />
                 <span>
-                  {summary.warnings} {summary.warnings === 1 ? "warning remains" : "warnings remain"}. I've reviewed{" "}
+                  {summary.warnings}{" "}
+                  {summary.warnings === 1 ? "warning remains" : "warnings remain"}. I've reviewed{" "}
                   {summary.warnings === 1 ? "it" : "them"} and the values are correct.
                 </span>
               </label>
             ) : null}
           </div>
         )}
-        {commitError ? <p role="alert" className="text-sm text-destructive">{commitError}</p> : null}
+        {commitError ? (
+          <p role="alert" className="text-sm text-destructive">
+            {commitError}
+          </p>
+        ) : null}
         <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-          <Button variant="outline" onClick={onClose} disabled={mutation.isPending}>Cancel import</Button>
-          <Button variant="outline" onClick={() => inputRef.current?.click()} disabled={mutation.isPending}>
+          <Button variant="outline" onClick={onClose} disabled={mutation.isPending}>
+            Cancel import
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => inputRef.current?.click()}
+            disabled={mutation.isPending}
+          >
             <Upload className="h-4 w-4" /> Upload another file
           </Button>
-          <Button disabled={blocked || needsAck || mutation.isPending} onClick={() => mutation.mutate(review)}>
+          <Button
+            disabled={blocked || needsAck || mutation.isPending}
+            onClick={() => mutation.mutate(review)}
+          >
             {mutation.isPending ? (
-              <><Loader2 className="h-4 w-4 animate-spin" /> Importing...</>
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" /> Importing...
+              </>
             ) : summary.warnings ? (
               "Confirm import with warnings"
             ) : replacing ? (
@@ -322,7 +428,15 @@ function ImportFlow({ replacing, onClose }: { replacing: ImportBatch | null; onC
   );
 }
 
-function Stat({ label, value, tone }: { label: string; value: number; tone?: "success" | "warning" | "error" }) {
+function Stat({
+  label,
+  value,
+  tone,
+}: {
+  label: string;
+  value: number;
+  tone?: "success" | "warning" | "error";
+}) {
   return (
     <div className="rounded-md border bg-card px-3 py-2">
       <dt className="text-xs text-muted-foreground">{label}</dt>
@@ -343,8 +457,16 @@ function Stat({ label, value, tone }: { label: string; value: number; tone?: "su
 function StatusBadge({ status }: { status: ValidatedRow["status"] }) {
   if (status === "error") return <Badge variant="destructive">Error</Badge>;
   if (status === "warning")
-    return <Badge className="border-warning/40 bg-warning/20 text-warning-foreground hover:bg-warning/20">Warning</Badge>;
-  return <Badge variant="outline" className="text-primary">Valid</Badge>;
+    return (
+      <Badge className="border-warning/40 bg-warning/20 text-warning-foreground hover:bg-warning/20">
+        Warning
+      </Badge>
+    );
+  return (
+    <Badge variant="outline" className="text-primary">
+      Valid
+    </Badge>
+  );
 }
 
 function Issues({ row }: { row: ValidatedRow }) {
@@ -352,7 +474,13 @@ function Issues({ row }: { row: ValidatedRow }) {
   return (
     <ul className="grid gap-0.5">
       {row.issues.map((i) => (
-        <li key={i.message} className={cn("flex gap-1.5", i.severity === "error" ? "text-destructive" : "text-warning-foreground")}>
+        <li
+          key={i.message}
+          className={cn(
+            "flex gap-1.5",
+            i.severity === "error" ? "text-destructive" : "text-warning-foreground",
+          )}
+        >
           {i.severity === "warning" ? <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0" /> : null}
           {i.message}
         </li>
@@ -385,24 +513,33 @@ export function ImportsPanel({ onReplace }: { onReplace: (b: ImportBatch) => voi
     return q.isError ? (
       <p className="flex items-center gap-2 text-sm text-destructive">
         Unable to load imports.
-        <Button variant="outline" size="sm" onClick={() => q.refetch()}>Retry</Button>
+        <Button variant="outline" size="sm" onClick={() => q.refetch()}>
+          Retry
+        </Button>
       </p>
     ) : null;
   }
 
   return (
     <section aria-label="Imports" className="rounded-md border bg-card">
-      <h2 className="border-b px-4 py-2.5 text-sm font-semibold">{q.data.length === 1 ? "Current import" : "Current imports"}</h2>
+      <h2 className="border-b px-4 py-2.5 text-sm font-semibold">
+        {q.data.length === 1 ? "Current import" : "Current imports"}
+      </h2>
       <ul className="divide-y">
         {q.data.map((b) => (
-          <li key={b.id} className="flex flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+          <li
+            key={b.id}
+            className="flex flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
+          >
             <div className="flex min-w-0 items-center gap-3">
               <FileSpreadsheet className="h-4 w-4 shrink-0 text-primary" />
               <div className="min-w-0">
                 <p className="truncate text-sm font-medium">{b.fileName}</p>
                 <p className="text-xs text-muted-foreground">
                   Imported {fmtDateTime(b.importedAt)} · {b.currentCount.toLocaleString()} records
-                  {b.currentCount !== b.importedCount ? ` (${b.importedCount.toLocaleString()} imported)` : ""}
+                  {b.currentCount !== b.importedCount
+                    ? ` (${b.importedCount.toLocaleString()} imported)`
+                    : ""}
                 </p>
               </div>
             </div>
@@ -417,7 +554,10 @@ export function ImportsPanel({ onReplace }: { onReplace: (b: ImportBatch) => voi
           </li>
         ))}
       </ul>
-      <AlertDialog open={removing !== null} onOpenChange={(o) => !o && !mutation.isPending && setRemoving(null)}>
+      <AlertDialog
+        open={removing !== null}
+        onOpenChange={(o) => !o && !mutation.isPending && setRemoving(null)}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Remove this import?</AlertDialogTitle>

@@ -69,7 +69,12 @@ export type ValidatedRow = {
 
 /** Normalise a header cell: "Service_Date *" → "service_date". */
 export const normaliseHeader = (h: string) =>
-  h.trim().replace(/\s*\*\s*$/, "").trim().toLowerCase().replace(/\s+/g, "_");
+  h
+    .trim()
+    .replace(/\s*\*\s*$/, "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "_");
 
 const text = (v: Cell) => (v === null || v === undefined ? "" : String(v).trim());
 
@@ -88,7 +93,8 @@ function parseDate(v: Cell, today: string): { value?: string; error?: string } {
 
 function parseCount(v: Cell, f: ImportField): { value?: number | null; error?: string } {
   const s = text(v);
-  if (!s) return requiredFields.has(f) ? { error: `${fieldLabel[f]} is missing.` } : { value: null };
+  if (!s)
+    return requiredFields.has(f) ? { error: `${fieldLabel[f]} is missing.` } : { value: null };
   if (!/^\d+$/.test(s)) {
     return {
       error: /^-/.test(s)
@@ -110,10 +116,9 @@ export function validateRows(rows: RawRow[], existing: Set<string>, today: strin
   return rows.map(({ row, cells }) => {
     const issues: RowIssue[] = [];
     const err = (message: string) => issues.push({ severity: "error", message });
-    const display = Object.fromEntries(importFields.map((f) => [f, text(cells[f] ?? null)])) as Record<
-      ImportField,
-      string
-    >;
+    const display = Object.fromEntries(
+      importFields.map((f) => [f, text(cells[f] ?? null)]),
+    ) as Record<ImportField, string>;
 
     const date = parseDate(cells.service_date ?? null, today);
     if (date.error) err(date.error);
@@ -121,7 +126,8 @@ export function validateRows(rows: RawRow[], existing: Set<string>, today: strin
     const mealText = display.meal.toLowerCase() as keyof typeof mealMap;
     const meal = mealMap[mealText];
     if (!display.meal) err("Meal is missing.");
-    else if (!meal) err(`Meal "${display.meal.slice(0, 30)}" is not allowed. Use Breakfast, Lunch or Dinner.`);
+    else if (!meal)
+      err(`Meal "${display.meal.slice(0, 30)}" is not allowed. Use Breakfast, Lunch or Dinner.`);
 
     const menu = display.menu;
     if (!menu) err("Menu is missing.");
@@ -176,14 +182,19 @@ export function validateRows(rows: RawRow[], existing: Set<string>, today: strin
 }
 
 /** Structural checks on the header row. Returns column index per field or blocking errors. */
-export function mapHeaders(headers: string[]): { columns?: Record<ImportField, number>; errors: string[] } {
+export function mapHeaders(headers: string[]): {
+  columns?: Record<ImportField, number>;
+  errors: string[];
+} {
   const errors: string[] = [];
   const columns: Partial<Record<ImportField, number>> = {};
   headers.forEach((raw, i) => {
     if (!raw.trim()) return;
     const key = normaliseHeader(raw) as ImportField;
     if (!importFields.includes(key)) {
-      errors.push(`Unexpected column "${raw.trim().slice(0, 40)}". Use the columns from the ServeWise template.`);
+      errors.push(
+        `Unexpected column "${raw.trim().slice(0, 40)}". Use the columns from the ServeWise template.`,
+      );
     } else if (columns[key] !== undefined) {
       errors.push(`Column "${key}" appears more than once.`);
     } else columns[key] = i;

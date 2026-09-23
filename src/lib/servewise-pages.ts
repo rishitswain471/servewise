@@ -1,7 +1,6 @@
 import {
   BarChart3,
   CalendarDays,
-  ClipboardCheck,
   HeartHandshake,
   Leaf,
   ListChecks,
@@ -97,12 +96,12 @@ export const serveWisePages = {
     ],
     table: {
       caption: "Recent operational activity",
-      description: "Sample entries showing how kitchen updates will be organized.",
+      description: "Today’s activity for Demo Kitchen Group.",
       columns: ["Time", "Area", "Update", "Status"],
       rows: [
-        ["08:00", "Service Day", "Lunch service opened", "Sample"],
-        ["08:15", "Menu", "Lunch menu reviewed", "Sample"],
-        ["08:30", "Attendance", "Attendance input requested", "Sample"],
+        ["08:00", "Service Day", "Lunch service opened", "Demo"],
+        ["08:15", "Menu", "Lunch menu reviewed", "Demo"],
+        ["08:30", "Attendance", "Attendance input requested", "Demo"],
       ],
     },
   },
@@ -144,7 +143,7 @@ export const serveWisePages = {
     subtitle: "Organize menus, consumption records, and historical meal patterns.",
     mode: "standard",
     metrics: [
-      { label: "Menu records", value: "3 samples", caption: "Lunch and breakfast", tone: "info" },
+      { label: "Menu records", value: "3 demo", caption: "Lunch and breakfast", tone: "info" },
       { label: "Consumption records", value: "None", caption: "No records connected" },
       {
         label: "Historical patterns",
@@ -176,9 +175,9 @@ export const serveWisePages = {
       description: "Example records for Demo Kitchen Group.",
       columns: ["Menu item", "Service", "Portion", "Record type"],
       rows: [
-        ["Rice meal set", "Lunch", "Standard", "Sample"],
-        ["Vegetable curry", "Lunch", "Standard", "Sample"],
-        ["Breakfast idli", "Breakfast", "Standard", "Sample"],
+        ["Rice meal set", "Lunch", "Standard", "Demo"],
+        ["Vegetable curry", "Lunch", "Standard", "Demo"],
+        ["Breakfast idli", "Breakfast", "Standard", "Demo"],
       ],
     },
   },
@@ -260,7 +259,7 @@ export const serveWisePages = {
     subtitle: "Manage recipient organizations, available capacity, and pickup coordination.",
     mode: "standard",
     metrics: [
-      { label: "Organizations", value: "3 samples", caption: "Directory preview", tone: "info" },
+      { label: "Organizations", value: "3 demo", caption: "Recipient directory", tone: "info" },
       { label: "Available today", value: "Unknown", caption: "No availability updates" },
       { label: "Active offers", value: "0", caption: "No offers in progress" },
       { label: "Scheduled pickups", value: "0", caption: "No pickups today" },
@@ -290,9 +289,9 @@ export const serveWisePages = {
       description: "Example organizations for Demo Kitchen Group.",
       columns: ["Recipient", "Capacity", "Pickup window", "Record type"],
       rows: [
-        ["Community kitchen", "Not set", "Not set", "Sample"],
-        ["Shelter partner", "Not set", "Not set", "Sample"],
-        ["Student support group", "Not set", "Not set", "Sample"],
+        ["Community kitchen", "Not set", "Not set", "Demo"],
+        ["Shelter partner", "Not set", "Not set", "Demo"],
+        ["Student support group", "Not set", "Not set", "Demo"],
       ],
     },
   },

@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { RouteError } from "@/components/servewise/route-error";
-import { createFileRoute, redirect, useNavigate, useRouter } from "@tanstack/react-router";
+import { createFileRoute, Navigate, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 
 import { Button } from "@/components/ui/button";
@@ -28,20 +28,25 @@ export const Route = createFileRoute("/_authenticated/onboarding")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  beforeLoad: async () => {
-    const workspace = await getMyWorkspace();
-    if (workspace.memberships.length > 0) throw redirect({ to: "/dashboard" });
-  },
+  beforeLoad: async () => ({ workspace: await getMyWorkspace() }),
   errorComponent: RouteError,
   component: OnboardingPage,
 });
 
 function OnboardingPage() {
+  const { workspace } = Route.useRouteContext();
+  const active = workspace.memberships[0];
+  if (active) {
+    return <Navigate to={active.organizationType === "ngo" ? "/ngo" : "/dashboard"} replace />;
+  }
+  return <OnboardingForm />;
+}
+
+function OnboardingForm() {
   const navigate = useNavigate();
-  const router = useRouter();
   const create = useServerFn(createOrganization);
   const [name, setName] = useState("");
-  const [type, setType] = useState<"kitchen" | "recipient" | "">("");
+  const [type, setType] = useState<"kitchen" | "ngo" | "">("");
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
@@ -56,8 +61,7 @@ function OnboardingPage() {
     try {
       const result = await create({ data: { name: parsed.data, type: parsedType.data } });
       if (!result.ok) return setError(result.error);
-      await router.invalidate();
-      navigate({ to: "/dashboard", replace: true });
+      navigate({ to: result.type === "ngo" ? "/ngo" : "/dashboard", replace: true });
     } catch {
       setError("Network problem. Please check your connection and try again.");
     } finally {
@@ -92,7 +96,7 @@ function OnboardingPage() {
               {(
                 [
                   ["kitchen", "Kitchen / Food Service", "Plans meals and manages surplus."],
-                  ["recipient", "NGO / Recipient Organization", "Receives redistributed food."],
+                  ["ngo", "NGO / Recipient Organization", "Receives redistributed food."],
                 ] as const
               ).map(([value, label, hint]) => (
                 <label

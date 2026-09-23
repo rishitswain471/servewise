@@ -9,16 +9,23 @@ export const orgNameSchema = z
   .min(2, "Organization name must be at least 2 characters.")
   .max(120, "Organization name must be 120 characters or fewer.");
 
-export const orgTypeSchema = z.enum(["kitchen", "recipient"], {
+export const orgTypeSchema = z.enum(["kitchen", "ngo"], {
   message: "Choose an organization type.",
 });
 
 const roleSchema = z.enum(["admin", "member"]);
 
+export type OrgType = z.infer<typeof orgTypeSchema>;
+
 export type Workspace = {
   userId: string;
   email: string | null;
-  memberships: { organizationId: string; organizationName: string; role: "admin" | "member" }[];
+  memberships: {
+    organizationId: string;
+    organizationName: string;
+    organizationType: OrgType;
+    role: "admin" | "member";
+  }[];
 };
 
 // Returns the signed-in user's memberships. Identity comes only from the verified bearer token.
@@ -28,7 +35,7 @@ export const getMyWorkspace = createServerFn({ method: "GET" })
     const { supabase, userId, claims } = context;
     const { data, error } = await supabase
       .from("organization_members")
-      .select("role, organization:organizations(id, name)")
+      .select("role, organization:organizations(id, name, org_type)")
       .eq("user_id", userId)
       .order("created_at", { ascending: true });
     if (error) {
@@ -36,10 +43,18 @@ export const getMyWorkspace = createServerFn({ method: "GET" })
       throw new Error("We couldn't load your organization. Please try again.");
     }
     const memberships = (data ?? []).flatMap((row) => {
-      const org = row.organization as { id: string; name: string } | null;
+      const org = row.organization as { id: string; name: string; org_type: string } | null;
       const role = roleSchema.safeParse(row.role);
-      if (!org || !role.success) return [];
-      return [{ organizationId: org.id, organizationName: org.name, role: role.data }];
+      const type = orgTypeSchema.safeParse(org?.org_type);
+      if (!org || !role.success || !type.success) return [];
+      return [
+        {
+          organizationId: org.id,
+          organizationName: org.name,
+          organizationType: type.data,
+          role: role.data,
+        },
+      ];
     });
     return {
       userId,
@@ -71,7 +86,7 @@ export const createOrganization = createServerFn({ method: "POST" })
         error: "We couldn't create the organization. Please try again.",
       };
     }
-    return { ok: true as const, id: id as string };
+    return { ok: true as const, id: id as string, type: data.type };
   });
 
 // Fetch one organization by ID. Row-level security decides access, so another

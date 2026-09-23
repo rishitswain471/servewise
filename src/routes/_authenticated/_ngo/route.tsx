@@ -1,29 +1,29 @@
-import { RouteError } from "@/components/servewise/route-error";
 import { createFileRoute, Navigate, Outlet } from "@tanstack/react-router";
 
 import { AppShell } from "@/components/servewise/app-shell";
+import { RouteError } from "@/components/servewise/route-error";
 import { getMyWorkspace } from "@/lib/org.functions";
 
-export const Route = createFileRoute("/_authenticated/_org")({
+export const Route = createFileRoute("/_authenticated/_ngo")({
   // Redirects happen in the component: throwing redirect() from this layout's
   // beforeLoad during client navigation leaves the match in a broken state.
   beforeLoad: async () => ({ workspace: await getMyWorkspace() }),
   errorComponent: RouteError,
-  component: OrgLayout,
+  component: NgoLayout,
 });
 
-function OrgLayout() {
+function NgoLayout() {
   const { workspace } = Route.useRouteContext();
   const activeMembership = workspace.memberships[0];
   if (!activeMembership) return <Navigate to="/onboarding" replace />;
   // Organization type comes from the verified backend record, never from the URL.
-  if (activeMembership.organizationType !== "kitchen") return <Navigate to="/ngo" replace />;
+  if (activeMembership.organizationType !== "ngo") return <Navigate to="/dashboard" replace />;
   return (
     <AppShell
       email={workspace.email}
       organizationName={activeMembership.organizationName}
       role={activeMembership.role}
-      variant="kitchen"
+      variant="ngo"
     >
       <Outlet />
     </AppShell>

@@ -35,7 +35,8 @@ import { Toaster } from "@/components/ui/sonner";
 import {
   getRouteJourney,
   getRouteLabel,
-  groupedServeWiseNavItems,
+  getNavGroups,
+  type ShellVariant,
   ServeWiseMark,
 } from "@/lib/servewise-navigation";
 
@@ -43,6 +44,7 @@ type ShellContext = {
   email: string | null;
   organizationName: string;
   role: "admin" | "member";
+  variant: ShellVariant;
 };
 
 type AppShellProps = ShellContext & {
@@ -68,7 +70,7 @@ export function AppShell({ children, ...ctx }: AppShellProps) {
   );
 }
 
-function AppSidebar({ email, organizationName, role }: ShellContext) {
+function AppSidebar({ email, organizationName, role, variant }: ShellContext) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const { setOpenMobile } = useSidebar();
 
@@ -80,7 +82,7 @@ function AppSidebar({ email, organizationName, role }: ShellContext) {
     <Sidebar collapsible="none" className="border-r border-sidebar-border">
       <SidebarHeader className="gap-3 border-b border-sidebar-border p-3">
         <Link
-          to="/dashboard"
+          to={variant === "ngo" ? "/ngo" : "/dashboard"}
           className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-center gap-3 rounded-md p-1 transition-colors hover:bg-sidebar-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring"
           onClick={() => setOpenMobile(false)}
         >
@@ -92,14 +94,14 @@ function AppSidebar({ email, organizationName, role }: ShellContext) {
               ServeWise
             </span>
             <span className="block truncate text-xs text-sidebar-foreground/65">
-              Meal operations
+              {variant === "ngo" ? "Food recovery" : "Meal operations"}
             </span>
           </span>
         </Link>
         <div className="rounded-md border border-sidebar-border bg-sidebar-accent/55 px-3 py-2.5">
           <div className="flex items-center gap-2 text-xs font-medium text-sidebar-foreground/70">
             <Building2 className="h-3.5 w-3.5" />
-            Kitchen context
+            {variant === "ngo" ? "Recipient organization" : "Kitchen context"}
           </div>
           <p className="mt-1 truncate text-sm font-semibold text-sidebar-foreground">
             {organizationName}
@@ -110,15 +112,15 @@ function AppSidebar({ email, organizationName, role }: ShellContext) {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        {Object.entries(groupedServeWiseNavItems).map(([group, items]) => (
+        {Object.entries(getNavGroups(variant)).map(([group, items]) => (
           <SidebarGroup key={group} className="px-3 py-2">
             <SidebarGroupLabel>{group}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {items.map((item) => {
+                {(items ?? []).map((item) => {
                   const Icon = item.icon;
                   const isActive =
-                    pathname === item.href || (pathname === "/" && item.href === "/dashboard");
+                    (pathname.length > 1 ? pathname.replace(/\/$/, "") : pathname) === item.href;
 
                   return (
                     <SidebarMenuItem key={item.href}>
@@ -161,7 +163,7 @@ function AppSidebar({ email, organizationName, role }: ShellContext) {
   );
 }
 
-function AppHeader({ email, organizationName, role }: ShellContext) {
+function AppHeader({ email, organizationName, role, variant }: ShellContext) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   async function handleSignOut() {
@@ -198,7 +200,10 @@ function AppHeader({ email, organizationName, role }: ShellContext) {
             className="flex min-w-0 items-center gap-1 text-xs text-muted-foreground"
             aria-label="Breadcrumb"
           >
-            <Link to="/dashboard" className="truncate hover:text-foreground">
+            <Link
+              to={variant === "ngo" ? "/ngo" : "/dashboard"}
+              className="truncate hover:text-foreground"
+            >
               ServeWise
             </Link>
             <span aria-hidden="true">/</span>
@@ -233,10 +238,7 @@ function AppHeader({ email, organizationName, role }: ShellContext) {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Link to="/settings">Operator profile</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to="/settings">Kitchen settings</Link>
+                <Link to={variant === "ngo" ? "/ngo/settings" : "/settings"}>Settings</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onSelect={handleSignOut}>

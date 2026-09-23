@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedNgoRouteRouteImport } from './routes/_authenticated/_ngo/route'
 import { Route as AuthenticatedOrgRouteRouteImport } from './routes/_authenticated/_org/route'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedOrgCopilotRouteImport } from './routes/_authenticated/_org/copilot'
@@ -24,6 +25,11 @@ import { Route as AuthenticatedOrgSafetyRouteImport } from './routes/_authentica
 import { Route as AuthenticatedOrgServiceDayRouteImport } from './routes/_authenticated/_org/service-day'
 import { Route as AuthenticatedOrgSettingsRouteImport } from './routes/_authenticated/_org/settings'
 import { Route as AuthenticatedOrgSurplusRouteImport } from './routes/_authenticated/_org/surplus'
+import { Route as AuthenticatedNgoNgoIndexRouteImport } from './routes/_authenticated/_ngo/ngo/index'
+import { Route as AuthenticatedNgoNgoImpactRouteImport } from './routes/_authenticated/_ngo/ngo/impact'
+import { Route as AuthenticatedNgoNgoOffersRouteImport } from './routes/_authenticated/_ngo/ngo/offers'
+import { Route as AuthenticatedNgoNgoPickupsRouteImport } from './routes/_authenticated/_ngo/ngo/pickups'
+import { Route as AuthenticatedNgoNgoSettingsRouteImport } from './routes/_authenticated/_ngo/ngo/settings'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -38,6 +44,10 @@ const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedNgoRouteRoute = AuthenticatedNgoRouteRouteImport.update({
+  id: '/_ngo',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedOrgRouteRoute = AuthenticatedOrgRouteRouteImport.update({
   id: '/_org',
@@ -102,6 +112,36 @@ const AuthenticatedOrgSurplusRoute = AuthenticatedOrgSurplusRouteImport.update({
   path: '/surplus',
   getParentRoute: () => AuthenticatedOrgRouteRoute,
 } as any)
+const AuthenticatedNgoNgoIndexRoute =
+  AuthenticatedNgoNgoIndexRouteImport.update({
+    id: '/ngo/',
+    path: '/ngo/',
+    getParentRoute: () => AuthenticatedNgoRouteRoute,
+  } as any)
+const AuthenticatedNgoNgoImpactRoute =
+  AuthenticatedNgoNgoImpactRouteImport.update({
+    id: '/ngo/impact',
+    path: '/ngo/impact',
+    getParentRoute: () => AuthenticatedNgoRouteRoute,
+  } as any)
+const AuthenticatedNgoNgoOffersRoute =
+  AuthenticatedNgoNgoOffersRouteImport.update({
+    id: '/ngo/offers',
+    path: '/ngo/offers',
+    getParentRoute: () => AuthenticatedNgoRouteRoute,
+  } as any)
+const AuthenticatedNgoNgoPickupsRoute =
+  AuthenticatedNgoNgoPickupsRouteImport.update({
+    id: '/ngo/pickups',
+    path: '/ngo/pickups',
+    getParentRoute: () => AuthenticatedNgoRouteRoute,
+  } as any)
+const AuthenticatedNgoNgoSettingsRoute =
+  AuthenticatedNgoNgoSettingsRouteImport.update({
+    id: '/ngo/settings',
+    path: '/ngo/settings',
+    getParentRoute: () => AuthenticatedNgoRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -117,6 +157,11 @@ export interface FileRoutesByFullPath {
   '/service-day': typeof AuthenticatedOrgServiceDayRoute
   '/settings': typeof AuthenticatedOrgSettingsRoute
   '/surplus': typeof AuthenticatedOrgSurplusRoute
+  '/ngo/impact': typeof AuthenticatedNgoNgoImpactRoute
+  '/ngo/offers': typeof AuthenticatedNgoNgoOffersRoute
+  '/ngo/pickups': typeof AuthenticatedNgoNgoPickupsRoute
+  '/ngo/settings': typeof AuthenticatedNgoNgoSettingsRoute
+  '/ngo/': typeof AuthenticatedNgoNgoIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -132,12 +177,18 @@ export interface FileRoutesByTo {
   '/service-day': typeof AuthenticatedOrgServiceDayRoute
   '/settings': typeof AuthenticatedOrgSettingsRoute
   '/surplus': typeof AuthenticatedOrgSurplusRoute
+  '/ngo/impact': typeof AuthenticatedNgoNgoImpactRoute
+  '/ngo/offers': typeof AuthenticatedNgoNgoOffersRoute
+  '/ngo/pickups': typeof AuthenticatedNgoNgoPickupsRoute
+  '/ngo/settings': typeof AuthenticatedNgoNgoSettingsRoute
+  '/ngo': typeof AuthenticatedNgoNgoIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/_authenticated/_ngo': typeof AuthenticatedNgoRouteRouteWithChildren
   '/_authenticated/_org': typeof AuthenticatedOrgRouteRouteWithChildren
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/_org/copilot': typeof AuthenticatedOrgCopilotRoute
@@ -150,6 +201,11 @@ export interface FileRoutesById {
   '/_authenticated/_org/service-day': typeof AuthenticatedOrgServiceDayRoute
   '/_authenticated/_org/settings': typeof AuthenticatedOrgSettingsRoute
   '/_authenticated/_org/surplus': typeof AuthenticatedOrgSurplusRoute
+  '/_authenticated/_ngo/ngo/impact': typeof AuthenticatedNgoNgoImpactRoute
+  '/_authenticated/_ngo/ngo/offers': typeof AuthenticatedNgoNgoOffersRoute
+  '/_authenticated/_ngo/ngo/pickups': typeof AuthenticatedNgoNgoPickupsRoute
+  '/_authenticated/_ngo/ngo/settings': typeof AuthenticatedNgoNgoSettingsRoute
+  '/_authenticated/_ngo/ngo/': typeof AuthenticatedNgoNgoIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -167,6 +223,11 @@ export interface FileRouteTypes {
     | '/service-day'
     | '/settings'
     | '/surplus'
+    | '/ngo/impact'
+    | '/ngo/offers'
+    | '/ngo/pickups'
+    | '/ngo/settings'
+    | '/ngo/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -182,11 +243,17 @@ export interface FileRouteTypes {
     | '/service-day'
     | '/settings'
     | '/surplus'
+    | '/ngo/impact'
+    | '/ngo/offers'
+    | '/ngo/pickups'
+    | '/ngo/settings'
+    | '/ngo'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/_authenticated/_ngo'
     | '/_authenticated/_org'
     | '/_authenticated/onboarding'
     | '/_authenticated/_org/copilot'
@@ -199,6 +266,11 @@ export interface FileRouteTypes {
     | '/_authenticated/_org/service-day'
     | '/_authenticated/_org/settings'
     | '/_authenticated/_org/surplus'
+    | '/_authenticated/_ngo/ngo/impact'
+    | '/_authenticated/_ngo/ngo/offers'
+    | '/_authenticated/_ngo/ngo/pickups'
+    | '/_authenticated/_ngo/ngo/settings'
+    | '/_authenticated/_ngo/ngo/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -229,6 +301,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/_ngo': {
+      id: '/_authenticated/_ngo'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedNgoRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/_org': {
       id: '/_authenticated/_org'
@@ -314,8 +393,64 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOrgSurplusRouteImport
       parentRoute: typeof AuthenticatedOrgRouteRoute
     }
+    '/_authenticated/_ngo/ngo/': {
+      id: '/_authenticated/_ngo/ngo/'
+      path: '/ngo'
+      fullPath: '/ngo/'
+      preLoaderRoute: typeof AuthenticatedNgoNgoIndexRouteImport
+      parentRoute: typeof AuthenticatedNgoRouteRoute
+    }
+    '/_authenticated/_ngo/ngo/impact': {
+      id: '/_authenticated/_ngo/ngo/impact'
+      path: '/ngo/impact'
+      fullPath: '/ngo/impact'
+      preLoaderRoute: typeof AuthenticatedNgoNgoImpactRouteImport
+      parentRoute: typeof AuthenticatedNgoRouteRoute
+    }
+    '/_authenticated/_ngo/ngo/offers': {
+      id: '/_authenticated/_ngo/ngo/offers'
+      path: '/ngo/offers'
+      fullPath: '/ngo/offers'
+      preLoaderRoute: typeof AuthenticatedNgoNgoOffersRouteImport
+      parentRoute: typeof AuthenticatedNgoRouteRoute
+    }
+    '/_authenticated/_ngo/ngo/pickups': {
+      id: '/_authenticated/_ngo/ngo/pickups'
+      path: '/ngo/pickups'
+      fullPath: '/ngo/pickups'
+      preLoaderRoute: typeof AuthenticatedNgoNgoPickupsRouteImport
+      parentRoute: typeof AuthenticatedNgoRouteRoute
+    }
+    '/_authenticated/_ngo/ngo/settings': {
+      id: '/_authenticated/_ngo/ngo/settings'
+      path: '/ngo/settings'
+      fullPath: '/ngo/settings'
+      preLoaderRoute: typeof AuthenticatedNgoNgoSettingsRouteImport
+      parentRoute: typeof AuthenticatedNgoRouteRoute
+    }
   }
 }
+
+interface AuthenticatedNgoRouteRouteChildren {
+  AuthenticatedNgoNgoImpactRoute: typeof AuthenticatedNgoNgoImpactRoute
+  AuthenticatedNgoNgoOffersRoute: typeof AuthenticatedNgoNgoOffersRoute
+  AuthenticatedNgoNgoPickupsRoute: typeof AuthenticatedNgoNgoPickupsRoute
+  AuthenticatedNgoNgoSettingsRoute: typeof AuthenticatedNgoNgoSettingsRoute
+  AuthenticatedNgoNgoIndexRoute: typeof AuthenticatedNgoNgoIndexRoute
+}
+
+const AuthenticatedNgoRouteRouteChildren: AuthenticatedNgoRouteRouteChildren = {
+  AuthenticatedNgoNgoImpactRoute: AuthenticatedNgoNgoImpactRoute,
+  AuthenticatedNgoNgoOffersRoute: AuthenticatedNgoNgoOffersRoute,
+  AuthenticatedNgoNgoPickupsRoute: AuthenticatedNgoNgoPickupsRoute,
+  AuthenticatedNgoNgoSettingsRoute: AuthenticatedNgoNgoSettingsRoute,
+  AuthenticatedNgoNgoIndexRoute: AuthenticatedNgoNgoIndexRoute,
+}
+
+const AuthenticatedNgoRouteRouteWithChildren =
+  AuthenticatedNgoRouteRoute._addFileChildren(
+    AuthenticatedNgoRouteRouteChildren,
+  )
 
 interface AuthenticatedOrgRouteRouteChildren {
   AuthenticatedOrgCopilotRoute: typeof AuthenticatedOrgCopilotRoute
@@ -349,11 +484,13 @@ const AuthenticatedOrgRouteRouteWithChildren =
   )
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedNgoRouteRoute: typeof AuthenticatedNgoRouteRouteWithChildren
   AuthenticatedOrgRouteRoute: typeof AuthenticatedOrgRouteRouteWithChildren
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedNgoRouteRoute: AuthenticatedNgoRouteRouteWithChildren,
   AuthenticatedOrgRouteRoute: AuthenticatedOrgRouteRouteWithChildren,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
 }

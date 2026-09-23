@@ -10,6 +10,7 @@ import {
   ShieldCheck,
   Soup,
   Sprout,
+  Truck,
   Utensils,
   UsersRound,
 } from "lucide-react";
@@ -24,10 +25,17 @@ export type ServeWiseRoute =
   | "/recipients"
   | "/impact"
   | "/copilot"
-  | "/settings";
+  | "/settings"
+  | "/ngo"
+  | "/ngo/offers"
+  | "/ngo/pickups"
+  | "/ngo/impact"
+  | "/ngo/settings";
+
+export type ShellVariant = "kitchen" | "ngo";
 
 export type ServeWiseNavGroup =
-  "Today" | "Plan" | "Operate" | "Rescue" | "Impact" | "Intelligence" | "System";
+  "Today" | "Plan" | "Operate" | "Rescue" | "Receive" | "Impact" | "Intelligence" | "System";
 
 export type ServeWiseNavItem = {
   title: string;
@@ -115,27 +123,77 @@ const groupOrder: ServeWiseNavGroup[] = [
   "Plan",
   "Operate",
   "Rescue",
+  "Receive",
   "Impact",
   "Intelligence",
   "System",
 ];
 
-export const groupedServeWiseNavItems = groupOrder.reduce(
-  (groups, group) => ({
-    ...groups,
-    [group]: serveWiseNavItems.filter((item) => item.group === group),
-  }),
-  {} as Record<ServeWiseNavGroup, ServeWiseNavItem[]>,
-);
+export const ngoNavItems: ServeWiseNavItem[] = [
+  {
+    title: "Dashboard",
+    href: "/ngo",
+    icon: CalendarClock,
+    description: "Recipient overview",
+    group: "Today",
+  },
+  {
+    title: "Available Surplus",
+    href: "/ngo/offers",
+    icon: HeartHandshake,
+    description: "Surplus offers from kitchens",
+    group: "Receive",
+  },
+  {
+    title: "Pickups",
+    href: "/ngo/pickups",
+    icon: Truck,
+    description: "Scheduled and completed pickups",
+    group: "Receive",
+  },
+  {
+    title: "Impact",
+    href: "/ngo/impact",
+    icon: Leaf,
+    description: "Food received and meals served",
+    group: "Impact",
+  },
+  {
+    title: "Settings",
+    href: "/ngo/settings",
+    icon: Settings,
+    description: "Organization and account",
+    group: "System",
+  },
+];
+
+function groupItems(items: ServeWiseNavItem[]) {
+  return groupOrder.reduce(
+    (groups, group) => {
+      const inGroup = items.filter((item) => item.group === group);
+      return inGroup.length ? { ...groups, [group]: inGroup } : groups;
+    },
+    {} as Partial<Record<ServeWiseNavGroup, ServeWiseNavItem[]>>,
+  );
+}
+
+export const groupedServeWiseNavItems = groupItems(serveWiseNavItems);
+const groupedNgoNavItems = groupItems(ngoNavItems);
+
+export function getNavGroups(variant: ShellVariant) {
+  return variant === "ngo" ? groupedNgoNavItems : groupedServeWiseNavItems;
+}
+
+const allNavItems = [...serveWiseNavItems, ...ngoNavItems];
 
 export function getRouteLabel(pathname: string) {
-  if (pathname === "/") return "Today’s Kitchen";
-  return serveWiseNavItems.find((item) => item.href === pathname)?.title ?? "Not found";
+  const path = pathname.length > 1 ? pathname.replace(/\/$/, "") : pathname;
+  return allNavItems.find((item) => item.href === path)?.title ?? "Not found";
 }
 
 export function getRouteJourney(pathname: string) {
-  if (pathname === "/") return "Today";
-  return serveWiseNavItems.find((item) => item.href === pathname)?.group ?? "Workspace";
+  const path = pathname.length > 1 ? pathname.replace(/\/$/, "") : pathname;
+  return allNavItems.find((item) => item.href === path)?.group ?? "Workspace";
 }
 
 export function ServeWiseLogo(props: SVGProps<SVGSVGElement>) {

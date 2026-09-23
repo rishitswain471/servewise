@@ -5,8 +5,8 @@ import { serveWiseHead } from "@/lib/servewise-pages";
 export const Route = createFileRoute("/")({
   head: () =>
     serveWiseHead(
-      "ServeWise App Foundation",
-      "ServeWise opens into the operational dashboard for institutional food-service demand and surplus management.",
+      "ServeWise Kitchen Operations",
+      "ServeWise opens into Today’s Kitchen for institutional food-service demand, preparation, surplus rescue, safety, and impact.",
     ),
   loader: () => {
     throw redirect({ to: "/dashboard" });

@@ -6,8 +6,8 @@ import { foundationPages, serveWiseHead } from "@/lib/servewise-pages";
 export const Route = createFileRoute("/dashboard")({
   head: () =>
     serveWiseHead(
-      "Dashboard",
-      "ServeWise dashboard foundation for daily food-service operations, demand, service, surplus, safety, and impact.",
+      "Today’s Kitchen",
+      "ServeWise command-center foundation for kitchen demand, preparation, service status, surplus rescue, safety, redistribution, and impact.",
     ),
   component: DashboardPage,
 });

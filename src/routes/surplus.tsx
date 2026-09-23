@@ -7,7 +7,7 @@ export const Route = createFileRoute("/surplus")({
   head: () =>
     serveWiseHead(
       "Surplus Rescue",
-      "ServeWise surplus rescue foundation for future batch management, offers, and pickup tracking.",
+      "ServeWise surplus rescue foundation for usable surplus capture, recipient offers, and pickup tracking.",
     ),
   component: SurplusPage,
 });

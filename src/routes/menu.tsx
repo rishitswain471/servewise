@@ -6,8 +6,8 @@ import { foundationPages, serveWiseHead } from "@/lib/servewise-pages";
 export const Route = createFileRoute("/menu")({
   head: () =>
     serveWiseHead(
-      "Menu and Consumption",
-      "ServeWise menu and consumption workspace foundation for future institutional kitchen analysis.",
+      "Menu & Consumption",
+      "ServeWise kitchen-records foundation for menus, portions, preparation, and historical consumption.",
     ),
   component: MenuPage,
 });

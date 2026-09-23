@@ -7,7 +7,7 @@ export const Route = createFileRoute("/copilot")({
   head: () =>
     serveWiseHead(
       "ServeWise Copilot",
-      "ServeWise Copilot chat foundation only, with no AI integration or generated responses in C1.",
+      "ServeWise food-service explanation assistant foundation only, with no AI integration or generated responses in C1.",
     ),
   component: CopilotPage,
 });

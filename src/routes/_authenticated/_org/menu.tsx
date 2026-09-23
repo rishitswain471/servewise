@@ -1,17 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { ProductPage } from "@/components/servewise/page";
-import { serveWisePages, serveWiseHead } from "@/lib/servewise-pages";
+import { ServiceRecordsWorkspace } from "@/components/servewise/service-records";
+import { serveWiseHead } from "@/lib/servewise-pages";
 
 export const Route = createFileRoute("/_authenticated/_org/menu")({
   head: () =>
     serveWiseHead(
       "Menu & Consumption",
-      "Organize menus, consumption records, and historical meal patterns in ServeWise.",
+      "Record and correct menus, attendance, and prepared and consumed meals for each service.",
     ),
   component: MenuPage,
 });
 
 function MenuPage() {
-  return <ProductPage config={serveWisePages.menu} />;
+  return <ServiceRecordsWorkspace />;
 }

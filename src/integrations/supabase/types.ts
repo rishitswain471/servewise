@@ -79,6 +79,41 @@ export type Database = {
           },
         ]
       }
+      impact_assumptions: {
+        Row: {
+          co2e_kg_per_meal: number
+          financial_per_meal: number
+          organization_id: string
+          social_per_meal: number
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          co2e_kg_per_meal?: number
+          financial_per_meal?: number
+          organization_id: string
+          social_per_meal?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          co2e_kg_per_meal?: number
+          financial_per_meal?: number
+          organization_id?: string
+          social_per_meal?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "impact_assumptions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: true
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       import_batches: {
         Row: {
           closed_at: string | null

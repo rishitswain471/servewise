@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { loadAssumptions } from "@/lib/impact-assumptions.functions";
 
 // Read-only. Every query is scoped to the kitchen resolved from the session;
 // RLS (is_kitchen_admin) is the enforcing boundary.
@@ -28,7 +29,9 @@ export const getImpactData = createServerFn({ method: "GET" })
     ]);
     const e = s.error ?? b.error ?? v.error ?? o.error ?? f.error;
     if (e) { console.error("getImpactData failed", e); throw new Error("Unable to load impact data."); }
+    const assumptions = await loadAssumptions(sb, orgId);
     return {
+      assumptions,
       services: s.data ?? [], batches: b.data ?? [], verifications: v.data ?? [],
       offers: o.data ?? [], forecasts: f.data ?? [],
     };

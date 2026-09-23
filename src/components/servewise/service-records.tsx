@@ -1,10 +1,12 @@
 import { useMutation, useQuery, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { AlertTriangle, ClipboardList, Pencil, Plus, Trash2 } from "lucide-react";
+import { AlertTriangle, ClipboardList, Download, FileUp, Loader2, Pencil, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { ImportDialog, ImportsPanel, invalidateOperationalData } from "@/components/servewise/import-workflow";
 import { EmptyState, LoadingState } from "@/components/servewise/page";
+import { Badge } from "@/components/ui/badge";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -51,8 +53,10 @@ import {
   updateServiceRecord,
   type MealPeriod,
   type RecordFilters,
+  type ImportBatch,
   type ServiceRecord,
 } from "@/lib/records.functions";
+import { downloadTemplate } from "@/lib/workbook";
 
 export const mealLabel: Record<MealPeriod, string> = {
   breakfast: "Breakfast",
@@ -76,6 +80,18 @@ export function ServiceRecordsWorkspace() {
   const [filters, setFilters] = useState<RecordFilters>({ page: 0 });
   const [editing, setEditing] = useState<ServiceRecord | "new" | null>(null);
   const [deleting, setDeleting] = useState<ServiceRecord | null>(null);
+  const [importing, setImporting] = useState<{ replacing: ImportBatch | null } | null>(null);
+  const [downloading, setDownloading] = useState(false);
+  const onDownload = async () => {
+    setDownloading(true);
+    try {
+      await downloadTemplate();
+    } catch {
+      toast.error("Unable to create the template. Please try again.");
+    } finally {
+      setDownloading(false);
+    }
+  };
   const list = useServerFn(listServiceRecords);
   const query = useQuery({
     queryKey: ["service-records", filters],
@@ -98,10 +114,20 @@ export function ServiceRecordsWorkspace() {
             correct entries when needed.
           </p>
         </div>
-        <Button onClick={() => setEditing("new")} className="self-start sm:self-auto">
-          <Plus className="h-4 w-4" /> Add operational data
-        </Button>
+        <div className="flex flex-wrap gap-2">
+          <Button variant="outline" onClick={onDownload} disabled={downloading}>
+            {downloading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />} Download template
+          </Button>
+          <Button variant="outline" onClick={() => setImporting({ replacing: null })}>
+            <FileUp className="h-4 w-4" /> Import Excel
+          </Button>
+          <Button onClick={() => setEditing("new")}>
+            <Plus className="h-4 w-4" /> Add record
+          </Button>
+        </div>
       </header>
+
+      <ImportsPanel onReplace={(b) => setImporting({ replacing: b })} />
 
       <section aria-label="Filters" className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="grid gap-1.5">
@@ -145,10 +171,15 @@ export function ServiceRecordsWorkspace() {
           <EmptyState icon={ClipboardList} title="No matching records" description="Try a different date range, meal or menu." />
         ) : (
           <div className="grid gap-3">
-            <EmptyState icon={ClipboardList} title="No operational data yet." description="Add your first meal service to start building your kitchen's history." />
-            <Button variant="outline" className="justify-self-center" onClick={() => setEditing("new")}>
-              <Plus className="h-4 w-4" /> Add operational data
-            </Button>
+            <EmptyState icon={ClipboardList} title="No operational data yet." description="Add a meal service, or import your history from the ServeWise Excel template." />
+            <div className="flex flex-wrap justify-center gap-2">
+              <Button variant="outline" onClick={() => setImporting({ replacing: null })}>
+                <FileUp className="h-4 w-4" /> Import Excel
+              </Button>
+              <Button variant="outline" onClick={() => setEditing("new")}>
+                <Plus className="h-4 w-4" /> Add record
+              </Button>
+            </div>
           </div>
         )
       ) : (
@@ -162,6 +193,7 @@ export function ServiceRecordsWorkspace() {
 
       <RecordDialog record={editing} onClose={() => setEditing(null)} />
       <DeleteDialog record={deleting} onClose={() => setDeleting(null)} />
+      <ImportDialog open={importing !== null} replacing={importing?.replacing ?? null} onClose={() => setImporting(null)} />
     </div>
   );
 }
@@ -187,6 +219,7 @@ function RecordList({
               <TableHead>Date</TableHead>
               <TableHead>Meal</TableHead>
               <TableHead>Menu</TableHead>
+              <TableHead>Source</TableHead>
               <TableHead className="text-right">Expected</TableHead>
               <TableHead className="text-right">Actual</TableHead>
               <TableHead className="text-right">Prepared</TableHead>
@@ -204,6 +237,7 @@ function RecordList({
                   <p className="truncate font-medium">{r.menuName}</p>
                   {r.notes ? <p className="truncate text-xs text-muted-foreground">{r.notes}</p> : null}
                 </TableCell>
+                <TableCell><SourceBadge record={r} /></TableCell>
                 <TableCell className="text-right tabular-nums">{fmt(r.expectedAttendance)}</TableCell>
                 <TableCell className="text-right tabular-nums">{fmt(r.actualAttendance)}</TableCell>
                 <TableCell className="text-right tabular-nums">{fmt(r.preparedQuantity)}</TableCell>
@@ -223,8 +257,8 @@ function RecordList({
           <li key={r.id} className="rounded-md border bg-card p-4">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <p className="text-xs text-muted-foreground">
-                  {fmtDate(r.serviceDate)} · {mealLabel[r.mealPeriod]}
+                <p className="flex items-center gap-2 text-xs text-muted-foreground">
+                  {fmtDate(r.serviceDate)} · {mealLabel[r.mealPeriod]} <SourceBadge record={r} />
                 </p>
                 <p className="mt-1 truncate font-medium">{r.menuName}</p>
               </div>
@@ -259,6 +293,14 @@ function RecordList({
         ) : null}
       </div>
     </section>
+  );
+}
+
+function SourceBadge({ record }: { record: ServiceRecord }) {
+  return (
+    <Badge variant="outline" className="font-normal text-muted-foreground">
+      {record.importBatchId ? "Imported" : "Manual"}
+    </Badge>
   );
 }
 
@@ -322,8 +364,7 @@ function RecordForm({ existing, onClose }: { existing: ServiceRecord | null; onC
         setFormError(res.error);
         return;
       }
-      await qc.invalidateQueries({ queryKey: ["service-records"] });
-      await qc.invalidateQueries({ queryKey: ["service-summary"] });
+      await invalidateOperationalData(qc);
       toast.success("Record saved.");
       onClose();
     },
@@ -372,7 +413,7 @@ function RecordForm({ existing, onClose }: { existing: ServiceRecord | null; onC
   return (
     <form onSubmit={submit} noValidate className="grid gap-5">
       <DialogHeader>
-        <DialogTitle>{existing ? "Edit service record" : "Add operational data"}</DialogTitle>
+        <DialogTitle>{existing ? "Edit service record" : "Add record"}</DialogTitle>
         <DialogDescription>
           {existing
             ? `Last updated ${new Date(existing.updatedAt).toLocaleString()}.`
@@ -411,7 +452,7 @@ function RecordForm({ existing, onClose }: { existing: ServiceRecord | null; onC
       <fieldset className="grid gap-3">
         <legend className="mb-2 text-sm font-semibold">Attendance</legend>
         <div className="grid gap-3 sm:grid-cols-2">
-          {numField("expectedAttendance", "Expected attendance")}
+          {numField("expectedAttendance", "Expected attendance *")}
           {numField("actualAttendance", "Actual attendance")}
         </div>
       </fieldset>
@@ -419,8 +460,8 @@ function RecordForm({ existing, onClose }: { existing: ServiceRecord | null; onC
       <fieldset className="grid gap-3">
         <legend className="mb-2 text-sm font-semibold">Consumption (meals)</legend>
         <div className="grid gap-3 sm:grid-cols-2">
-          {numField("preparedQuantity", "Prepared")}
-          {numField("consumedQuantity", "Consumed")}
+          {numField("preparedQuantity", "Prepared *")}
+          {numField("consumedQuantity", "Consumed *")}
         </div>
         {consumedOver ? (
           <p className="flex items-start gap-2 rounded-md border border-warning/40 bg-warning/15 p-2.5 text-xs text-warning-foreground">
@@ -456,8 +497,7 @@ function DeleteDialog({ record, onClose }: { record: ServiceRecord | null; onClo
         toast.error(res.error);
         return;
       }
-      await qc.invalidateQueries({ queryKey: ["service-records"] });
-      await qc.invalidateQueries({ queryKey: ["service-summary"] });
+      await invalidateOperationalData(qc);
       toast.success("Record deleted.");
       onClose();
     },
@@ -470,7 +510,7 @@ function DeleteDialog({ record, onClose }: { record: ServiceRecord | null; onClo
           <AlertDialogTitle>Delete this record?</AlertDialogTitle>
           <AlertDialogDescription>
             {record ? `${mealLabel[record.mealPeriod]} on ${fmtDate(record.serviceDate)} — ${record.menuName}. ` : ""}
-            This permanently removes it from your kitchen's history.
+            This permanently removes it from your kitchen's history{record?.importBatchId ? ", including from its import" : ""}.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

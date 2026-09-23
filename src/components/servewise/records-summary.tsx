@@ -19,7 +19,7 @@ export function OperationalDataSummary() {
     queryFn: () => list({ data: { from: today, to: today } }),
   });
   return (
-    <Card>
+    <Card className="min-w-0">
       <CardHeader className="flex flex-row items-start justify-between gap-3 space-y-0">
         <div>
           <CardTitle className="text-base">Operational data</CardTitle>

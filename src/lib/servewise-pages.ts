@@ -197,77 +197,15 @@ export const serveWisePages = {
     eyebrow: "Rescue",
     title: "Safety Gate",
     subtitle: "Review recorded holding conditions before surplus enters the rescue workflow.",
-    mode: "standard",
-    metrics: [
-      { label: "Awaiting review", value: "0", caption: "Verification queue", tone: "success" },
-      { label: "Eligible", value: "0", caption: "No completed checks" },
-      { label: "Blocked", value: "0", caption: "No completed checks" },
-      { label: "Records", value: "0", caption: "No safety checks" },
-    ],
-    sections: [
-      {
-        title: "Verification inputs",
-        description: "Review storage time, holding temperature, and handling notes for each batch.",
-        icon: Thermometer,
-        status: "No batch selected",
-        items: [
-          "Recorded storage time",
-          "Recorded holding temperature",
-          "Handling and storage notes",
-        ],
-      },
-      {
-        title: "Safety status",
-        description:
-          "A completed check will show a clear eligible or blocked outcome with its basis.",
-        icon: ShieldCheck,
-        status: "Not evaluated",
-        items: ["Eligibility outcome", "Threshold used", "Review record"],
-      },
-    ],
+    mode: "safety",
   },
   recipients: {
     eyebrow: "Rescue",
     title: "Recipients",
     subtitle: "Manage recipient organizations, available capacity, and pickup coordination.",
-    mode: "standard",
-    metrics: [
-      { label: "Organizations", value: "3 demo", caption: "Recipient directory", tone: "info" },
-      { label: "Available today", value: "Unknown", caption: "No availability updates" },
-      { label: "Active offers", value: "0", caption: "No offers in progress" },
-      { label: "Scheduled pickups", value: "0", caption: "No pickups today" },
-    ],
-    sections: [
-      {
-        title: "Recipient directory",
-        description:
-          "Recipient profiles bring capacity, pickup windows, and distribution preferences together.",
-        icon: UsersRound,
-        items: [
-          "Organization and service area",
-          "Capacity and accepted food types",
-          "Contact and pickup preferences",
-        ],
-      },
-      {
-        title: "Pickup coordination",
-        description: "Track offers, responses, pickup windows, and receipt confirmation.",
-        icon: HeartHandshake,
-        status: "No active offers",
-        items: ["Offer status", "Pickup owner and window", "Handover confirmation"],
-      },
-    ],
-    table: {
-      caption: "Recipient organizations",
-      description: "Example organizations for Demo Kitchen Group.",
-      columns: ["Recipient", "Capacity", "Pickup window", "Record type"],
-      rows: [
-        ["Community kitchen", "Not set", "Not set", "Demo"],
-        ["Shelter partner", "Not set", "Not set", "Demo"],
-        ["Student support group", "Not set", "Not set", "Demo"],
-      ],
-    },
+    mode: "recipients",
   },
+
   impact: {
     eyebrow: "Impact",
     title: "Food Rescue Impact",

@@ -27,6 +27,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { ServiceDayWorkspace } from "@/components/servewise/service-day";
 import { SurplusRescueWorkspace } from "@/components/servewise/surplus-rescue";
+import { SafetyGateWorkspace } from "@/components/servewise/safety-gate";
+import { RecipientsWorkspace } from "@/components/servewise/recipients";
 
 export type StatusTone = "neutral" | "success" | "warning" | "danger" | "info";
 
@@ -60,7 +62,7 @@ export type ProductPageConfig = {
   metrics?: MetricItem[];
   sections?: ProductSection[];
   table?: ProductTable;
-  mode: "dashboard" | "demand" | "standard" | "service" | "surplus" | "copilot" | "settings";
+  mode: "dashboard" | "demand" | "standard" | "service" | "surplus" | "safety" | "recipients" | "copilot" | "settings";
 };
 
 const toneClasses: Record<StatusTone, string> = {
@@ -81,6 +83,8 @@ export function ProductPage({ config }: { config: ProductPageConfig }) {
       {config.mode === "demand" ? <DemandWorkspace /> : null}
       {config.mode === "service" ? <ServiceDayWorkspace /> : null}
       {config.mode === "surplus" ? <SurplusRescueWorkspace /> : null}
+      {config.mode === "safety" ? <SafetyGateWorkspace /> : null}
+      {config.mode === "recipients" ? <RecipientsWorkspace /> : null}
       {config.mode === "copilot" ? <CopilotWorkspace /> : null}
       {config.mode === "settings" ? <SettingsWorkspace /> : null}
       {config.sections?.length && config.mode !== "service" ? (

@@ -73,6 +73,62 @@ export type Database = {
         }
         Relationships: []
       }
+      service_records: {
+        Row: {
+          actual_attendance: number | null
+          consumed_quantity: number | null
+          created_at: string
+          created_by: string | null
+          expected_attendance: number | null
+          id: string
+          meal_period: Database["public"]["Enums"]["meal_period"]
+          menu_name: string
+          notes: string | null
+          organization_id: string
+          prepared_quantity: number | null
+          service_date: string
+          updated_at: string
+        }
+        Insert: {
+          actual_attendance?: number | null
+          consumed_quantity?: number | null
+          created_at?: string
+          created_by?: string | null
+          expected_attendance?: number | null
+          id?: string
+          meal_period: Database["public"]["Enums"]["meal_period"]
+          menu_name: string
+          notes?: string | null
+          organization_id: string
+          prepared_quantity?: number | null
+          service_date: string
+          updated_at?: string
+        }
+        Update: {
+          actual_attendance?: number | null
+          consumed_quantity?: number | null
+          created_at?: string
+          created_by?: string | null
+          expected_attendance?: number | null
+          id?: string
+          meal_period?: Database["public"]["Enums"]["meal_period"]
+          menu_name?: string
+          notes?: string | null
+          organization_id?: string
+          prepared_quantity?: number | null
+          service_date?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_records_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -82,10 +138,12 @@ export type Database = {
         Args: { _name: string; _type: Database["public"]["Enums"]["org_type"] }
         Returns: string
       }
+      is_kitchen_admin: { Args: { _org: string }; Returns: boolean }
       is_org_admin: { Args: { _org: string }; Returns: boolean }
       is_org_member: { Args: { _org: string }; Returns: boolean }
     }
     Enums: {
+      meal_period: "breakfast" | "lunch" | "dinner"
       org_role: "admin" | "member"
       org_type: "kitchen" | "ngo"
     }
@@ -215,6 +273,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      meal_period: ["breakfast", "lunch", "dinner"],
       org_role: ["admin", "member"],
       org_type: ["kitchen", "ngo"],
     },

@@ -1,0 +1,2 @@
+ALTER TABLE public.surplus_batches DROP CONSTRAINT surplus_batches_status_check;
+ALTER TABLE public.surplus_batches ADD CONSTRAINT surplus_batches_status_check CHECK (status = ANY (ARRAY['pending_safety','withdrawn','safety_approved','safety_blocked','available_for_offer','offered','accepted','pickup_scheduled','picked_up','received','completed','closed']));

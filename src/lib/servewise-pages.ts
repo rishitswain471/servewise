@@ -35,34 +35,34 @@ export function serveWiseHead(title: string, description: string) {
 
 export const foundationPages = {
   dashboard: {
-    eyebrow: "Dashboard",
-    title: "Today’s kitchen operating view",
+    eyebrow: "Today’s Kitchen",
+    title: "Today’s Kitchen command center",
     subtitle:
-      "A stable overview shell for daily demand, preparation, service, surplus, safety, and redistribution work. Values shown here are local demo UI data only.",
+      "A stable command-center shell for meal demand, kitchen preparation, service status, surplus rescue, safety, redistribution, and impact. Values shown here are local demo UI data only.",
     badge: "C1 foundation",
     mode: "dashboard",
     futureNote:
       "Real operational data, forecasts, and impact calculations are intentionally deferred to later checkpoints.",
     metrics: [
-      { label: "Demand view", value: "Ready", caption: "Forecast module pending", tone: "info" },
-      { label: "Service records", value: "Demo", caption: "No persistence yet", tone: "neutral" },
-      { label: "Surplus queue", value: "0 live", caption: "Workflow scaffolded", tone: "success" },
-      { label: "Safety gate", value: "Manual", caption: "Logic arrives later", tone: "warning" },
+      { label: "Today’s Demand", value: "Ready", caption: "Forecast module pending", tone: "info" },
+      { label: "Preparation", value: "Demo", caption: "No prep records yet", tone: "neutral" },
+      { label: "Surplus Rescue", value: "0 live", caption: "Workflow scaffolded", tone: "success" },
+      { label: "Safety", value: "Manual", caption: "Logic arrives later", tone: "warning" },
     ],
     sections: [
       {
-        title: "Operational overview",
+        title: "Meal service overview",
         description:
-          "Page structure for leaders to scan today’s demand, preparation, and service risks.",
+          "Page structure for kitchen leaders to scan meal demand, preparation, service risks, and surplus movement.",
         icon: BarChart3,
         status: "Layout ready",
         tone: "success",
         items: ["Responsive KPI grid", "Activity section foundation", "Clear demo-data labeling"],
       },
       {
-        title: "Kitchen activity",
+        title: "Service floor activity",
         description:
-          "Future event stream area for service updates, surplus changes, and recipient decisions.",
+          "Future event stream area for meal service updates, surplus changes, and recipient pickup decisions.",
         icon: ListChecks,
         status: "Demo only",
         items: ["Empty state support", "Error and loading slots", "No backend events represented"],
@@ -70,19 +70,19 @@ export const foundationPages = {
     ],
     table: {
       caption: "Operational section map",
-      columns: ["Area", "C1 status", "Later checkpoint"],
+      columns: ["Meal-flow area", "C1 status", "Later checkpoint"],
       rows: [
-        ["Demand", "Workspace routed", "Forecast engine"],
-        ["Surplus", "Batch UI foundation", "Safety and matching logic"],
-        ["Impact", "Dashboard shell", "Deterministic calculations"],
+        ["Demand planning", "Workspace routed", "Forecast engine"],
+        ["Surplus rescue", "Batch UI foundation", "Safety and matching logic"],
+        ["Impact reporting", "Dashboard shell", "Deterministic calculations"],
       ],
     },
   },
   demand: {
     eyebrow: "Demand Lab",
-    title: "Forecast workspace foundation",
+    title: "Demand planning workspace foundation",
     subtitle:
-      "A focused workspace for future attendance, calendar, weather, and historical consumption inputs without implementing forecasting logic in C1.",
+      "A focused planning workspace for future attendance, calendar, weather, menu, and historical meal-consumption inputs without implementing forecasting logic in C1.",
     badge: "No demand engine yet",
     mode: "workspace",
     futureNote:
@@ -105,9 +105,9 @@ export const foundationPages = {
     ],
     sections: [
       {
-        title: "Input/control area",
+        title: "Planning inputs area",
         description:
-          "Prepared for attendance, menu, calendar, and weather assumptions in later checkpoints.",
+          "Prepared for attendance, menu, calendar, weather, and service-window assumptions in later checkpoints.",
         icon: SlidersHorizontal,
         status: "Disabled",
         tone: "warning",
@@ -128,33 +128,34 @@ export const foundationPages = {
     ],
   },
   menu: {
-    eyebrow: "Menu / Consumption",
-    title: "Menu and consumption workspace",
+    eyebrow: "Menu & Consumption",
+    title: "Menu and consumption records foundation",
     subtitle:
-      "A clean analysis foundation for menus, portions, and historical consumption without adding storage or imported records yet.",
+      "A clean kitchen-records foundation for menus, portions, prepared quantities, and historical consumption without adding storage or imported records yet.",
     badge: "Local demo rows",
     mode: "workspace",
     futureNote:
       "Historical consumption tracking and database-backed menu records belong to later checkpoints.",
     metrics: [
-      { label: "Menu records", value: "Table", caption: "Structure only", tone: "info" },
+      { label: "Meal records", value: "Table", caption: "Structure only", tone: "info" },
       { label: "Consumption", value: "Empty", caption: "No saved data", tone: "neutral" },
-      { label: "Visualization", value: "Slot", caption: "Charts connect later", tone: "warning" },
+      { label: "Pattern view", value: "Slot", caption: "Charts connect later", tone: "warning" },
       { label: "Imports", value: "Disabled", caption: "No persistence", tone: "neutral" },
     ],
     sections: [
       {
-        title: "Consumption analysis",
+        title: "Consumption patterns",
         description:
-          "Prepared for future comparison of planned, prepared, served, and remaining quantities.",
+          "Prepared for future comparison of planned meals, prepared trays, served portions, and remaining quantities.",
         icon: TableProperties,
         status: "Ready",
         tone: "success",
         items: ["Responsive table shell", "Empty state ready", "Chart placeholder area"],
       },
       {
-        title: "Menu context",
-        description: "Foundation for dish-level setup, service windows, and item-level trends.",
+        title: "Meal context",
+        description:
+          "Foundation for dish-level setup, service windows, portion sizes, and item-level trends.",
         icon: Utensils,
         status: "Scaffolded",
         items: ["Menu list layout", "Form component reuse", "No stored menu data"],
@@ -172,9 +173,9 @@ export const foundationPages = {
   },
   serviceDay: {
     eyebrow: "Service Day",
-    title: "Prepared, served, and actuals workflow",
+    title: "Preparation and service-day workflow",
     subtitle:
-      "A service-day workspace that separates preparation tracking, live serving, and actual consumption entry without implementing persistence.",
+      "A service-day workspace that separates meal preparation, live serving, actual consumption entry, and surplus review without implementing persistence.",
     badge: "Workflow shell",
     mode: "workspace",
     futureNote:
@@ -206,9 +207,9 @@ export const foundationPages = {
   },
   surplus: {
     eyebrow: "Surplus Rescue",
-    title: "Surplus batch workspace",
+    title: "Surplus rescue workspace",
     subtitle:
-      "A future-ready queue for recording surplus batches, filtering status, and coordinating rescue work without safety or matching logic yet.",
+      "A future-ready queue for recording usable surplus, filtering rescue status, and coordinating pickup work without safety or matching logic yet.",
     badge: "No live batches",
     mode: "workspace",
     futureNote:
@@ -221,17 +222,17 @@ export const foundationPages = {
     ],
     sections: [
       {
-        title: "Batch capture",
+        title: "Surplus capture",
         description:
-          "Space for surplus item, quantity, storage time, and temperature fields in later checkpoints.",
+          "Space for meal item, quantity, storage time, holding temperature, and handling notes in later checkpoints.",
         icon: Database,
         status: "Form shell",
         items: ["Filter/status bar foundation", "Batch list empty state", "No surplus detection"],
       },
       {
-        title: "Rescue workflow",
+        title: "Redistribution workflow",
         description:
-          "Foundation for offer creation and pickup tracking after safety eligibility exists.",
+          "Foundation for recipient offers and pickup tracking after safety eligibility exists.",
         icon: HeartHandshake,
         status: "Pending logic",
         tone: "warning",
@@ -241,9 +242,9 @@ export const foundationPages = {
   },
   safety: {
     eyebrow: "Safety Gate",
-    title: "Safety verification workspace",
+    title: "Safety gate workspace",
     subtitle:
-      "A visual foundation for future storage-time and temperature checks. C1 does not make eligibility decisions.",
+      "A visual foundation for future food holding-time and temperature checks. C1 does not make eligibility decisions.",
     badge: "Logic deferred",
     mode: "workspace",
     futureNote:
@@ -279,9 +280,9 @@ export const foundationPages = {
   },
   recipients: {
     eyebrow: "Recipients",
-    title: "Recipient management foundation",
+    title: "Recipient network foundation",
     subtitle:
-      "A recipient list and matching workspace foundation for availability, capacity, and pickup preferences without live matching.",
+      "A recipient network foundation for availability, capacity, pickup windows, and distribution preferences without live matching.",
     badge: "Matching deferred",
     mode: "workspace",
     futureNote:
@@ -324,9 +325,9 @@ export const foundationPages = {
   },
   impact: {
     eyebrow: "Impact",
-    title: "Food, cost, carbon, and social impact foundation",
+    title: "Food rescue impact foundation",
     subtitle:
-      "A dashboard structure for later deterministic impact calculations, with no fabricated savings or environmental claims.",
+      "A reporting foundation for later deterministic food rescue, cost, carbon, and community impact calculations, with no fabricated savings or environmental claims.",
     badge: "Calculations pending",
     mode: "dashboard",
     futureNote:
@@ -339,8 +340,9 @@ export const foundationPages = {
     ],
     sections: [
       {
-        title: "Operational impact",
-        description: "Foundation for food and financial summaries once verified quantities exist.",
+        title: "Rescue impact",
+        description:
+          "Foundation for rescued-food and operating-cost summaries once verified quantities exist.",
         icon: Leaf,
         status: "Placeholder",
         items: ["Metric grouping", "Trend area", "No impact figures invented"],
@@ -358,9 +360,9 @@ export const foundationPages = {
   },
   copilot: {
     eyebrow: "ServeWise Copilot",
-    title: "Assistant interface foundation",
+    title: "Food-service explanation assistant foundation",
     subtitle:
-      "A chat workspace shell for later explanation features. C1 does not call Gemini, Copilot, or any AI provider.",
+      "A chat workspace shell for later food-service explanation features. C1 does not call Gemini, Copilot, or any AI provider.",
     badge: "No AI connected",
     mode: "copilot",
     futureNote:
@@ -373,7 +375,7 @@ export const foundationPages = {
     ],
     sections: [
       {
-        title: "Question composer",
+        title: "Kitchen question composer",
         description: "Accessible chat input foundation for later natural-language explanations.",
         icon: Bot,
         status: "Disabled",
@@ -392,9 +394,9 @@ export const foundationPages = {
   },
   settings: {
     eyebrow: "Settings",
-    title: "Organization and data setup foundation",
+    title: "Kitchen organization setup foundation",
     subtitle:
-      "A settings shell for profile, organization, data, and notification areas without authentication or authorization implementation.",
+      "A settings shell for kitchen profile, organization context, data, and notification areas without authentication or authorization implementation.",
     badge: "No auth yet",
     mode: "settings",
     futureNote:
@@ -407,8 +409,9 @@ export const foundationPages = {
     ],
     sections: [
       {
-        title: "Organization context",
-        description: "Foundation for kitchen group identity and workspace settings.",
+        title: "Kitchen context",
+        description:
+          "Foundation for kitchen group identity, service windows, and workspace settings.",
         icon: Settings,
         status: "Scaffolded",
         tone: "success",

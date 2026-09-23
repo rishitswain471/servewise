@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { MAX_IMPORT_ROWS, importFields, validateRows } from "@/lib/import-rules";
 
 export const mealPeriods = ["breakfast", "lunch", "dinner"] as const;
 export type MealPeriod = (typeof mealPeriods)[number];
@@ -228,4 +229,175 @@ export const deleteServiceRecord = createServerFn({ method: "POST" })
     if (error) return mapDbError(error, "Unable to delete this record.");
     if (!rows?.length) return fail("Unable to access this record.");
     return { ok: true as const };
+  });
+
+// ---------------------------------------------------------------------------
+// Excel import. The browser only parses the workbook into raw cells; every rule is
+// re-applied here, and again inside one database transaction on commit.
+// ---------------------------------------------------------------------------
+
+const cellSchema = z.union([z.string().max(2000), z.number().finite(), z.null()]);
+const importPayload = z.object({
+  fileName: z.string().trim().min(1).max(255),
+  today: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  replaceBatchId: z.string().uuid().nullable(),
+  rows: z
+    .array(
+      z.object({
+        row: z.number().int().min(2).max(1_048_576),
+        cells: z.record(z.enum(importFields), cellSchema.optional()),
+      }),
+    )
+    .min(1)
+    .max(MAX_IMPORT_ROWS),
+});
+
+// The client's local date is accepted only within a day of the server clock.
+function trustedToday(clientToday: string) {
+  const now = Date.now();
+  const d = (o: number) => new Date(now + o * 86_400_000).toISOString().slice(0, 10);
+  return clientToday >= d(-1) && clientToday <= d(1) ? clientToday : d(0);
+}
+
+async function existingKeys(
+  supabase: typeof import("@/integrations/supabase/client").supabase,
+  orgId: string,
+  rows: { cells: Partial<Record<string, unknown>> }[],
+  replaceBatchId: string | null,
+) {
+  const dates = rows
+    .map((r) => String(r.cells.service_date ?? "").trim())
+    .filter((s) => /^\d{4}-\d{2}-\d{2}$/.test(s))
+    .sort();
+  const keys = new Set<string>();
+  if (!dates.length) return keys;
+  for (let from = 0; ; from += 1000) {
+    const { data, error } = await supabase
+      .from("service_records")
+      .select("service_date, meal_period, import_batch_id")
+      .eq("organization_id", orgId)
+      .gte("service_date", dates[0])
+      .lte("service_date", dates[dates.length - 1])
+      .order("id")
+      .range(from, from + 999);
+    if (error) throw error;
+    for (const r of data) if (!replaceBatchId || r.import_batch_id !== replaceBatchId) keys.add(`${r.service_date}|${r.meal_period}`);
+    if (data.length < 1000) return keys;
+  }
+}
+
+async function runValidation(
+  supabase: typeof import("@/integrations/supabase/client").supabase,
+  userId: string,
+  data: z.infer<typeof importPayload>,
+) {
+  const orgId = await resolveKitchen(supabase, userId);
+  if (!orgId) return null;
+  if (data.replaceBatchId) {
+    const { data: b } = await supabase
+      .from("import_batches")
+      .select("id")
+      .eq("id", data.replaceBatchId)
+      .eq("organization_id", orgId)
+      .eq("status", "active")
+      .maybeSingle();
+    if (!b) return { orgId, missingBatch: true as const };
+  }
+  const existing = await existingKeys(supabase, orgId, data.rows, data.replaceBatchId);
+  const rows = validateRows(data.rows, existing, trustedToday(data.today));
+  const summary = {
+    total: rows.length,
+    valid: rows.filter((r) => r.status === "valid").length,
+    warnings: rows.filter((r) => r.status === "warning").length,
+    errors: rows.filter((r) => r.status === "error").length,
+  };
+  return { orgId, rows, summary, missingBatch: false as const };
+}
+
+export const validateImport = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .validator((input: unknown) => importPayload.parse(input))
+  .handler(async ({ data, context }) => {
+    try {
+      const res = await runValidation(context.supabase, context.userId, data);
+      if (!res) return fail("Unable to access this kitchen's records.");
+      if (res.missingBatch) return fail("The import you're replacing no longer exists.");
+      return { ok: true as const, rows: res.rows, summary: res.summary };
+    } catch (e) {
+      console.error("validateImport failed", e);
+      return fail("Unable to check this workbook. Please try again.");
+    }
+  });
+
+export const commitImport = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .validator((input: unknown) =>
+    importPayload.extend({ acceptWarnings: z.boolean() }).parse(input),
+  )
+  .handler(async ({ data, context }) => {
+    try {
+      const res = await runValidation(context.supabase, context.userId, data);
+      if (!res) return fail("Unable to access this kitchen's records.");
+      if (res.missingBatch) return fail("The import you're replacing no longer exists.");
+      if (res.summary.errors) return fail("Fix all errors before importing.");
+      if (res.summary.warnings && !data.acceptWarnings) return fail("Confirm the warnings before importing.");
+      const { data: batchId, error } = await context.supabase.rpc("import_service_records", {
+        _org: res.orgId,
+        _file_name: data.fileName,
+        _rows: res.rows.map((r) => r.clean!),
+        _replace: data.replaceBatchId ?? undefined,
+      });
+      if (error) {
+        if (error.code === "23505")
+          return fail("Another record for one of these dates and meals was saved meanwhile. Nothing was imported — check again.");
+        return mapDbError(error, "The import failed. Nothing was saved.");
+      }
+      return { ok: true as const, batchId: batchId as string, count: res.rows.length };
+    } catch (e) {
+      console.error("commitImport failed", e);
+      return fail("The import failed. Nothing was saved.");
+    }
+  });
+
+export type ImportBatch = { id: string; fileName: string; importedAt: string; importedCount: number; currentCount: number };
+
+export const listImports = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }): Promise<ImportBatch[]> => {
+    const orgId = await resolveKitchen(context.supabase, context.userId);
+    if (!orgId) throw new Error("Unable to load imports.");
+    const { data, error } = await context.supabase
+      .from("import_batches")
+      .select("id, file_name, imported_at, record_count")
+      .eq("organization_id", orgId)
+      .eq("status", "active")
+      .order("imported_at", { ascending: false })
+      .limit(20);
+    if (error) {
+      console.error("listImports failed", error);
+      throw new Error("Unable to load imports.");
+    }
+    return Promise.all(
+      data.map(async (b) => {
+        const { count } = await context.supabase
+          .from("service_records")
+          .select("id", { count: "exact", head: true })
+          .eq("import_batch_id", b.id);
+        return { id: b.id, fileName: b.file_name, importedAt: b.imported_at, importedCount: b.record_count, currentCount: count ?? 0 };
+      }),
+    );
+  });
+
+export const removeImport = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .validator((input: unknown) => z.object({ batchId: z.string().uuid() }).parse(input))
+  .handler(async ({ data, context }) => {
+    const orgId = await resolveKitchen(context.supabase, context.userId);
+    if (!orgId) return fail("Unable to access this import.");
+    const { data: n, error } = await context.supabase.rpc("remove_import_batch", { _org: orgId, _batch: data.batchId });
+    if (error) {
+      if (error.code === "P0002") return fail("This import no longer exists.");
+      return mapDbError(error, "Unable to remove this import.");
+    }
+    return { ok: true as const, removed: n as number };
   });

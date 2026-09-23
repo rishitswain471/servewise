@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { Json } from "@/integrations/supabase/types";
 import { MAX_IMPORT_ROWS, importFields, validateRows } from "@/lib/import-rules";
 
 export const mealPeriods = ["breakfast", "lunch", "dinner"] as const;
@@ -245,7 +246,7 @@ const importPayload = z.object({
     .array(
       z.object({
         row: z.number().int().min(2).max(1_048_576),
-        cells: z.record(z.enum(importFields), cellSchema.optional()),
+        cells: z.partialRecord(z.enum(importFields), cellSchema),
       }),
     )
     .min(1)
@@ -266,7 +267,7 @@ async function existingKeys(
   replaceBatchId: string | null,
 ) {
   const dates = rows
-    .map((r) => String(r.cells.service_date ?? "").trim())
+    .map((r) => String(r.cells["service_date"] ?? "").trim())
     .filter((s) => /^\d{4}-\d{2}-\d{2}$/.test(s))
     .sort();
   const keys = new Set<string>();
@@ -344,8 +345,8 @@ export const commitImport = createServerFn({ method: "POST" })
       const { data: batchId, error } = await context.supabase.rpc("import_service_records", {
         _org: res.orgId,
         _file_name: data.fileName,
-        _rows: res.rows.map((r) => r.clean!),
-        _replace: data.replaceBatchId ?? undefined,
+        _rows: res.rows.map((r) => r.clean!) as unknown as Json,
+        ...(data.replaceBatchId ? { _replace: data.replaceBatchId } : {}),
       });
       if (error) {
         if (error.code === "23505")

@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.sync_surplus_batch() FROM PUBLIC, anon, authenticated;

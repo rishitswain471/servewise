@@ -14,6 +14,71 @@ export type Database = {
   }
   public: {
     Tables: {
+      demand_forecasts: {
+        Row: {
+          buffer: number
+          consumption_rate: number
+          created_at: string
+          created_by: string | null
+          expected_attendance: number
+          forecast_demand: number
+          history_count: number
+          history_status: string
+          id: string
+          meal_period: Database["public"]["Enums"]["meal_period"]
+          menu_name: string
+          method_version: string
+          organization_id: string
+          recommended_preparation: number
+          service_date: string
+          updated_at: string
+        }
+        Insert: {
+          buffer: number
+          consumption_rate: number
+          created_at?: string
+          created_by?: string | null
+          expected_attendance: number
+          forecast_demand: number
+          history_count: number
+          history_status: string
+          id?: string
+          meal_period: Database["public"]["Enums"]["meal_period"]
+          menu_name: string
+          method_version: string
+          organization_id: string
+          recommended_preparation: number
+          service_date: string
+          updated_at?: string
+        }
+        Update: {
+          buffer?: number
+          consumption_rate?: number
+          created_at?: string
+          created_by?: string | null
+          expected_attendance?: number
+          forecast_demand?: number
+          history_count?: number
+          history_status?: string
+          id?: string
+          meal_period?: Database["public"]["Enums"]["meal_period"]
+          menu_name?: string
+          method_version?: string
+          organization_id?: string
+          recommended_preparation?: number
+          service_date?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "demand_forecasts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       import_batches: {
         Row: {
           closed_at: string | null

@@ -1,17 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { ProductPage } from "@/components/servewise/page";
-import { serveWisePages, serveWiseHead } from "@/lib/servewise-pages";
+import { DemandLab } from "@/components/servewise/demand-lab";
+import { serveWiseHead } from "@/lib/servewise-pages";
 
 export const Route = createFileRoute("/_authenticated/_org/demand")({
   head: () =>
     serveWiseHead(
       "Demand Lab",
-      "Plan meal demand using attendance, menus, calendar context, and historical consumption.",
+      "Forecast meal demand and preparation quantities from your kitchen's recorded service history.",
     ),
   component: DemandPage,
 });
 
 function DemandPage() {
-  return <ProductPage config={serveWisePages.demand} />;
+  return <DemandLab />;
 }

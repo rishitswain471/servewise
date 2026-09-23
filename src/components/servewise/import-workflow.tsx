@@ -370,7 +370,10 @@ export function ImportsPanel({ onReplace }: { onReplace: (b: ImportBatch) => voi
   const mutation = useMutation({
     mutationFn: (id: string) => remove({ data: { batchId: id } }),
     onSuccess: async (res) => {
-      if (!res.ok) return toast.error(res.error);
+      if (!res.ok) {
+        toast.error(res.error);
+        return;
+      }
       await invalidateOperationalData(qc);
       toast.success(`Import removed · ${res.removed.toLocaleString()} records deleted.`);
       setRemoving(null);

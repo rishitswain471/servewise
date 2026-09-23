@@ -65,7 +65,6 @@ export function AppShell({ children, ...ctx }: AppShellProps) {
             <div className="mx-auto w-full max-w-7xl">{children}</div>
           </div>
         </SidebarInset>
-        <Toaster position="top-right" closeButton richColors />
       </div>
     </SidebarProvider>
   );

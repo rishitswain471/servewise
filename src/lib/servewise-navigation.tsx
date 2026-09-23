@@ -142,50 +142,38 @@ export function ServeWiseLogo(props: SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 32 32" role="img" aria-label="ServeWise" {...props}>
       <path
-        d="M6.75 17.3c.95 4.25 4.75 7.45 9.3 7.45 3.1 0 5.86-1.48 7.6-3.78"
+        d="M5.5 15.75h21c-.75 6.15-4.45 9.25-10.5 9.25S6.25 21.9 5.5 15.75Z"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2.35"
+      />
+      <path
+        d="M8.1 12.3A9.15 9.15 0 0 1 18.5 6.6"
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
         strokeWidth="2.35"
       />
       <path
-        d="M25.3 14.62c-.82-4.18-4.52-7.37-8.98-7.37-3.05 0-5.76 1.5-7.43 3.78"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeWidth="2.35"
-      />
-      <path
-        d="M9.35 10.8 8.7 6.55l4.04 1.46"
+        d="m7.25 8.75.85 3.55 3.45-.85"
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth="2.1"
+        strokeWidth="2"
       />
       <path
-        d="m22.86 21.2.55 4.25-3.98-1.56"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2.1"
-      />
-      <path
-        d="M10.25 16.15c1.35-2.15 3.16-3.23 5.42-3.23 2.44 0 4.47 1.24 6.08 3.72-1.47 1.78-3.45 2.67-5.93 2.67-2.28 0-4.14-1.05-5.57-3.16Z"
-        fill="currentColor"
-        opacity="0.28"
-      />
-      <path
-        d="M15.95 11.75c2.2-1.1 4.08-.92 5.65.53-.08 2.12-1.12 3.6-3.1 4.43-1.87-1.02-2.72-2.68-2.55-4.96Z"
+        d="M18.2 6.6c2.85-2.3 5.55-2.2 8.1.25-.35 3.4-2.15 5.55-5.4 6.45-2.25-1.7-3.15-3.95-2.7-6.7Z"
         fill="currentColor"
       />
       <path
-        d="M11.2 17.2h10"
+        d="M20.3 10.8c1.25-1.35 2.7-2.35 4.4-3"
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
-        strokeWidth="1.9"
+        strokeWidth="1.5"
       />
     </svg>
   );

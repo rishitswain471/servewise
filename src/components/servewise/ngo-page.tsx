@@ -37,7 +37,7 @@ export function NgoEmpty({
 }: {
   title: string;
   description: string;
-  icon?: LucideIcon;
+  icon: LucideIcon;
 }) {
   return (
     <section className="rounded-lg border bg-card p-4 sm:p-6">

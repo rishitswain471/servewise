@@ -103,7 +103,7 @@ export function RecipientsWorkspace() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="grid gap-3 sm:grid-cols-4">
+                <div className="grid gap-3 sm:grid-cols-2">
                   <div className="grid gap-2"><Label htmlFor="rc-qty">Meals to offer</Label><Input id="rc-qty" inputMode="numeric" value={qty} onChange={(e) => setQty(e.target.value)} placeholder={batch ? `≤ ${batch.remaining}` : ""} /></div>
                   <div className="grid gap-2"><Label htmlFor="rc-date">Pickup date</Label><Input id="rc-date" type="date" value={pickupDate} onChange={(e) => setPickupDate(e.target.value)} /></div>
                   <div className="grid gap-2"><Label htmlFor="rc-from">From</Label><Input id="rc-from" type="time" value={from} onChange={(e) => setFrom(e.target.value)} /></div>
@@ -117,7 +117,7 @@ export function RecipientsWorkspace() {
             ) : (
               <ul className="divide-y divide-border">
                 {recipients.map((r) => {
-                  const dup = !!batch && offers.some((o) => o.surplus_batch_id === batch.id && o.status !== "declined" && o.recipient_name === r.display_name);
+                  const dup = !!batch && offers.some((o) => o.surplus_batch_id === batch.id && !["declined", "completed"].includes(o.status) && o.recipient_name === r.display_name);
                   const c = compatibility(r, n || 1, from, until, dup);
                   return (
                     <li key={r.organization_id} className="grid gap-2 py-3 first:pt-0 last:pb-0">

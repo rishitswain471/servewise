@@ -21,9 +21,7 @@ export function computeImpact(data: ImpactData, period: Period, now = new Date()
   const start = periodStart(period, now);
   const inP = (d: string) => !start || d >= start;
   const services = data.services.filter((s) => inP(s.service_date));
-  const serviceIds = new Set(services.map((s) => s.id));
-  // Only batches from completed services in the period.
-  const batches = data.batches.filter((b) => serviceIds.has(b.service_record_id));
+  const batches = data.batches.filter((b) => inP(b.service_date));
   const batchIds = new Set(batches.map((b) => b.id));
   const eligible = new Set(data.verifications.filter((v) => v.outcome === "eligible").map((v) => v.surplus_batch_id));
   const blocked = new Set(data.verifications.filter((v) => v.outcome === "blocked").map((v) => v.surplus_batch_id));

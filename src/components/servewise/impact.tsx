@@ -45,7 +45,7 @@ export function ImpactWorkspace() {
       <MetricsGrid metrics={[
         { label: "Food redistributed", value: hasReceipt ? `${r.received} meals` : "None yet", caption: hasReceipt ? `${r.completedReceipts} confirmed receipt${r.completedReceipts === 1 ? "" : "s"}` : noRedistribution, tone: hasReceipt ? "success" : "neutral" },
         { label: "Services completed", value: String(r.servicesCompleted), caption: "Completed in Service Day", tone: r.servicesCompleted ? "info" : "neutral" },
-        { label: "Surplus identified", value: `${r.potential} meals`, caption: "Prepared − consumed, completed services", tone: r.potential ? "warning" : "neutral" },
+        { label: "Surplus identified", value: `${r.potential} meals`, caption: "Prepared − consumed, sent to rescue", tone: r.potential ? "warning" : "neutral" },
         { label: "Redistribution rate", value: hasReceipt ? pct(r.rate) : "—", caption: hasReceipt ? `Received ÷ surplus identified (${r.received} ÷ ${r.potential})` : noRedistribution, tone: hasReceipt ? "success" : "neutral" },
       ]} />
 

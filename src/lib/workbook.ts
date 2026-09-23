@@ -9,7 +9,6 @@ import {
   importFields,
   mapHeaders,
   mealValues,
-  requiredFields,
   type Cell,
   type RawRow,
 } from "@/lib/import-rules";
@@ -225,7 +224,7 @@ export async function parseWorkbook(file: File): Promise<ParseResult> {
     if (blank) continue;
     rows.push({ row: r, cells });
     if (rows.length > MAX_IMPORT_ROWS)
-      return { ok: false, errors: [`The workbook has more than ${MAX_IMPORT_ROWS.toLowerCase?.() ?? MAX_IMPORT_ROWS} rows. Split it into smaller files.`] };
+      return { ok: false, errors: [`The workbook has more than ${MAX_IMPORT_ROWS.toLocaleString()} rows. Split it into smaller files.`] };
   }
   if (!rows.length) return { ok: false, errors: ["The Service Records sheet has no data rows."] };
   return { ok: true, rows };

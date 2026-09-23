@@ -129,7 +129,7 @@ function ServiceFlow({ serviceDate, meal, data }: { serviceDate: string; meal: M
     ["Preparation", p !== null ? "Recorded" : "Awaiting entry"],
     ["Actual attendance", record?.actual_attendance != null ? String(record.actual_attendance) : "Not recorded"],
     ["Actual consumption", c !== null ? `${c} meals` : "Not recorded"],
-    ["Surplus", completed ? "Service completed" : batchActive ? "Sent to rescue" : surplus === null ? "Not reviewed" : `${surplus} potential`],
+    ["Surplus", completed ? "Service completed" : batchActive ? (batchStatus[batch.status]?.label ?? "Sent to rescue") : surplus === null ? "Not reviewed" : `${surplus} potential`],
   ];
 
   return (
@@ -256,7 +256,7 @@ function ServiceFlow({ serviceDate, meal, data }: { serviceDate: string; meal: M
               ) : <p className="text-sm text-muted-foreground">No potential surplus from this service.</p>}
               {surplus > 0 && batchActive ? (
                 <div className="flex items-center justify-between gap-3 border-t border-border pt-3">
-                  <StatusIndicator tone="warning" label="Pending safety verification" compact />
+                  <StatusIndicator tone={batchStatus[batch.status]?.tone ?? "warning"} label={batchStatus[batch.status]?.label ?? "Pending safety verification"} compact />
                   <Link to="/surplus" className="text-sm font-medium text-primary">View</Link>
                 </div>
               ) : null}

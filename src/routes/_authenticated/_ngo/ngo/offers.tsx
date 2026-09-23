@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HeartHandshake } from "lucide-react";
 
-import { NgoEmpty, NgoPage } from "@/components/servewise/ngo-page";
+import { NgoOfferQueue } from "@/components/servewise/ngo-offers";
+import { NgoPage } from "@/components/servewise/ngo-page";
 import { serveWiseHead } from "@/lib/servewise-pages";
 
 export const Route = createFileRoute("/_authenticated/_ngo/ngo/offers")({
@@ -20,10 +21,11 @@ function OffersPage() {
       title="Available Surplus"
       subtitle="Offers shared with your organization, with quantity, safety status and pickup window."
     >
-      <NgoEmpty
+      <NgoOfferQueue
+        statuses={["sent", "declined"]}
         icon={HeartHandshake}
-        title="No surplus offers yet."
-        description="When a kitchen offers safe surplus to your organization, you can review and accept it here."
+        emptyTitle="No surplus offers yet."
+        emptyDescription="When a kitchen offers safe surplus to your organization, you can review and accept it here."
       />
     </NgoPage>
   );

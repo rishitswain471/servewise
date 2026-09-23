@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { ErrorState, LoadingState, StatusIndicator } from "@/components/servewise/page";
+import { batchStatus } from "@/components/servewise/rescue-shared";
 import { fmtDate, mealLabel } from "@/components/servewise/service-records";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -129,7 +130,7 @@ function ServiceFlow({ serviceDate, meal, data }: { serviceDate: string; meal: M
     ["Preparation", p !== null ? "Recorded" : "Awaiting entry"],
     ["Actual attendance", record?.actual_attendance != null ? String(record.actual_attendance) : "Not recorded"],
     ["Actual consumption", c !== null ? `${c} meals` : "Not recorded"],
-    ["Surplus", completed ? "Service completed" : batchActive ? (batchStatus[batch.status]?.label ?? "Sent to rescue") : surplus === null ? "Not reviewed" : `${surplus} potential`],
+    ["Surplus", batchActive ? `${batch.potential_surplus} meals · ${batchStatus[batch.status]?.label ?? "Sent to rescue"}` : completed ? "Service completed" : surplus === null ? "Not reviewed" : `${surplus} potential`],
   ];
 
   return (

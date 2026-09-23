@@ -13,8 +13,9 @@ export const Route = createFileRoute("/_authenticated/_org/dashboard")({
   component: DashboardPage,
 });
 
-// The demo activity table is replaced by real recorded services.
-const { table: _demoTable, ...config } = serveWisePages.dashboard;
+// Only the page header comes from static config; every operational number below is read
+// from stored service records.
+const { table: _t, metrics: _m, sections: _s, ...config } = serveWisePages.dashboard;
 
 function DashboardPage() {
   return (

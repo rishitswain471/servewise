@@ -246,7 +246,7 @@ const importPayload = z.object({
     .array(
       z.object({
         row: z.number().int().min(2).max(1_048_576),
-        cells: z.object(Object.fromEntries(importFields.map((f) => [f, cellSchema.optional().transform((v) => v ?? null)])) as Record<(typeof importFields)[number], z.ZodType<Cell, z.ZodTypeDef, Cell | undefined>>).strict(),
+        cells: z.object(Object.fromEntries(importFields.map((f) => [f, cellSchema.optional().transform((v) => v ?? null)])) as unknown as Record<(typeof importFields)[number], z.ZodType<Cell, z.ZodTypeDef, Cell | undefined>>).strict(),
       }),
     )
     .min(1)

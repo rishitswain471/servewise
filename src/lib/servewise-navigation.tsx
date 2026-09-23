@@ -26,7 +26,8 @@ export type ServeWiseRoute =
   | "/copilot"
   | "/settings";
 
-export type ServeWiseNavGroup = "Today" | "Plan" | "Operate" | "Rescue" | "Impact" | "Intelligence" | "System";
+export type ServeWiseNavGroup =
+  "Today" | "Plan" | "Operate" | "Rescue" | "Impact" | "Intelligence" | "System";
 
 export type ServeWiseNavItem = {
   title: string;
@@ -154,8 +155,22 @@ export function ServeWiseLogo(props: SVGProps<SVGSVGElement>) {
         strokeLinecap="round"
         strokeWidth="2.35"
       />
-      <path d="M9.35 10.8 8.7 6.55l4.04 1.46" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.1" />
-      <path d="m22.86 21.2.55 4.25-3.98-1.56" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.1" />
+      <path
+        d="M9.35 10.8 8.7 6.55l4.04 1.46"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2.1"
+      />
+      <path
+        d="m22.86 21.2.55 4.25-3.98-1.56"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2.1"
+      />
       <path
         d="M10.25 16.15c1.35-2.15 3.16-3.23 5.42-3.23 2.44 0 4.47 1.24 6.08 3.72-1.47 1.78-3.45 2.67-5.93 2.67-2.28 0-4.14-1.05-5.57-3.16Z"
         fill="currentColor"
@@ -165,7 +180,13 @@ export function ServeWiseLogo(props: SVGProps<SVGSVGElement>) {
         d="M15.95 11.75c2.2-1.1 4.08-.92 5.65.53-.08 2.12-1.12 3.6-3.1 4.43-1.87-1.02-2.72-2.68-2.55-4.96Z"
         fill="currentColor"
       />
-      <path d="M11.2 17.2h10" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="1.9" />
+      <path
+        d="M11.2 17.2h10"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="1.9"
+      />
     </svg>
   );
 }

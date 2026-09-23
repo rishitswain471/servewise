@@ -7,7 +7,7 @@ export const Route = createFileRoute("/settings")({
   head: () =>
     serveWiseHead(
       "Settings",
-      "ServeWise settings foundation for future profile, organization, data, and notification configuration.",
+      "ServeWise kitchen organization setup foundation for future profile, data, notification, and access configuration.",
     ),
   component: SettingsPage,
 });

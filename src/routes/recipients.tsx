@@ -7,7 +7,7 @@ export const Route = createFileRoute("/recipients")({
   head: () =>
     serveWiseHead(
       "Recipients",
-      "ServeWise recipients foundation for future recipient profiles, availability, and matching workflows.",
+      "ServeWise recipient network foundation for availability, capacity, pickup windows, and redistribution fit.",
     ),
   component: RecipientsPage,
 });

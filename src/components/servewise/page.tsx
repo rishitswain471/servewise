@@ -7,6 +7,8 @@ import {
   Loader2,
   Lock,
   MinusCircle,
+  Sprout,
+  Utensils,
 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -83,6 +85,7 @@ export function FoundationPage({ config }: { config: FoundationPageConfig }) {
   return (
     <div className="flex min-w-0 flex-col gap-5">
       <PageHeader config={config} />
+      <JourneyStrip />
       <StateFoundation />
       <MetricsGrid metrics={config.metrics} />
       {config.mode === "copilot" ? <CopilotFoundation /> : null}
@@ -107,7 +110,7 @@ function PageHeader({ config }: { config: FoundationPageConfig }) {
     <section className="grid grid-cols-[minmax(0,1fr)] gap-4 rounded-lg border bg-surface-raised p-5 shadow-card lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
       <div className="min-w-0">
         <div className="mb-3 flex flex-wrap items-center gap-2">
-          <Badge variant="info">{config.eyebrow}</Badge>
+          <Badge variant="success">{config.eyebrow}</Badge>
           <Badge variant="outline">{config.badge}</Badge>
         </div>
         <h1 className="text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
@@ -119,12 +122,43 @@ function PageHeader({ config }: { config: FoundationPageConfig }) {
       </div>
       <div className="flex flex-wrap gap-2 lg:justify-end">
         <Button variant="outline" size="touch" disabled>
-          Export disabled
+          Export unavailable
         </Button>
         <Button variant="subtle" size="touch" disabled>
-          Connect data later
+          Connect kitchen data later
         </Button>
       </div>
+    </section>
+  );
+}
+
+function JourneyStrip() {
+  const stages = ["Demand", "Prepare", "Serve", "Rescue", "Verify", "Redistribute", "Measure"];
+
+  return (
+    <section
+      className="grid gap-2 rounded-lg border bg-card p-3 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-center"
+      aria-label="ServeWise operational journey"
+    >
+      <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-accent text-accent-foreground">
+          <Utensils className="h-4 w-4" />
+        </span>
+        Meal flow
+      </div>
+      <ol className="grid min-w-0 gap-2 sm:grid-cols-7">
+        {stages.map((stage, index) => (
+          <li
+            key={stage}
+            className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-center gap-2 rounded-md bg-surface px-3 py-2 text-xs font-medium text-muted-foreground"
+          >
+            <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary text-[0.65rem] text-primary-foreground">
+              {index + 1}
+            </span>
+            <span className="truncate">{stage}</span>
+          </li>
+        ))}
+      </ol>
     </section>
   );
 }
@@ -134,8 +168,8 @@ function StateFoundation() {
     { label: "Loading", icon: Loader2, copy: "Skeletons reserve space while data arrives." },
     { label: "Empty", icon: CircleDashed, copy: "Clear prompts appear before live data exists." },
     { label: "Error", icon: AlertTriangle, copy: "Recoverable panels explain what failed." },
-    { label: "Normal", icon: CheckCircle2, copy: "Demo UI data shows layout only." },
-    { label: "Disabled", icon: Lock, copy: "Later-checkpoint controls are visibly unavailable." },
+    { label: "Ready", icon: CheckCircle2, copy: "Demo kitchen data shows layout only." },
+    { label: "Locked", icon: Lock, copy: "Later-checkpoint controls are visibly unavailable." },
   ];
 
   return (
@@ -166,7 +200,7 @@ function MetricsGrid({ metrics }: { metrics: MetricItem[] }) {
   return (
     <section
       className="grid min-w-0 gap-4 sm:grid-cols-2 xl:grid-cols-4"
-      aria-label="Demo metric foundation"
+      aria-label="Kitchen operations metric foundation"
     >
       {metrics.map((metric) => (
         <Card key={metric.label}>
@@ -241,7 +275,11 @@ function WorkspaceControls() {
           </div>
           <div className="grid gap-2">
             <Label htmlFor="assumption">Assumption input</Label>
-            <Input id="assumption" disabled placeholder="Live inputs arrive in C2+" />
+            <Input
+              id="assumption"
+              disabled
+              placeholder="Attendance, menu, and weather inputs arrive later"
+            />
           </div>
         </div>
         <Tabs defaultValue="empty" className="min-w-0 rounded-lg border bg-surface p-4">
@@ -252,8 +290,8 @@ function WorkspaceControls() {
           </TabsList>
           <TabsContent value="empty">
             <EmptyState
-              title="No live workspace data"
-              description="This panel is ready for database-backed records in later checkpoints."
+              title="No live kitchen workspace data"
+              description="This panel is ready for kitchen records in later checkpoints."
             />
           </TabsContent>
           <TabsContent value="loading" className="grid gap-2 pt-2">
@@ -278,16 +316,16 @@ function CopilotFoundation() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base">Copilot chat foundation</CardTitle>
+        <CardTitle className="text-base">ServeWise Copilot foundation</CardTitle>
         <CardDescription>
-          No AI provider is connected in C1, and no fake responses are generated.
+          No AI provider is connected in C1, and no fake food-service explanations are generated.
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="rounded-lg border bg-surface p-4">
           <EmptyState
             title="Copilot is not connected yet"
-            description="The assistant interface is present, but Gemini or any other AI integration belongs to a later checkpoint."
+            description="The assistant interface is present, but meal-demand explanations belong to a later checkpoint."
           />
         </div>
         <div className="grid gap-2">
@@ -314,7 +352,7 @@ function SettingsFoundation() {
       <CardHeader>
         <CardTitle className="text-base">Settings navigation foundation</CardTitle>
         <CardDescription>
-          Account, organization, and data setup areas are scaffolded without real authorization.
+          Kitchen, organization, and data setup areas are scaffolded without real authorization.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -346,7 +384,7 @@ function DemoDataTable({ table }: { table: DemoTable }) {
       <CardHeader>
         <CardTitle className="text-base">{table.caption}</CardTitle>
         <CardDescription>
-          Local demo rows prove spacing, wrapping, and table behavior only.
+          Local food-service demo rows prove spacing, wrapping, and table behavior only.
         </CardDescription>
       </CardHeader>
       <CardContent>

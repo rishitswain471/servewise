@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { ProductPage } from "@/components/servewise/page";
+import { OperationalDataSummary } from "@/components/servewise/records-summary";
 import { serveWisePages, serveWiseHead } from "@/lib/servewise-pages";
 
 export const Route = createFileRoute("/_authenticated/_org/dashboard")({
@@ -12,6 +13,14 @@ export const Route = createFileRoute("/_authenticated/_org/dashboard")({
   component: DashboardPage,
 });
 
+// The demo activity table is replaced by real recorded services.
+const { table: _demoTable, ...config } = serveWisePages.dashboard;
+
 function DashboardPage() {
-  return <ProductPage config={serveWisePages.dashboard} />;
+  return (
+    <div className="flex min-w-0 flex-col gap-6">
+      <ProductPage config={config} />
+      <OperationalDataSummary />
+    </div>
+  );
 }

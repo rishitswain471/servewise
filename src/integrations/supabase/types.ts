@@ -52,6 +52,7 @@ export type Database = {
           created_by: string | null
           id: string
           name: string
+          org_type: Database["public"]["Enums"]["org_type"]
           updated_at: string
         }
         Insert: {
@@ -59,6 +60,7 @@ export type Database = {
           created_by?: string | null
           id?: string
           name: string
+          org_type?: Database["public"]["Enums"]["org_type"]
           updated_at?: string
         }
         Update: {
@@ -66,6 +68,7 @@ export type Database = {
           created_by?: string | null
           id?: string
           name?: string
+          org_type?: Database["public"]["Enums"]["org_type"]
           updated_at?: string
         }
         Relationships: []
@@ -75,12 +78,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      create_organization: { Args: { _name: string }; Returns: string }
+      create_organization: {
+        Args: { _name: string; _type: Database["public"]["Enums"]["org_type"] }
+        Returns: string
+      }
       is_org_admin: { Args: { _org: string }; Returns: boolean }
       is_org_member: { Args: { _org: string }; Returns: boolean }
     }
     Enums: {
       org_role: "admin" | "member"
+      org_type: "kitchen" | "recipient"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -209,6 +216,7 @@ export const Constants = {
   public: {
     Enums: {
       org_role: ["admin", "member"],
+      org_type: ["kitchen", "recipient"],
     },
   },
 } as const

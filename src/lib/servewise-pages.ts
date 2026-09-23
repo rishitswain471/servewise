@@ -74,7 +74,7 @@ export const foundationPages = {
       rows: [
         ["Demand planning", "Workspace routed", "Forecast engine"],
         ["Surplus rescue", "Batch UI foundation", "Safety and matching logic"],
-        ["Impact reporting", "Dashboard shell", "Deterministic calculations"],
+        ["Impact reporting", "Reporting shell", "Deterministic calculations"],
       ],
     },
   },

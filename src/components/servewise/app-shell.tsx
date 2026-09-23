@@ -43,9 +43,9 @@ type AppShellProps = {
 export function AppShell({ children }: AppShellProps) {
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen min-w-0 w-full bg-background">
+      <div className="flex h-svh min-h-0 min-w-0 w-full overflow-hidden bg-background">
         <AppSidebar />
-        <SidebarInset className="min-w-0 bg-surface">
+        <SidebarInset className="h-full min-h-0 min-w-0 overflow-y-auto bg-surface">
           <AppHeader />
           <main className="min-w-0 flex-1 bg-surface px-4 py-6 sm:px-6 lg:px-8">
             <div className="mx-auto w-full max-w-7xl">{children}</div>

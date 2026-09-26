@@ -14,7 +14,7 @@
   "overrides": {
     "rolldown": "1.2.1",
     "uuid": "^11.1.1",
-    "minimatch/brace-expansion": "^1.1.19"
+    "minimatch@^3.1.5/brace-expansion": "^1.1.19"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

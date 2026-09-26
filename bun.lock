@@ -88,6 +88,7 @@
     },
   },
   "overrides": {
+    "minimatch/brace-expansion": "^1.1.19",
     "rolldown": "1.2.1",
     "uuid": "^11.1.1",
   },
